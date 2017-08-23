@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+
+repositories {
+    maven {
+        url "http://dl.bintray.com/waynejo/maven"
+    }
+    mavenCentral()
+}
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
+    useLibrary 'org.apache.http.legacy'
+
+    defaultConfig {
+        applicationId "com.fy.tnzbsq"
+        minSdkVersion 14
+        targetSdkVersion 21
+        versionCode 46
+        versionName "2.8.7"
+        multiDexEnabled true
+        ndk {
+            abiFilters 'armeabi','x86','armeabi-v7a' //or armeabi-v7a、arm64-v8a、x86
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('c:\\tnzbsq.keystore')
+            storePassword "123456"
+            keyAlias "tnzbsq.keystore"
+            keyPassword "123456"
+        }
+
+        release {
+            storeFile file('c:\\tnzbsq.keystore')
+            storePassword "123456"
+            keyAlias "tnzbsq.keystore"
+            keyPassword "123456"
+        }
+    }
+
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:25.+'
+    compile 'org.kymjs.kjframe:kjframe:2.6'
+    compile files('libs/gesture_imageview.jar')
+    compile project(':SlidingMenu')
+    compile files('libs/universal-image-loader-1.9.5.jar')
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.17'
+    compile 'com.isseiaoki:simplecropview:1.1.4'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile files('src/main/jniLibs/pushservice-5.1.0.48.jar')
+    compile project(':pay')
+    compile 'com.liulishuo.filedownloader:library:1.6.3'
+    compile 'com.zxy.android:tiny:0.0.7'
+    compile files('libs/umeng-analytics-v5.6.7.jar')
+}

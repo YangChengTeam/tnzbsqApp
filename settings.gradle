@@ -1,0 +1,1 @@
+include ':app', ':SlidingMenu', ':pay', ':iapppay_plugin'

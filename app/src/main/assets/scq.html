@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/><meta name="format-detection" content="telephone=no"/>
+<meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes"/>
+<script type="text/javascript"> var PageClass = 3; </script>
+<meta charset="UTF-8" />
+<script src="skin/js/jquery-1.11.3.min.js"></script>
+<script src="skin/js/appzb.js"></script>
+<link href="skin/css/bootstrap.min.css" rel="stylesheet">
+<link href="skin/css/fycss.css" rel="stylesheet">
+<script src="file:///android_asset/data/data.js"></script>
+<!-- <script src="/mnt/sdcard/TNZBSQ/data/data.js"></script> -->
+</head>
+<body style="display:none;">
+<section class="g-scqimg">
+	<img src="skin/images/zhan.gif" name="myImage" id="myImage" />	
+</section>
+<section class="g-btn">
+	<div class="m-inputxt ">
+		<p class="m-input">
+		</p>			
+		<input type="submit" value="一键生成" onclick="toCreate();" class="btn m-btn">
+	</div>
+</section>
+<script type="text/javascript">
+
+
+
+function toCreate(){
+	
+	if(!checkForm()){
+		return;
+	}
+	var json = "{";
+	$(".m-input input").each(function(i){
+			 json +="\""+i+"\":\""+$(this).val()+"\"";
+			 if(i != $(".m-input input").size() - 1){
+				 json += ",";
+			 }
+	});
+	json +="}";
+	AndroidJSObject.createImage(window.id, json);
+}
+
+function init(id){
+	//$.getJSON("/mnt/sdcard/TNZBSQ/data/data.js",function(resultData){
+		//patchData(resultData);
+		
+	//});
+		var tempPath = AndroidJSObject.loadDataPath();
+		$.getScript(tempPath+"/TNZBSQ/data/data.js",function(data1){
+			patchData(data);
+			//data = resultData;
+			window.id = id;
+			template(id);
+			$("body").show();
+		});
+}
+
+function patchData(data){
+	var datas = data['data'];
+	for(var i = 0;i<datas.length; i++){
+		try{
+			datas[i]["time"] = datas[i]["addtime"];
+			datas[i]["stitle"] = datas[i]["stitle"];
+			datas[i]["smallimg"] = datas[i]["smallimg"];
+			datas[i]["isbest"] = datas[i]["isbest"];
+			datas[i]["isbesttitle"] = datas[i]["inputman"];
+			datas[i]["isbestimg"] = datas[i]["bestimg"];
+			datas[i]["catname"] = datas[i]["classtype"];
+			datas[i]["frontimg"] = datas[i]["frontimg"];
+			datas[i]["bigimg"] = datas[i]["img"];
+			datas[i]["bigimgwidth"] = datas[i]["imgwidth"];
+			datas[i]["bigimgheight"] = datas[i]["imgheight"];
+			
+		}catch(e){
+			return false;
+		}
+	}
+	return true;
+
+}
+
+function getBestData(data){
+	var bestData = [];
+	var datas = data['data'];
+	for(var i=0; i<datas.length ;i++){
+		if(datas[i]["isbest"] == "1"){
+			bestData.push(datas[i]);
+		}
+	}
+	return bestData;
+}
+function getTopData(data){
+	var topData = [];
+	var datas = data['data'];
+	for(var i=0; i<datas.length ;i++){
+		if(datas[i]["isbest"] == "2"){
+			topData.push(datas[i]);
+		}
+		if(datas[i]["isbest"] == "3"){
+			topData.push(datas[i]);
+		}
+	}
+	return topData;
+}
+
+function checkStatus(data){
+	return data['status'] === 1
+}
+function getDataById(id){
+	var  rdata;
+	var datas = data['data'];
+	for(var i=0; i<datas.length ;i++){
+		if(parseInt(datas[i]["id"]) === parseInt(id)){
+			rdata = datas[i];
+			break;
+		}
+		
+	}
+	return rdata;
+}
+var _data;
+function template(id){
+	_data  = getDataById(id);
+	var iwidth  = _data["imgwidth"];
+	var iheight = _data["imgheight"];
+
+	var imaxwidth = iwidth;
+	if(iwidth >$(window).width()){
+		imaxwidth  = $(window).width() * 0.8;
+		iheight = parseFloat(iheight * imaxwidth) / iwidth ;
+	}
+	
+	var imgObj = $("#myImage");
+	imgObj.attr({ width: imaxwidth, height: iheight });
+	imgObj.css("background", "#cccccc");
+	
+	var img = new Image();
+	img.src = _data["frontimg"];
+	img.onload = function() {
+		imgObj.prop("src", this.src);
+	}
+	
+	var inputs = eval(_data["inputs"]);
+	var html = "";
+
+	for(var i = 0 ; i < inputs.length ; i++){
+		var restrain = inputs[i]["restrain"];
+		var type = restrainSwitch(parseInt(restrain));
+		var temp = '<span class="m-kspan kspan{0}"><input onblur="if(this.value === \'\'){this.placeholder=\'{1}\'}" onfocus="this.placeholder=\'\';" type="{4}" name="str{0}" id="{3}" placeholder="{1}" class="m-kuint" maxlength="{2}" max="{2}" ></span>';
+	    html += temp.replace("{0}", inputs[i]["id"]).replace("{0}", inputs[i]["id"]).replace("{3}", inputs[i]["id"]).replace("{1}", inputs[i]["deftext"]).replace("{2}", inputs[i]["textlen"]).replace("{2}", inputs[i]["textlen"]).replace("{1}", inputs[i]["deftext"]).replace("{4}", type).replace("{1}", inputs[i]["deftext"]);
+	}
+	$(".m-input").html(html);
+	AndroidJSObject.getTitle(_data["title"]);
+}
+
+function restrainSwitch(r){
+	var type = "text";
+	switch(r){
+		case 1:
+			type = "text";
+			
+			break;
+		case 2:
+			type = "text"
+			break;
+		case 3:
+			type = "url";
+			break;
+	}
+	return type;
+}
+
+function checkInput(obj, r){
+	var flag = true;
+	var id = obj.getAttribute("id");
+	if(obj.value === ''){
+		tips('此处必须填写', id);
+		flag = false;
+		return flag;
+	}
+	switch(parseInt(r)){
+		case 1:
+			flag = /[\d]/g.test(obj.value);
+			if(!flag){
+				tips('只能写数字', id);
+			}
+			break;
+		case 2:
+			flag = /[\u4e00-\u9fa5]/g.test(obj.value);
+			if(!flag){
+				tips('只能写中文', id);
+			}
+			break;
+		case 3:
+			flag = /[\w]/g.test(obj.value);
+			if(!flag){
+				tips('只能写英文', id);
+			}
+			break;
+	}
+	return flag;
+}
+
+function checkForm(){
+	var flag = true;
+	var inputs = eval(_data["inputs"]);
+	for(var i = 0 ; i < inputs.length ; i++){
+		var r   =  inputs[i]["restrain"];
+		var obj =  document.getElementById(inputs[i]["id"]) ;
+		if(!checkInput(obj, r)){
+			flag = false;
+		}
+	}
+	return flag;
+}
+
+function tips(msg, id){
+	
+	if($(".kspan"+ id + " i").size() > 0){
+		return;
+	}
+	var tishi ='<i class="">' + msg + '</i>';
+	$(".kspan"+ id).prepend(tishi);
+	 setTimeout(function () {
+        $(".kspan"+ id + " i").remove();
+    }, 2000);
+	
+
+	
+}
+
+//patchData(data);
+//template(id);
+
+</script>
+<!-- <section  class="backtop" style="display: none;"><a href="javascript:void(0);">返回顶部</a></section> -->
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>个人中心_装B神器</title>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/><meta name="format-detection" content="telephone=no"/>
+<meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes"/>
+<script type="text/javascript"> var PageClass = 3; </script>
+<meta charset="UTF-8" />
+<script src="skin/js/jquery-1.11.3.min.js"></script>
+<script src="skin/js/appzb.js"></script>
+<link href="skin/css/bootstrap.min.css" rel="stylesheet">
+<link href="skin/css/fycss.css" rel="stylesheet">
+<script type="text/javascript">
+	function setMemi(imei){
+		$("#imei").html(imei);
+	}
+	
+	function checkVersion(){
+		AndroidJSObject.updateVersion();
+	}
+	function clearCache(){
+		AndroidJSObject.clearCache();
+	}
+	
+	function toSubmit(){
+		AndroidJSObject.updateUserName($("#user_name").val());
+	}
+	
+	function setShowState(flag){
+		AndroidJSObject.setShowState(flag);
+	}
+	
+	function toClose(){
+        $(".cd-popup").removeClass('is-visible');
+	}
+	
+</script>
+</head>
+<body>
+<section class="g-sec">
+	<div class="m-user-img cd-popup-trigger">
+		<img src="skin/images/user.png" alt="" />
+		<p><span id="imei"></span></p>
+	</div>
+</section>
+<section class="g-sec g-myde">
+	<ul class="m-myul">
+		<li><div><a href="mykeep.html"><img src="skin/images/u1.png" alt="" />我的收藏<span></span></a></div></li>
+		<!-- <li><div><a href="mycreate.html"><img src="skin/images/u2.png" alt="" />生成过的<span></span></a></div></li> -->
+	</ul>
+</section>
+<section class="g-sec">
+	<ul class="m-myul">
+		<li><div onclick="clearCache();"><img src="skin/images/u3.png" alt="" />清除缓存<span></span></div></li>
+		<li><div onclick="checkVersion();"><img src="skin/images/u4.png" alt="" />版本更新<span></span></div></li>
+		<li><div><a href="about.html"><img src="skin/images/u5.png" alt="" />关于我们<span></span></a></div></li>
+	</ul>
+</section>
+<div class="cd-popup" role="alert">
+    <div class="cd-popup-container">
+       <p><input id="user_name" type="text" placeholder="点击这里修改你的用户名" class="edidname"/></p>
+        <i class="error"></i>
+        <ul class="cd-buttons">
+            <li><a href="javascript:;" class="m-tj">提交</a></li>
+            <li><a href="javascript:;" class="m-qx">取消</a></li>
+        </ul>
+        <a href="#" class="cd-popup-close img-replace">关闭</a>
+    </div>
+</div>
+<script type="text/javascript">
+jQuery(document).ready(function($){
+  $('.cd-popup-trigger').on('click', function(event){
+	event.preventDefault();
+    var lname = $('#imei').text();    
+    $('.cd-popup').addClass('is-visible');
+    $('.error').text('');
+    $('input.edidname').focus().val(lname);
+    setShowState(true);
+  });
+  $('.cd-popup').on('click', function(event){
+    if( $(event.target).is('.cd-popup-close') || $(event.target).is('.cd-popup')|| $(event.target).is('.m-qx') ) {
+        event.preventDefault();
+        $(this).removeClass('is-visible');
+        setShowState(false);
+    }
+    if( $(event.target).is('.m-tj') ) {
+        var txtval = $('.edidname').val();
+        if(txtval==""){      
+          $('.error').text('请填写您的用户名后再提交！');
+          return;
+        }else{
+          event.preventDefault();
+          $(this).removeClass('is-visible');
+        }
+        setShowState(false);
+      	AndroidJSObject.updateUserName($("#user_name").val());
+    }
+  });
+  $(document).keyup(function(event){
+      if(event.which=='27'){
+        $('.cd-popup').removeClass('is-visible');
+        setShowState(false);
+      }
+    });
+  $('.edidname').focus(function(){
+    $('.error').text('');
+  });
+});
+</script>
+</body>
+</html>

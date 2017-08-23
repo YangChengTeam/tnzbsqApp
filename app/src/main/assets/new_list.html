@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>装B神器最新列表</title>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/><meta name="format-detection" content="telephone=no"/>
+<meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes"/>
+<script type="text/javascript"> var PageClass = 2; </script>
+<meta charset="UTF-8" />
+<script src="skin/js/jquery-1.11.3.min.js"></script>
+<script src="skin/js/appzb.js"></script>
+<link href="skin/css/bootstrap.min.css" rel="stylesheet">
+<link href="skin/css/fycss.css" rel="stylesheet">
+<!-- <script src="file:///android_asset/data/data.js"></script> -->
+<!-- <script src="/mnt/sdcard/TNZBSQ/data/data.js"></script> -->
+<script src="skin/js/common.js"></script>
+</head>
+<body>
+<section class="g-sec m-mininav m-zblistnav">
+	<ul class="m-listnav">
+		<li><a href="javascript:;"><img src="skin/images/l1.png"  />最新</a></li>
+		<li><a href="javascript:;"><img src="skin/images/l2.png"  />最热</a></li>
+		<li><a href="javascript:;"><img src="skin/images/l3.png"  />收藏</a></li>		
+	</ul>
+</section>
+<section class="g-sec">
+	<ul class="m-listul">
+	</ul>	
+</section>
+
+<script type="text/javascript">
+
+var _data;
+
+var s_index = window.localStorage.getItem("s_index");
+if(s_index == null || s_index == '' || s_index == 'undefined'){
+	s_index = 0;
+}
+
+window.idx = s_index;//每次进入时重新设置window.idx的值
+
+function init(){
+	
+	var tempPath = AndroidJSObject.loadDataPath();
+
+	$.getScript(tempPath+"/TNZBSQ/data/data.js", function(data1){
+		patchData(data);
+		_data = data['data'];
+		
+		if(s_index == 0){
+			 _data = quickSort(window._data , "id", 0);
+		}
+		else if(s_index == 1){
+			 _data = quickSort(window._data , "num", 0);
+		}
+		else if(s_index == 2){
+			 _data = quickSort(window._data , "collect", 0);
+		}
+		
+		template3(_data);
+		setSelectItem();
+		window.setInterval(function(){
+			patchSCStyls(_data);
+		}, 2000);
+	});
+	
+}
+
+//window.idx = 0;
+$(".m-listnav li").click(function(){
+	var idx = $(".m-listnav li").index($(this));
+	if(window.idx == idx){
+		return;
+	}
+	page = 1;
+	
+	window.idx = idx;
+	if(idx == 0){
+		 _data = quickSort(window._data , "id", 0);
+	}
+	else if(idx == 1){
+		 _data = quickSort(window._data , "num", 0);
+	}
+	else if(idx == 2){
+		 _data = quickSort(window._data , "collect", 0);
+	}
+	
+	$(".m-listul").html("");
+	template3(_data);
+    $(".m-listnav li").removeClass("m-hover");
+    $(this).addClass("m-hover");
+    
+    window.localStorage.setItem("s_index", idx);
+});
+
+function setSelectItem(){
+	$(".m-listnav li").eq(s_index).addClass("m-hover");
+}
+
+function clearSelectItem(){
+	window.localStorage.removeItem("s_index");
+}
+
+function template3(datas){
+	var temp = '<li class="clearfix"><a href="scq.html?id={5}" class="clearfix"><div><p class="f-fl">';
+	temp += '<img src="{0}" alt=""></p>';
+	temp += '<div class="m-listdiv"><p class=""><span class="tags f-fr">{2}</span><span class="m-title">{3}</span></p>';
+	temp += '<p>{1}</p>';
+	temp += '<p class=""><span class="f-fl">使用<strong>{4}</strong>次</span></p></div></div></a><span id="cole{5}" class="cole" onclick="return addKeep({6}, this)"><i></i>收藏</span></li>';	
+	var ids = getSCIds();		
+	var html = "";
+	if((page-1) * n > datas.length){
+		page--;
+		return;
+	}
+	for(var i = (page-1) * n; i<page * n && i< datas.length; i++){
+		var title  = datas[i]["title"];
+		var catname = datas[i]["catname"];
+		var info   = datas[i]["info"];
+		var smallimg = datas[i]["smallimg"];
+		
+		/* if(smallimg != null && smallimg != ''){
+			smallimg = smallimg.substring(smallimg.lastIndexOf("/")+1,smallimg.length);
+			smallimg = "file:///mnt/sdcard/TNZBSQ/SMALL_IMAGE/cache_"+smallimg;
+		} */
+		
+		var hits = datas[i]["num"];
+		var id = datas[i]["id"];
+		var sc = datas[i]["sc"];
+		html += temp.replace("{0}", smallimg).replace("{1}", info).replace("{2}", catname).replace("{3}", title).replace("{4}", hits).replace("{5}", id).replace("{5}", id).replace("{6}", id);
+		for(var j = 0; j < ids.length; j++){
+			if(id == ids[j]){
+				datas[i]["sc"] = "1";
+			}
+		}
+	}
+    //html = $(".m-listul").html() + html;	
+	$(".m-listul").append($(html));
+	patchSCStyls(datas);
+}
+
+</script>
+<section class="backtop" style="display: none;"><a href="javascript:void(0);">返回顶部</a></section>
+<p style="display:none"><script type="text/javascript" src="show/count.js"></script></p>
+</body>
+</html>

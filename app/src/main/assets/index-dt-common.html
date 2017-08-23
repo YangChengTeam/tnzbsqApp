@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>装B神器-斗图</title>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/><meta name="format-detection" content="telephone=no"/>
+<meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes"/>
+<script type="text/javascript"> var PageClass = 1; </script>
+<meta charset="UTF-8" />
+<script src="skin/js/jquery-1.11.3.min.js"></script>
+<script src="skin/js/appzb.js"></script>
+<link href="skin/css/bootstrap.min.css" rel="stylesheet">
+<link href="skin/css/fycss.css" rel="stylesheet">
+<link href="skin/css/swiper-3.3.1.min.css" rel="stylesheet">
+<script src="skin/js/swiper-3.3.1.jquery.min.js"></script>
+<!-- <script src="file:///android_asset/data/data.js"></script> -->
+<!-- <script src="data/data_dt_index.js"></script> -->
+<script src="skin/js/common_dt.js"></script>
+<script type="text/javascript">
+var tempPath = AndroidJSObject.loadDataPath();
+
+</script>
+</head>
+<body class="index_dt">
+	<section class="g-sec">
+		<ul class="zw_list">
+		</ul>	
+	</section>
+	<section class="backtop" style="display: none;"><a href="javascript:void(0);">返回顶部</a></section>
+<script>
+
+var _data = "";
+var sort_type = "";
+
+function getDataByType(type){
+	var typeData = [];
+	for(var i = 0; i<_data.length; i++){
+		var _type  = _data[i]["type"];
+		if(_type == type){
+			typeData.push(_data[i]);
+		}
+	}
+	return typeData;
+}
+
+function init(sortType){
+	sort_type = sortType;
+	$.getScript(tempPath+"/TNZBSQ/data/data_dt.js", function(data1){
+		
+		$(".zw_list").html("");//清空历史记录
+		_data = data['data'];
+		if(sort_type == "add_time"){
+			_data = quickSort(data['data'] , "add_time", 0);
+		}
+		
+		if(sort_type == "num"){
+			_data = quickSort(data['data'] , "num", 0);
+		}
+
+		if(sort_type == "type"){
+			_data = getDataByType(1);
+		}
+
+		template3(_data);//列表的数据读取
+		
+		//定时器
+		window.setInterval(function(){
+			patchSCStyls(_data);
+		}, 2000);
+	});
+}
+
+function template3(datas){
+	var html = "";
+	var temp = "";
+	if((page-1) * n > datas.length){
+		page--;
+		return;
+	}
+	var ids =  getSCIds();
+
+	for(var i = (page-1) * n; i<page * n && i< datas.length; i++){
+		var id = datas[i]["id"]	;			//id
+		var title  = datas[i]["title"];  	//标题
+		var img = datas[i]["img"];			//图片路径
+		var color = datas[i]["color"];			//字体颜色
+		var position = datas[i]["position"];  //字体位置 (位置  0 上   1 下   默认是下)
+		var content  = datas[i]["content"];  	//热门内容
+		//var img_ceshi = "http://192.168.9.248:8080/2016.6.22_tnzbsq/assets/skin/images/index_dt_dome.jpg";
+
+		var temp_position;
+		if(position == 0){
+			temp_position ="top:0px;"
+		}else{
+			temp_position ="bottom:0px;"
+		}
+
+		temp='<li class="dt_lb_li"><a href="create_doutu.html?img='+img+'&id='+id+'&position='+position+'&color='+color+'"><img src="'+img+'"/><span style="'+temp_position+'">'+content+'</span></a></li>';
+
+		html += temp;
+	}
+
+	$(".zw_list").append($(html));
+	//设置列表的高度
+
+	$(".index_dt .zw_list li").css("height" ,  $(".index_dt .zw_list li").width());       
+	//添加一个加载完事件，为防止渲染未成功就执行导致获取不到高度。
+	window.onload = function() { 
+		$(".index_dt .zw_list li").css("height" ,  $(".index_dt .zw_list li").width());        
+	};
+	
+	patchSCStyls(datas);
+}
+
+</script>
+</body>
+</html>

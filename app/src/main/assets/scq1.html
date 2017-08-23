@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/><meta name="format-detection" content="telephone=no"/>
+<meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes"/>
+<script type="text/javascript"> var PageClass = 3; </script>
+<meta charset="UTF-8" />
+<script src="skin/js/jquery-1.11.3.min.js"></script>
+<script src="skin/js/appzb.js"></script>
+<link href="skin/css/bootstrap.min.css" rel="stylesheet">
+<link href="skin/css/fycss.css" rel="stylesheet">
+<!--<script src="file:///android_asset/data/data5.js"></script>-->
+<!-- <script src="/mnt/sdcard/TNZBSQ/data/data.js"></script> -->
+</head>
+<body style="display:none;">
+<section class="g-scqimg">
+	<img src="skin/images/zhan.gif" name="myImage" id="myImage" />	
+</section>
+<section class="g-btn">
+	<div class="m-inputxt ">
+		<p class="m-input">
+		</p>			
+		<input type="submit" value="一键生成" onclick="toCreate();" class="btn m-btn">
+	</div>
+</section>
+<script type="text/javascript">
+var zw_data; //申明一个页面的全局变量。用来存储从js文件来的所有数据。
+var _data;  //当前模板的具体数据存储对象。
+var _id;
+var fill_name = 1 ; //判断是否需要自动填充姓名   0否 1是
+//页面数据拆分入口，分解数据后才能绘制页面。
+
+var xvalue = 100;
+var yvalue = 100;
+
+var istakePic = false;
+var issetPic = false;
+
+var is_vip = 0;
+var price = 0;
+
+function init(id){
+	var tempPath = AndroidJSObject.loadDataPath();
+	$.getScript(tempPath+"/TNZBSQ/data/data.js",function(data1){
+		zw_data = data['data'];
+
+		_id = id;
+		//patchData(data);  	//字段的重新定义，后期数据库字段修改后有用。
+		window.id = id;		//android的一个全局变量
+		template(id);		//数据的拆分使用
+		$("body").show();
+	});
+}
+
+function Toast(msg,duration){
+    duration=isNaN(duration)?3000:duration;
+    var m = document.createElement('div');
+    m.innerHTML = msg;
+    m.style.cssText="width:60%; min-width:150px; background:#000; opacity:0.6; height:40px; color:#fff; line-height:40px; text-align:center; border-radius:5px; position:fixed; top:72%; left:20%; z-index:999999; font-weight:bold;";
+    document.body.appendChild(m);
+    setTimeout(function() {
+        var d = 0.5;
+        m.style.webkitTransition = '-webkit-transform ' + d + 's ease-in, opacity ' + d + 's ease-in';
+        m.style.opacity = '0';
+        setTimeout(function() { document.body.removeChild(m) }, d * 1000);
+    }, duration);
+}
+
+function template(id){
+	var temp ="" ;//拼接的字段
+	_data  = getDataById(id);
+
+	is_vip = _data['is_vip'];
+	price = _data['price'];
+
+	//alert(_data["title"]);
+	var imaxwidth  = $(window).width() * 0.8;
+	var iwidth  = _data["template"][0]["width"];
+	var iheight = _data["template"][0]["height"];
+	
+	var imaxwidth = iwidth;
+	if(iwidth >$(window).width()){
+		imaxwidth  = $(window).width() * 0.8;
+		iheight = parseFloat(iheight * imaxwidth) / iwidth ;
+	}
+	
+	var imgObj = $("#myImage");
+	imgObj.attr({ width: imaxwidth, height: iheight });
+	imgObj.css("background", "#cccccc");
+	
+	var img = new Image();
+	//img.src = "http://zs.qqtn.com/zbsq/Upload/Model/5763c70ef0e6a.jpg";
+	
+	img.src = _data["front_img"];
+	//alert(_data["front_img"]);
+	img.onload = function() {
+		imgObj.prop("src", this.src);
+	}
+	
+	var temp ="" ;//拼接的字段
+	
+	for(var ii = 0 ; ii < _data["field"].length ; ii++){ 
+		if(_data["field"][ii]["input_type"] == 0 ){  //判断是否为输入框
+			if( _data["field"][ii]["is_hide"] == 1  ){
+				temp+='<span class="m-kspan zw_0627_hide" ><input type="text" name="str'+_data["field"][ii]["id"]+'" id="'+_data["field"][ii]["id"]+'" placeholder="'+_data["field"][ii]["def_val"]+'" class="m-kuint zdh-m-common" maxlength="'+_data["field"][ii]["text_len_limit"]+'" max="'+_data["field"][ii]["text_len_limit"]+'" ></span>'
+			}else{
+				temp+='<span class="m-kspan kspan'+_data["field"][ii]["id"]+' "><input type="text" name="str'+_data["field"][ii]["id"]+'" id="'+_data["field"][ii]["id"]+'" placeholder="'+_data["field"][ii]["def_val"]+'" class="m-kuint zdh-m-common" maxlength="'+_data["field"][ii]["text_len_limit"]+'" max="'+_data["field"][ii]["text_len_limit"]+'" ></span>'
+			}
+		}
+		if(_data["field"][ii]["input_type"] == 1 ){  //判断是否为下拉框
+			temp +='<span class="m-kspan  zw_20160622_span"><input type="text"  id="'+_data["field"][ii]["id"]+'" placeholder="'+_data["field"][ii]["def_val"]+'" class="m-kuint s_input zdh-m-common" readOnly="true" value="ssss"  alt="1" maxlength="'+_data["field"][ii]["text_len_limit"]+'" max="'+_data["field"][ii]["text_len_limit"]+'"><div class="xlk_dj"><span class="s_sjx"></span></div>'
+		
+			if(_data["field"][ii]["select"] ){
+				temp += '<div class="s_tc"><ul>';
+				for(var iii = 0 ; iii < _data["field"][ii]["select"].length ; iii++){
+					temp += '<li><span class="zw_20160721_span" title="'+_data["field"][ii]["select"][iii]["opt_val"]+'" >'+_data["field"][ii]["select"][iii]["opt_text"]+'</span><span class="on_sp"></span></li>';
+				}
+				temp += '</ul></div>';
+			}
+			temp +='</span>';
+			//temp +='<span class="m-kspan zw_20160622_span_input" style="display:none"><input onblur="if(this.value === \'\'){this.placeholder=\''+_data["field"][ii]["def_val"]+'\'}" onfocus="this.placeholder=\'\';" type="text" name="str'+_data["field"][ii]["id"]+'" id="'+_data["field"][ii]["id"]+'" placeholder="'+_data["field"][ii]["def_val"]+'" class="m-kuint" maxlength="'+_data["field"][ii]["text_len_limit"]+'" max="'+_data["field"][ii]["text_len_limit"]+'" ></span>';
+		}
+		if(_data["field"][ii]["input_type"] == 2 || _data["field"][ii]["input_type"] == 4){  //判断是否为图片框
+
+			istakePic = true;
+
+			if(_data["field"][ii]["x2"] != null && _data["field"][ii]["x1"] != null){
+				xvalue = _data["field"][ii]["x2"] - _data["field"][ii]["x1"];
+			}
+
+			if(_data["field"][ii]["y2"] != null && _data["field"][ii]["y1"] != null){
+				yvalue = _data["field"][ii]["y2"] - _data["field"][ii]["y1"];
+			}
+
+			temp += '<span class="m-kspan kspan{0} zw_20160622_img"><span>上传图片：</span> <img src="skin/images/scq_img.png" id="img_'+_id+'" onclick="selectPic();" class="zdh-m-common"/></span>';
+		}		
+	}
+	$(".m-input").html(temp);
+	
+	//绑定页面的下拉框事件
+	//对下拉列表做判断，添加自定义字段。 
+	//绑定下拉菜单选中一项的事件。
+	$(".zw_20160622_select").change(function(){	
+		//用当前对象来获取当前取的值与最后一个值是否一致。	
+		if($(this).val() == "自定义字段"){
+			//$(this).parent().next().show();		
+			//$(this).parent().css({"margin-bottom" : "0px" ,"border-bottom-left-radius" : "0px","border-bottom-right-radius":"0px"});
+			//alert($(this).html());
+		}else{
+			//$(this).parent().next().hide();		
+			//$(this).parent().css({"margin-bottom" : "10px" ,"border-bottom-left-radius" : "4px","border-bottom-right-radius":"4px"});
+		}	
+	}); 
+	
+	//判断是否可以设置val的值
+	$("input").each(function(){
+		if($(this).attr("placeholder") == "姓名" && fill_name == 1){
+			$(this).val("名字") ;
+		}
+	});
+	
+	//模拟弹出层的js实现
+	//渲染成功后立即替换输入框内的文字。
+	$(".zw_20160622_span").each(function(){ //当有多个下拉框时循环输出
+		//alert($(this).find(".s_tc ul li:first-child").text());
+		$(this).find(".s_input").val($(this).find(".s_tc ul li:first-child").text());
+		
+		if($(this).find(".s_tc ul li:first-child").find(".zw_20160721_span").attr("title") != ""){
+			$(this).find(".s_input").attr('title' , $(this).find(".s_tc ul li:first-child").find(".zw_20160721_span").attr("title") );
+		}
+		else{
+			$(this).find(".s_input").attr('title' , "");
+		}
+		
+		$(this).find(".s_input").attr("alt" ,"0");		
+	});
+	
+	$(".xlk_dj").click(function(){
+		var _this = $(this);
+		//给已选中的条改变状态。清除之前的记录。
+		_this.next(".s_tc").find("ul li").removeClass("on");
+		_this.next(".s_tc").find("ul li").eq(_this.parent(".zw_20160622_span").find(".s_input").attr("alt")).addClass("on");
+		//显示被隐藏的选项列表
+		_this.next(".s_tc").css("display" , "block");
+		$(this).next(".s_tc").find("ul li").click(function(){				
+			_this.parent(".zw_20160622_span").find(".s_input").val($(this).text());
+			
+			if($(this).find(".zw_20160721_span").attr("title") != ""){
+				_this.parent(".zw_20160622_span").find(".s_input").attr('title' , $(this).find(".zw_20160721_span").attr("title"));
+			}else{
+				//alert("--");
+				_this.parent(".zw_20160622_span").find(".s_input").attr("title" , "");
+			}
+			
+			_this.next(".s_tc").css("display" , "none");
+			//alert($(this).index());
+			_this.parent(".zw_20160622_span").find(".s_input").attr("alt" , $(this).index());
+			//对下拉列表做判断，添加自定义字段。绑定下拉菜单选中一项的事件。
+			//对特殊选项做判断
+			if($(this).text().indexOf("自定义")  >= 0){
+				
+				_this.parent(".zw_20160622_span").find(".s_input").val("");
+				_this.parent(".zw_20160622_span").find(".s_input").removeAttr("readonly");
+				_this.parent(".zw_20160622_span").find(".s_input").select();
+				//_this.parent().next().show();		
+				//_this.parent().css({"margin-bottom" : "0px" ,"border-bottom-left-radius" : "0px","border-bottom-right-radius":"0px"});
+			}else{
+				_this.parent(".zw_20160622_span").find(".s_input").attr("readonly" , "readonly");
+				//_this.parent().next().hide();		
+				//_this.parent().css({"margin-bottom" : "10px" ,"border-bottom-left-radius" : "4px","border-bottom-right-radius":"4px"});
+			}	
+			
+		});
+		$(this).next(".s_tc").click(function(){			
+			$(this).css("display" , "none");			
+		});	
+		
+	});
+	
+	AndroidJSObject.getTitle(_data["title"]);
+}
+
+function getDataById(id){
+	var  rdata;
+	for(var i=0; i<zw_data.length ;i++){
+		if(parseInt(zw_data[i]["id"]) === parseInt(id)){
+			rdata = zw_data[i];
+			break;
+		}
+	}
+	return rdata;
+}
+
+//init(190);
+
+
+//patchData(data);
+//template(id);
+
+function restrainSwitch(r){
+	var type = "text";
+	switch(r){
+		case 1:
+			type = "text";
+			
+			break;
+		case 2:
+			type = "text"
+			break;
+		case 3:
+			type = "url";
+			break;
+	}
+	return type;
+}
+
+function checkInput(obj, r){
+	var flag = true;
+	var id = obj.getAttribute("id");
+	if(obj.value === '' && obj["input_type"] != 2){
+		tips('此处必须填写', id);
+		flag = false;
+		return flag;
+	}
+	switch(parseInt(r)){
+		case 1:
+			flag = /[\d]/g.test(obj.value);
+			if(!flag){
+				tips('只能写数字', id);
+			}
+			break;
+		case 2:
+			flag = /[\u4e00-\u9fa5]/g.test(obj.value);
+			if(!flag){
+				tips('只能写中文', id);
+			}
+			break;
+		case 3:
+			flag = /[\w]/g.test(obj.value);
+			if(!flag){
+				tips('只能写英文', id);
+			}
+			break;
+	}
+	return flag;
+}
+
+function checkForm(){
+	var flag = true;
+	var inputs = eval(_data["field"]);
+	for(var i = 0 ; i < inputs.length ; i++){
+		var r   =  inputs[i]["restrain"];
+		var obj =  document.getElementById(inputs[i]["id"]);
+
+		if(inputs[i]["input_type"] == 0){
+	      if(inputs[i]["is_hide"] == 0){
+	        if(!checkInput(obj, r)){
+		        flag = false;
+		    }  
+	      }
+	    }
+	}
+	return flag;
+}
+
+function tips(msg, id){
+	
+	if($(".kspan"+ id + " i").size() > 0){
+		return;
+	}
+	var tishi ='<i class="">' + msg + '</i>';
+	$(".kspan"+ id).prepend(tishi);
+	 setTimeout(function () {
+        $(".kspan"+ id + " i").remove();
+    }, 2000);
+}
+
+
+function toCreate(){
+	if(!checkForm()){
+		return;
+	}
+
+	if(istakePic && !issetPic){
+		Toast('亲,需要传图的哦!',1500);
+		return;
+	}
+
+	var temp = 0;
+	var json = "{";
+	
+	//下拉框
+	$(".zdh-m-common").each(function(i){
+		if($(this).attr("title")){
+			json +="\""+i+"\":\""+$(this).attr("title")+"\"";
+			json += ",";
+			temp = i+1;
+		}else{
+			json +="\""+i+"\":\""+$(this).val()+"\"";
+			json += ",";
+			temp = i+1;
+		}
+	});
+	
+	if(json.substring(json.length-1,json.length) == ","){
+		json = json.substring(0,json.length - 1);
+	}
+	
+	//输入框(含隐藏变量)
+	/* $(".m-input input").each(function(i){
+		 //if(i != $(".m-input input").size() - 1){
+		// }
+		 if(temp > 0){
+			 json += ",";
+		 }
+		 
+		 json +="\""+(temp+i)+"\":\""+$(this).val()+"\"";
+	}); */
+	
+	json +="}";
+	//alert(json);
+	AndroidJSObject.createImage(_id, json,is_vip,price);
+}
+
+//本地相册
+function selectPic() {
+	AndroidJSObject.selectPic(xvalue,yvalue);
+}
+
+//拍照
+function photoGraph() {
+	AndroidJSObject.photoGraph();
+}
+
+function setImg(path) {
+	issetPic = true;
+	$("#img_"+_id).prop("src", path);
+}
+
+</script>
+<!-- <section  class="backtop" style="display: none;"><a href="javascript:void(0);">返回顶部</a></section> -->
+</body>
+</html>

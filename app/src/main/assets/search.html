@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="dns-prefetch" href="">
+<title>搜索</title>
+<meta name="keywords" content=""/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/><meta name="format-detection" content="telephone=no"/>
+<meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes"/>
+<script type="text/javascript"> var PageClass = 3; </script>
+<meta charset="UTF-8" />
+<script src="skin/js/jquery-1.11.3.min.js"></script>
+<script src="skin/js/appzb.js"></script>
+<link href="skin/css/bootstrap.min.css" rel="stylesheet">
+<link href="skin/css/fycss.css" rel="stylesheet">
+</head>
+
+<body style="background-color: #ffffff;">
+	<section class="m-hots">
+	   <p class="f-tit">热搜榜</p><p class="f-tit-change" onclick="changeData();">换一换</p>
+	   <ul class="f-list">
+
+	   </ul>
+
+	</section>
+	<section class="m-history">
+		<p class="f-history">搜索历史</p><p class="f-history-clear" onclick="clearSearchHistory();">清空</p>
+		<ul class="f-history-list">
+
+		</ul>
+	</section>
+	<section class="backtop" style="display: none;"><a href="javascript:void(0);">返回顶部</a></section>
+	<script type="text/javascript">
+		var _data ;
+		var search_data;
+		var page_num = 0;
+		function initHot(data){
+			var _data = JSON.parse(data);
+			template1(_data['data']);
+		}
+
+		// 清除HTML5LocalStorage本地存储
+		function clearSearchHistory(){
+			window.localStorage.removeItem("search_history_data");
+			template2();
+		}
+
+		// 获取缓存中的ID
+		function getSearchHistory(){
+			var his_data = window.localStorage.getItem("search_history_data");
+			if(his_data == null){
+				return [];
+			}
+			return JSON.parse(his_data);
+		}
+
+		function putSearchHistory(arr){
+			window.localStorage.setItem("search_history_data", JSON.stringify(arr));
+		}
+
+		//随机产生图片
+		function randomColor(){
+		 	var colors = ["#8ec5ee", "#beafce", "#f6bc7d","#8fced3","#e88f8f","#f78d4f","#67cbb6"];
+		    var rnd  = Math.floor(Math.random() * 100  %  colors.length);
+		    return colors[rnd];
+		}
+
+		function template1(datas){
+			$(".f-list").html("");//清除上次
+			var html = "";
+			var temp = '<li style="background:{2};" ><a href="#" onclick="return hotSearch(\'{1}\')">{0}</a></li>';
+			for(var i = 0; i< datas.length; i++){
+				var title  = datas[i]["keyword"];
+				var bgColor = randomColor();
+				html += temp.replace("{0}", title).replace("{1}", title).replace("{2}", bgColor);
+			}
+			html = $(".f-list").html() + html;
+			$(".f-list").html(html);
+		}
+
+		function template2(){
+			$(".f-history-list").html("");//清除上次
+			search_data =  getSearchHistory();
+			var html = "";
+			var temp = '<li><img src= "skin/images/history_icon.png" /><a href="#" onclick="return hotSearch(\'{1}\')">{0}</a></li>';
+			for(var j = search_data.length -1; j >= 0; j--){
+				var title  = search_data[j];
+				html += temp.replace("{0}", title).replace("{1}", title);
+			}
+			html = $(".f-history-list").html() + html;
+			$(".f-history-list").html(html);
+		}
+
+		function contains(arr, obj) {
+			var i = arr.length;
+			while (i--) {
+				if (arr[i] === obj) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		function addHotWord(hot_word){
+			//去除重复记录
+			if(search_data.length > 0){
+				if(!contains(search_data,hot_word)){
+					search_data.push(hot_word);
+				}
+			}else{
+				search_data.push(hot_word);
+			}
+
+			putSearchHistory(search_data);
+		}
+
+		function hotSearch(obj){
+			addHotWord(obj);
+			AndroidJSObject.search(obj);
+		}
+
+		function changeData(){
+			page_num++;
+			$.getJSON("http://nz.qqtn.com/zbsq/index.php?m=Home&c=zbsq&a=hotkw&page="+page_num, function(data){
+				template1(data['data']);
+			});
+		}
+
+		$(function(){
+			template2();
+			$.getJSON("http://nz.qqtn.com/zbsq/index.php?m=Home&c=zbsq&a=hotkw&page="+page_num, function(data){
+				template1(data['data']);
+			});
+		});
+
+</script>
+</body>
+</html>

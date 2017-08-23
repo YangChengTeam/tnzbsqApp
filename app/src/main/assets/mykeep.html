@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>装B神器最新列表</title>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/><meta name="format-detection" content="telephone=no"/>
+<meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes"/>
+<script type="text/javascript"> var PageClass = 2; </script>
+<meta charset="UTF-8" />
+<script src="skin/js/jquery-1.11.3.min.js"></script>
+<script src="skin/js/appzb.js"></script>
+<link href="skin/css/bootstrap.min.css" rel="stylesheet">
+<link href="skin/css/fycss.css" rel="stylesheet">
+<script src="skin/js/common.js"></script>
+<style>
+	div.lock {
+		position: relative;
+	}
+	div.lock img {
+		position: absolute;
+		z-index:1;
+	}
+	img.lock {
+		left: 95px;
+		top: 2px;
+		z-index:2;
+	}
+</style>
+</head>
+<body>
+
+<section class="g-sec">
+	 <ul class="m-listul">
+	</ul>	
+</section>
+
+<script language="JavaScript" type="text/javascript">
+var data;
+var _data;
+
+var data_num = 0;
+var tempPath = AndroidJSObject.loadDataPath();
+
+function init(){
+	$.getJSON(tempPath+"/TNZBSQ/data/my_keep_data.js",function(resultData){
+
+		if(resultData['data'] == null || resultData['data'].length == 0){
+		    $(".m-listul").addClass("myul");
+		}else{
+			$(".m-listul").removeClass("myul");
+			data = resultData;
+			//$("#type_text").val(data.message);
+			
+			//patchData(data);
+			
+			_data = data['data'];
+			data_num = data['data'].length;
+			_data = quickSort(window._data , "time", 1);
+			template3(_data);
+		}
+		
+	});
+}
+function patchData(data){
+	var datas = data['data'];
+	for(var i = 0;i<datas.length; i++){
+		try{
+			datas[i]["time"] = datas[i]["addtime"];
+			datas[i]["info"] = datas[i]["content"];
+			datas[i]["stitle"] = datas[i]["stitle"];
+			datas[i]["smallimg"] = datas[i]["smallimg"];
+			datas[i]["isbest"] = datas[i]["isbest"];
+			datas[i]["isbesttitle"] = datas[i]["inputman"];
+			datas[i]["isbestimg"] = datas[i]["bestimg"];
+			datas[i]["catname"] = datas[i]["classtype"];
+			datas[i]["frontimg"] = datas[i]["frontimg"];
+			datas[i]["bigimg"] = datas[i]["img"];
+			datas[i]["bigimgwidth"] = datas[i]["imgwidth"];
+			datas[i]["bigimgheight"] = datas[i]["imgheight"];
+		}catch(e){
+			return false;
+		}
+	}
+	return true;
+}
+function quickSort(arr, prop, type) {
+　　if (arr.length <= 1) { return arr; }
+　　	var pivotIndex = Math.floor(arr.length / 2);
+　　	var pivot = arr.splice(pivotIndex, 1)[0];
+　　	var left = [];
+　　	var right = [];
+　　	for (var i = 0; i < arr.length; i++){
+	  if(type == 1){
+	     var date1 = new Date((arr[i][prop]+"").replace(/-/g,"/"));
+	     var date2 = new Date((pivot[prop]+"").replace(/-/g,"/"));
+	     if (date1.getTime() > date2.getTime()) {
+　　　　　　	left.push(arr[i]);
+　　　　 } else {
+　　　　　　	right.push(arr[i]);
+　　　　	 }
+	  } else {
+　　　　	if (parseFloat(arr[i][prop]+"") > parseFloat(pivot[prop])+"") {
+　　　　　　	left.push(arr[i]);
+　　　　	} else {
+　　　　　　	right.push(arr[i]);
+　　　　	}
+	  }
+　　	}
+　　return quickSort(left, prop, type).concat([pivot], quickSort(right, prop, type));
+};
+var n    = 10;
+var page = 1;
+
+window.idx = 0;
+$(".m-listnav li").click(function(){
+	var idx = $(".m-listnav li").index($(this));
+	if(window.idx == idx){
+		return;
+	}
+	page = 1;
+	
+	window.idx = idx;
+	if(idx == 0){
+		 _data = quickSort(window._data , "time", 1);
+	}
+	else if(idx == 1){
+		 _data = quickSort(window._data , "hits", 0);
+	}
+	else if(idx == 2){
+		 _data = quickSort(window._data , "cole", 0);
+	}
+	
+	$(".m-listul").html("");
+	template3(_data);
+    $(".m-listnav li").removeClass("m-hover");
+    $(this).addClass("m-hover");
+});
+
+function template3(datas){
+	var temp = '<li class="clearfix" id="current{7}" ><a href="scq1.html?id={5}" class="clearfix"><div><p class="f-fl">';
+	temp += '<div class="lock"><img src="skin/images/acts_default.jpg" class="rimg{0}" alt=""><img class="lock" src="skin/images/unlock_icon.png" /></div></p>';
+	temp += '<div class="m-listdiv"><p class=""><span class="tags f-fr">{2}</span><span class="m-title">{3}</span></p>';
+	temp += '<p>{1}</p>';
+	temp += '<p class=""><span class="f-fl">使用<strong>{4}</strong>次</span></p></div></div></a><span class="cole1 cole" onclick="return addKeep({6}, this)"><i></i>收藏</span></li>';	
+			
+	var html = "";
+	if((page-1) * n > datas.length){
+		page--;
+		return;
+	}
+	for(var i = (page-1) * n; i<page * n && i< datas.length; i++){
+		var title  = datas[i]["title"];
+		var catname = datas[i]["name"];
+		var info   = datas[i]["desp"];
+		var smallimg = datas[i]["small_img"];
+		var hits = datas[i]["build_num"];
+		var id = datas[i]["id"];
+		//var sc = datas[i]["sc"];
+		
+		html += temp.replace("{0}", id).replace("{1}", info).replace("{2}", catname).replace("{3}", title).replace("{4}", hits).replace("{5}", id).replace("{6}", id).replace("{7}", id);
+
+		//替换默认的图片
+		var orignImage = new Image();
+		orignImage.src = smallimg;
+		$(orignImage).prop("data-id", id);
+		orignImage.onload = function(){
+			var id = $(this).prop("data-id");
+			$(".rimg"+id).prop("src", this.src);
+		}
+	}
+
+    html = $(".m-listul").html() + html;
+	$(".m-listul").html(html);
+	$("img.lock").each(function(i){
+    	var vip = datas[i]["is_vip"];
+   		if(vip == "0"){
+			$(this).hide();
+		}else{
+			$(this).show();
+		}
+    });
+    $("img.lock").width(24).height(24);
+}
+
+function addKeep(id, obj){
+	var tempdata = getDataById(id);
+	var ids = getSCIds();
+	var i = checkIdExist(id);
+	if(i != -1){
+		ids.splice(i, 1);
+		putSCIds(ids);
+	}
+	
+	//移除取消收藏的列表项
+	$("#current"+id).remove();
+
+	data_num--;
+
+	if(data_num == 0){
+		$(".m-listul").addClass("myul");
+	}
+
+	coleToggle(obj);
+	AndroidJSObject.addKeep(id);
+	return false;
+}
+
+function getDataById(id){
+	var  rdata;
+	var datas = data['data'];
+	for(var i=0; i<datas.length ;i++){
+		if(parseInt(datas[i]["id"]) === parseInt(id)){
+			rdata = datas[i];
+			break;
+		}
+	}
+	return rdata;
+}
+
+//执行滑动加载
+$(window).scroll(function (e) {
+    var bodyh = $("body").height();
+    var scrtop = $("body").scrollTop();
+    var winh = window.innerHeight;
+    if (scrtop >= bodyh - winh) {
+    	 page++;
+    	 template3(_data);
+         return false;
+    }
+}); 
+</script>
+<section class="backtop" style="display: none;"><a href="javascript:void(0);">返回顶部</a></section>
+<p style="display:none"><script type="text/javascript" src="show/count.js"></script></p>
+</body>
+</html>

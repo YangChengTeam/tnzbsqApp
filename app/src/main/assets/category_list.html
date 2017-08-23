@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>装B神器最新列表</title>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/><meta name="format-detection" content="telephone=no"/>
+<meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes"/>
+<script type="text/javascript"> var PageClass = 2; </script>
+<meta charset="UTF-8" />
+<script src="skin/js/jquery-1.11.3.min.js"></script>
+<script src="skin/js/appzb.js"></script>
+<script src="skin/js/touch-0.2.14.min.js"></script>
+<script src="skin/js/zepto.js"></script>
+<link href="skin/css/bootstrap.min.css" rel="stylesheet">
+<link href="skin/css/fycss.css" rel="stylesheet">
+<!--<script src="file:///android_asset/data/data5.js"></script>-->
+<!-- <script src="/mnt/sdcard/TNZBSQ/data/data.js"></script> -->
+<script src="skin/js/common.js"></script>
+<style>
+	div.lock {
+		position: relative;
+	}
+	div.lock img {
+		position: absolute;
+		z-index:1;
+	}
+	img.lock {
+		left: 95px;
+		top: 2px;
+		z-index:2;
+	}
+</style>
+</head>
+<body>
+<section class="g-sec m-mininav m-zblistnav">
+	<ul class="m-listnav">
+		<li><a href="javascript:;"><img src="skin/images/l1.png"  />最新</a></li>
+		<li><a href="javascript:;"><img src="skin/images/l2.png"  />最热</a></li>
+		<li><a href="javascript:;"><img src="skin/images/l3.png"  />排行</a></li>
+	</ul>
+</section>
+<section class="g-sec">
+	<ul class="m-listul"></ul>	
+</section>
+<script language="JavaScript" type="text/javascript">
+
+var _data;
+var tags;
+
+var s_index = window.localStorage.getItem("category_index");
+if(s_index == null || s_index == '' || s_index == 'undefined'){
+	s_index = 0;
+}
+
+window.idx = s_index;//每次进入时重新设置window.idx的值
+
+function init(tags,column){
+	var tempPath = AndroidJSObject.loadDataPath();
+	$.getScript(tempPath+"/TNZBSQ/data/data.js", function(data1){
+		tags = tags;
+		//$(".m-listul").html("");//清空历史记录
+		patchData(data);
+		_data = getDataByTag(tags,column);
+		
+		if(s_index == 0){
+			 _data = quickSort(window._data , "id", 0);
+		}
+		else if(s_index == 1){
+			//_data = quickSort(window._data , "collect_num", 0);
+
+			_data = getDataByHot(window._data);
+		 	_data = quickSort(_data , "seven", 0);
+		}
+		else if(s_index == 2){
+			_data = quickSort(window._data , "build_num", 0);
+		}
+		
+		template3(_data);
+		
+		setSelectItem();
+		
+		window.setInterval(function(){
+			patchSCStyls(_data);
+		}, 2000);
+	});
+}
+
+$(".m-listnav li").click(function(){
+	var idx = $(".m-listnav li").index($(this));
+	if(window.idx == idx){
+		return;
+	}
+	page = 1;
+	
+	window.idx = idx;
+	if(idx == 0){
+		 _data = quickSort(window._data , "id", 0);
+	}
+	else if(idx == 1){
+		 //_data = quickSort(window._data , "build_num", 0);
+		 _data = getDataByHot(window._data);
+		 _data = quickSort(_data , "seven", 0);
+	}
+	else if(idx == 2){
+		 _data = quickSort(window._data , "build_num", 0);
+	}
+	
+	$(".m-listul").html("");
+	template3(_data);
+    $(".m-listnav li").removeClass("m-hover");
+    $(this).addClass("m-hover");
+    
+    window.localStorage.setItem("category_index", idx);
+});
+
+function clearSelectItem(){
+	window.localStorage.removeItem("category_index");
+}
+
+function setSelectItem(){
+	$(".m-listnav li").eq(s_index).addClass("m-hover");
+}
+
+function getDataByTag(tag,column){
+	var tagData = [];
+	var datas = data["data"];
+	for(var i = 0; i<datas.length; i++){
+		var _tag;
+		if(column == 1){
+			_tag  = datas[i]["name"];
+		}else{
+			_tag  = datas[i]["tags"];
+		}
+
+		if(_tag == tag){
+			tagData.push(datas[i]);
+		}
+	}
+	return tagData;
+}
+
+function template3(datas){
+	var temp = '<li class="clearfix"><a href="scq1.html?id={5}" class="clearfix"><div><p class="f-fl">';
+	temp += '<div class="lock"><img src="skin/images/acts_default.jpg" class="rimg{0}" alt=""><img class="lock" src="skin/images/unlock_icon.png" /></div></p>';
+	temp += '<div class="m-listdiv"><p class=""><span class="tags f-fr">{2}</span><span class="m-title">{3}</span></p>';
+	temp += '<p>{1}</p>';
+	temp += '<p class=""><span class="f-fl">使用<strong>{4}</strong>次</span></p></div></div></a><span id="cole{5}" class="cole" onclick="return addKeep({6}, this)"><i></i>收藏</span></li>';	
+	var ids = getSCIds();
+	var html = "";
+	if((page-1) * n > datas.length){
+		page--;
+		return;
+	}
+	for(var i = (page-1) * n; i<page * n && i< datas.length; i++){
+		var title  = datas[i]["title"];
+		var catname = datas[i]["name"];
+		var info   = datas[i]["desp"];
+		var smallimg = datas[i]["small_img"];
+		
+		/* if(smallimg != null && smallimg != ''){
+			smallimg = smallimg.substring(smallimg.lastIndexOf("/")+1,smallimg.length);
+			smallimg = "file:///mnt/sdcard/TNZBSQ/SMALL_IMAGE/cache_"+smallimg;
+		} */
+		
+		var hits = datas[i]["build_num"];
+		var id = datas[i]["id"];
+		var sc = datas[i]["sc"];
+		
+		html += temp.replace("{0}", id).replace("{1}", info).replace("{2}", catname).replace("{3}", title).replace("{4}", hits).replace("{5}", id).replace("{5}", id).replace("{6}", id);
+		
+		for(var j = 0; j < ids.length; j++){
+			if(id == ids[j]){
+				datas[i]["sc"] = "1";
+			}
+		}
+
+		//替换默认的图片
+		var orignImage = new Image();
+		orignImage.src = smallimg;
+		$(orignImage).prop("data-id", id);
+		orignImage.onload = function(){
+			var id = $(this).prop("data-id");
+			$(".rimg"+id).prop("src", this.src);
+		}
+	}
+    //html = $(".m-listul").html() + html;
+	$(".m-listul").append($(html));
+
+	$("img.lock").each(function(i){
+    	var vip = datas[i]["is_vip"];
+   		if(vip == "0"){
+			$(this).hide();
+		}else{
+			$(this).show();
+		}
+    });
+
+	patchSCStyls(datas);
+	$("img.lock").width(24).height(24);
+}
+
+</script>
+<section class="backtop" style="display: none;"><a href="javascript:void(0);">返回顶部</a></section>
+</body>
+</html>

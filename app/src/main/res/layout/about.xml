@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f2f2f2"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/title_layout"
+        layout="@layout/common_back" />
+
+    <com.fy.tnzbsq.view.CustomWebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f2f2f2"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/join_tv"
+            android:layout_width="300dp"
+            android:layout_height="35dp"
+            android:background="#FFD39B"
+            android:gravity="center"
+            android:text="QQ群：462869974 (点击加群)"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/join_password"
+            android:layout_width="300dp"
+            android:layout_height="35dp"
+            android:textColor="#FF8C00"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:text="加群、加Q 验证：977"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/copy_tv"
+            android:layout_width="300dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="6dp"
+            android:background="#FFD39B"
+            android:gravity="center"
+            android:text="联系QQ：1358808844 (点击复制)"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+</LinearLayout>

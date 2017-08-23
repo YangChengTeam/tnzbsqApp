@@ -1,0 +1,21 @@
+{
+    "message": "登陆成功！",
+    "status": true,
+    "data": {
+        "id": "1",
+        "username": "admin",
+        "password": "a11d3a5db91b35c921a4f93c6c8bd305",
+        "tel": null,
+        "roletype": "0",
+        "lastdate": "1461731976",
+        "mime": null,
+        "regdate": null,
+        "num": "25",
+        "defname": null,
+        "deftel": null,
+        "defnickname": null,
+        "defename": null,
+        "friendnick": null
+    },
+    "errCode": "0"
+}

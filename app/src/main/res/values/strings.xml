@@ -1,0 +1,70 @@
+<resources>
+
+    <string name="app_name">装逼神器</string>
+	
+    <string name="home_text">首页</string>
+    <string name="new_text">最新</string>
+    <string name="send_text">投稿</string>
+    <string name="my_text">我的</string>
+    <string name="app_title_text">腾牛装逼神器</string>
+    <string name="app_share_text">分享</string>
+    <string name="net_connect_error">网络连接失败或者超时</string>
+    <string name="keep_name">我的收藏</string>
+    <string name="create_name">我的生成</string>
+    <string name="create_name_text">我的制作</string>
+    <string name="clear_text">清除缓存</string>
+    <string name="version_text">版本更新</string>
+    <string name="share_text">分享给好友</string>
+    <string name="about_text">关于我们</string>
+    <string name="login_out_text">退出登录</string>
+    <string name="default_user_name_text">请登录</string>
+    <string name="charge_hint_text">付费提示</string>
+    
+    <string name="acts_text">装逼</string>
+    <string name="fight_text">斗图</string>
+    <string name="my_create_text">我的制作</string>
+    <string name="image_make_text">制作表情</string>
+    <string name="send_image_to_text">发送表情到</string>
+    <string name="image_edit_input_text">编辑文字</string>
+    <string name="update_name_text">修改用户名</string>
+    <string name="word_tip_tv">点击可输入文字</string>
+    <string name="fight_menu_text">斗图-分类</string>
+    <string name="create_word_text">OK</string>
+    <string name="new_name">最新-斗图</string>
+    <string name="hot_name">热门-斗图</string>
+    <string name="gif_name">GIF动图-斗图</string>
+    <string name="search_result_text">搜索结果</string>
+    <string name="send_share_text">发送</string>
+    <string name="photo_text">拍照</string>
+    <string name="gallery_text">相册</string>
+    <string name="crop_image_text">裁剪图片</string>
+    <string name="cancel_text">取消</string>
+    <string name="iknow_text">我知道了</string>
+    <string name="share_save_text">分享保存按钮功能在这里</string>
+    <declare-styleable name="PagerSlidingTabStrip">
+        <attr name="pstsIndicatorColor" format="color" />
+        <attr name="pstsUnderlineColor" format="color" />
+        <attr name="pstsDividerColor" format="color" />
+        <attr name="pstsIndicatorHeight" format="dimension" />
+        <attr name="pstsUnderlineHeight" format="dimension" />
+        <attr name="pstsDividerPadding" format="dimension" />
+        <attr name="pstsTabPaddingLeftRight" format="dimension" />
+        <attr name="pstsScrollOffset" format="dimension" />
+        <attr name="pstsTabBackground" format="reference" />
+        <attr name="pstsShouldExpand" format="boolean" />
+        <attr name="pstsTextAllCaps" format="boolean" />
+        <attr name="selectedTabTextColor" format="color" />
+    </declare-styleable>
+
+    <string name="hint_user_name_text">请输入手机号</string>
+    <string name="hint_password_text">请输入密码</string>
+    <string name="forget_password_text">忘记密码</string>
+    <string name="quick_login_text">快速登录</string>
+    <string name="register_text">立即注册</string>
+    <string name="have_account_text">已有账号，直接登录</string>
+    <string name="regester_btn_text">注册</string>
+    <string name="hint_register_name_text">请输入用户名</string>
+    <string name="hint_confirm_password_text">请再次输入密码</string>
+
+    <string name="login_text">登 录</string>
+</resources>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="dns-prefetch" href="">
+<title>生成后_装B神器</title>
+<meta name="keywords" content=""/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/><meta name="format-detection" content="telephone=no"/>
+<meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes"/>
+<script type="text/javascript"> var PageClass = 3; </script>
+<meta charset="UTF-8" />
+<script src="skin/js/jquery-1.11.3.min.js"></script>
+<script src="skin/js/appzb.js"></script>
+<link href="skin/css/bootstrap.min.css" rel="stylesheet">
+<link href="skin/css/fycss.css" rel="stylesheet">
+<style>
+    input {display:block; width:30%; height: 40px; border: 1px #ff5000 solid;    background: #ff5000;    color: #fff;    text-shadow: none;    padding: 0; }
+    .input1 { float: left; margin-left:20px;    border-radius: 4px;  }
+    .input2 { float: right; margin-right:20px;   border-radius: 4px; }
+</style>
+</head>
+<body>
+<section class="g-scqimgsch">
+	<img src="skin/images/zhan.gif" id="result_img" name="myImage" onclick="toShow();"/>
+</section>
+
+<section class="g-btn g-sch">
+  <div>
+    <!-- <p onclick="toSave();"><span></span>保存相册</p>
+    <p onclick="toShare();"><span></span>分享</p> -->
+  </div>
+</section>
+
+<script language="JavaScript" type="text/javascript">
+	var imagePath;
+	/* function init(path){
+		imagePath = path;
+		//执行大图加载完后替换
+		var img = new Image();
+		//大图地址
+		img.src = path;
+		img.onload = function() {
+			document.getElementById('myImage').src = this.src;
+		}
+	} */
+	
+	function toShow(){
+		AndroidJSObject.imageShow(imagePath);
+	}
+	
+	function toSave(){
+		AndroidJSObject.toSave();
+	}
+	
+	function toShare(){
+		AndroidJSObject.toShare();
+	}
+	
+	function setImg(path) {
+		//$("#result_img").prop("src", path);
+		
+		/* var imgObj = $("#result_img");
+		imgObj.attr({ width: 300, height: 300 });
+		imgObj.css("background", "#cccccc");
+		
+		var img = new Image();
+		img.src = path;
+		img.onload = function() {
+			imgObj.prop("src", this.src);
+		} */
+
+		$("#result_img").prop("src", path);
+	}
+	
+    function onetishi(){
+	    var tishi = '<section class="g-tishi"><div class="m-tishi">亲！麻烦动动您的手指，将神器分享到朋友圈或者QQ空间，让更多的装逼爱好者加入进来！</div><div class="m-jiantou"></div></section>'
+	    $(".g-sch").after(tishi)
+	    $(".g-tishi").click(function(){
+	        $(this).hide();
+	    });
+    }
+    
+    function closetishi(){
+    	$(".g-tishi").hide();
+    }
+</script>
+<!-- <section class="backtop" style="display: none;"><a href="javascript:void(0);">返回顶部</a></section> -->
+<p style="display:none"><script type="text/javascript" src="show/count.js"></script></p>
+</body>
+</html>

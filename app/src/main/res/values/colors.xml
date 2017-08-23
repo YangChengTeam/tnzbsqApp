@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_color">#f2f2f2</color>
+    <color name="touming">#00000000</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="gray">#F8F8FF</color>
+    <color name="blue">#3399CCFF</color>
+    <color name="red">#FF0000</color>
+    <color name="hot_item_selected">#FF7877</color>
+    <color name="line_color">#FE5000</color>
+    <color name="select_color">#e56262</color>
+    <color name="send_title_color">#8d8d8d</color>
+    <color name="bg_line_color">#ded9d7</color>
+
+    <!--裁剪-->
+    <color name="colorPrimary">#FE5000</color>
+    <color name="colorPrimaryDark">#FE5000</color>
+    <color name="colorAccent">#FE5000</color>
+    <color name="windowBackground">#1C1C1C</color>
+    <color name="colorButtonNormal">#FFFFFB</color>
+    <color name="textColorPrimary">#FFFFFB</color>
+    <color name="textColorPrimaryInverse">#1C1C1C</color>
+    <color name="overlay">#AA1C1C1C</color>
+    <color name="divider">#333333</color>
+
+    <color name="common_color">#f2f2f2</color>
+    <color name="input_bg_color">#e8e8e8</color>
+    <color name="colorPrimary_below">#f28989</color>
+    <color name="register_text_color">#3385ff</color>
+    <color name="register_select_text_color">#999999</color>
+    <color name="forget_text_color">#555555</color>
+    <!--<color name="line_color">#cccccc</color>-->
+    <color name="quick_text_color">#a5a5a5</color>
+    <color name="more_line_color">#eeeeee</color>
+    <color name="refresh_normal_color">#999999</color>
+    <color name="refresh_select_color">#f28989</color>
+
+</resources>

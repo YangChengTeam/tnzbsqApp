@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>投稿_装B神器</title>
+<meta name="viewport"	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="App-Config"	content="fullscreen=yes,useHistoryState=yes,transition=yes" />
+<script type="text/javascript">	var PageClass = 3;</script>
+<meta charset="UTF-8" />
+<script src="skin/js/jquery-1.11.3.min.js"></script>
+<script src="skin/js/appzb.js"></script>
+<link href="skin/css/bootstrap.min.css" rel="stylesheet">
+<link href="skin/css/fycss.css" rel="stylesheet">
+<script type="text/javascript">
+	function selectPic() {
+		AndroidJSObject.selectPic(0,0);
+	}
+
+	function submitMessage() {
+		
+		var phone = $("#str").val();
+		var tc = document.getElementById("description").value;
+
+		if (phone == "") {
+			if ($(".lxp i").size() > 0) {
+				return;
+			}
+			var tishi = '<i class="">联系方式不能为空</i>';
+			$(".lxp").prepend(tishi);
+			setTimeout(function() {
+				$(".lxp i").remove();
+			}, 2000);
+			return false;
+		}
+
+		if (tc == "") {
+			if ($(".tgtc i").size() > 0) {
+				return;
+			}
+			var tishi = '<i class="">不能为空</i>';
+			$(".tgtc").prepend(tishi);
+			setTimeout(function() {
+				$(".tgtc i").remove();
+			}, 2000);
+			return false;
+		}
+		
+		AndroidJSObject.submitMesage(phone, tc);
+	}
+
+	function setImg(path) {
+		$("#select_img").prop("src", path);
+	}
+
+	function clear() {
+		$("#select_img").prop("src", "skin/images/tg_tgimg.png");
+		$("#str").val("");
+		$("#description").val("");
+	}
+	
+	/* function keyboardUp(){
+		$('html, body').animate({scrollTop : $(window).height()}, 500);
+	} */
+	
+	/* function keyboardDown(){
+		$('html, body').animate({scrollTop : 0}, 500);
+	} */
+	
+
+</script>
+</head>
+<body class="zw_tg_body_background">
+	<!-- <section class="zw_tg_top_img">
+		<img src="skin/images/tg_top_img.png"  alt="顶部图片" />
+	</section> -->
+	<section class="g-tginfo">
+		<p>小伙伴们！</p>
+		<p>装逼神器现向大家征集素材，只要你认为足够有逼格的；都可以踊跃投稿，一经采纳，会有Q币或者现金红包奖励哦！</p>
+	</section>
+	<section class="g-tg">
+		<input name="str" id="str" placeholder="联系方式：QQ或者手机号"
+			class="m-kuint">
+			  <p class="lxp tgerror"></p>
+		<textarea rows="3" id="description" placeholder="建议或者吐槽 "></textarea>
+		 <p class="tgtc tgerror zw_tg_tgerror"></p>
+	</section>
+	<section class="g-tg tgtxt">添加素材图片 :</section>
+	<section class="g-tgimg">
+		<img id="select_img" src="skin/images/tg_tgimg.png" alt=""
+			onclick="selectPic();" />
+		<input type="submit" value="提  交" onclick="submitMessage();" class="zw_tg_buttom" >
+	</section>
+	<section class="zw_tg_top_img zw_tg_bottom_img">
+		<img src="skin/images/tg_bottom_img.png"  alt="顶部图片" />
+	</section>
+	<p style="display: none">
+		<script type="text/javascript" src="show/count.js"></script>
+	</p>
+</body>
+</html>

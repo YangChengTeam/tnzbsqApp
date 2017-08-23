@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0000"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="#0000"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/dialog_title"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/dialog_title_selector"
+            android:clickable="true"
+            android:gravity="center|left"
+            android:paddingLeft="16dp"
+            android:text="选择图片"
+            android:textColor="#000"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/title_divery"
+            android:layout_width="fill_parent"
+            android:layout_height="1.5dp"
+            android:background="#C4C4C4" />
+
+        <LinearLayout
+            android:id="@+id/more_items_liner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#0000"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:background="#fff" >
+
+                <TextView
+                    android:id="@+id/me_picture"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/select_backgroup"
+                    android:clickable="true"
+                    android:gravity="center|left"
+                    android:paddingLeft="60dp"
+                    android:text="相册"
+                    android:textColor="#8000"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/set_image"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7.5dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/conversation_options_secretfile" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
+                android:background="#C4C4C4" />
+
+            <RelativeLayout
+                android:id="@+id/me_set_items2"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:background="#0000">
+
+                <TextView
+                    android:id="@+id/me_camera_picture"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/dialog_bottom_selector"
+                    android:clickable="true"
+                    android:gravity="center|left"
+                    android:paddingLeft="60dp"
+                    android:text="拍照"
+                    android:textColor="#8000"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/set_image11"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7.5dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/conversation_options_camera" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

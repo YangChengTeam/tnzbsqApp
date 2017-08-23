@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>装B神器</title>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/><meta name="format-detection" content="telephone=no"/>
+<meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes"/>
+<script type="text/javascript"> var PageClass = 1; </script>
+<meta charset="UTF-8" />
+<script src="skin/js/jquery-1.11.3.min.js"></script>
+<script src="skin/js/appzb.js"></script>
+<link href="skin/css/bootstrap.min.css" rel="stylesheet">
+<link href="skin/css/fycss.css" rel="stylesheet">
+<link href="skin/css/swiper-3.3.1.min.css" rel="stylesheet">
+<script src="skin/js/swiper-3.3.1.jquery.min.js"></script>
+<!--<script src="file:///android_asset/data/data.js"></script>-->
+<!-- <script src="/mnt/sdcard/TNZBSQ/data/data.js"></script> -->
+<script src="skin/js/common.js"></script>
+<style>
+	div.lock {
+		position: relative;
+	}
+	div.lock img {
+		position: absolute;
+		z-index:1;
+	}
+	img.lock {
+		left: 95px;
+		top: 2px;
+		z-index:2;
+	}
+</style>
+</head>
+<body>
+
+<script type="text/javascript">
+	var tempPath = AndroidJSObject.loadDataPath();
+
+	$.getScript("file://"+tempPath+"/TNZBSQ/data/data.js", function(data1){
+		init();
+	});
+</script>
+<section class="swiper-container">
+        <div class="swiper-wrapper">
+            <!-- <div class="swiper-slide"><a href="javascript:;"><img class="img-responsive" src="skin/images/ban4.jpg"/></a></div> -->
+        </div>
+        <div class="swiper-pagination"></div>
+</section>
+<section class=" zw_20160620">
+	<ul>
+		<!-- <li><a href="eg_detail.html?tags=表白"><img src="skin/images/ca1.png"><span>表白</span></a></li>
+		<li><a href="eg_detail.html?tags=炫富"><img src="skin/images/ca2.png"><span>炫富</span></a></li>
+		<li><a href="eg_detail.html?tags=游戏"><img src="skin/images/ca3.png"><span>游戏</span></a></li>
+		<li><a href="eg_detail.html?tags=恶搞"><img src="skin/images/ca4.png"><span>恶搞</span></a></li>
+		<li><a href="eg_detail.html?tags=节日"><img src="skin/images/ca5.png"><span>节日</span></a></li>
+		<li><a href="eg_detail.html?tags=微信"><img src="skin/images/ca6.png"><span>微信</span></a></li>
+		<li><a href="eg_detail.html?tags=证书"><img src="skin/images/ca7.png"><span>证书</span></a></li>
+		<li><a href="eg_detail.html?tags=明星"><img src="skin/images/ca8.png"><span>明星</span></a></li>
+		<li><a href="eg_detail.html?tags=其他"><img src="skin/images/ca9.png"><span>其他</span></a></li> -->
+	</ul>
+</section>
+
+<section class="g-sec">
+	<div id="zbsq_list_ad"><a href="zbsq_list_ad.html"><img id="zbsq_list_ad_img" style="display:none;" src="skin/images/zbsq_list_ad_icon.jpg" width="100%" height="auto"></a></div>
+	<ul class="m-listul">
+		
+	</ul>	
+</section>
+
+<section class="g-sec m-mininav m-zblistnav zw_20160617_liebiao">
+		<ul class="m-listnav">
+			<li class="m-hover"><a href="javascript:;"><img src="skin/images/l1.png"  />最新</a></li>
+			<li><a href="javascript:;"><img src="skin/images/l2.png"  />最热</a></li>
+			<li><a href="javascript:;"><img src="skin/images/l3.png"  />排行</a></li>
+		</ul>
+</section>
+<section class="backtop" style="display: none;"><a href="javascript:void(0);">返回顶部</a></section>
+<script>
+
+var _data;
+
+var sort = [];
+var id_sort = [];
+
+function init(){
+	clearIds();
+	$(".m-listul").html("");//清空历史记录
+	//patchData(data);   //重新定义字段。
+	template1(data);//斑斓图的数据读取
+	template2(data);//导航栏的数据读取 
+
+	_data = data['data'];
+
+	//_data = quickSort(window._data , "id", 0);
+
+	//_data = quickSort(window._data , "id", 0);
+
+	//获取推荐及未推荐的数据
+	getDataBySort();
+
+	id_sort = quickSort(id_sort , "id", 0);
+
+	sort = quickSort(sort , "sort", 0);
+
+	_data = sort.concat(id_sort);
+
+	template3(_data);//列表的数据读取
+	
+	//定时器
+	window.setInterval(function(){
+		patchSCStyls(_data);
+	}, 2000);
+}
+
+function getDataBySort(){
+	var datas = window._data;
+
+	var re = /^[0-9]+.?[0-9]*$/;
+
+	for(var i = 0; i<datas.length; i++){
+		var _sort = datas[i]["sort"];
+		if(re.test(_sort) && _sort > 0){
+			sort.push(datas[i]);
+		}else{
+			id_sort.push(datas[i]);
+		}
+	}
+}
+
+function clearSelectItem(){
+	window.localStorage.removeItem("s_index");
+}
+
+function getBestData(data){
+	var bestData = [];
+	var datas = data['data'];
+	for(var i=0; i<datas.length ;i++){
+		if(datas[i]["flag"] == "1"){
+			bestData.push(datas[i]);
+		}
+	}
+	return bestData;
+}
+function getTopData(data){
+	var topData = [];
+	var datas = data['data'];
+	
+	for(var i=0; i<datas.length ;i++){
+		if(datas[i]["isbest"] == "2"){
+			topData.push(datas[i]);
+		}
+		if(datas[i]["isbest"] == "3"){
+			topData.push(datas[i]);
+		}
+	}
+	return topData;
+}
+function checkStatus(data){
+	return data['status'] === 1
+}
+
+//斑斓图数据读取
+function template1(data){
+	 var html  = "";
+	 var temp  = '<div class="swiper-slide"><a href="{1}"><img src="{0}" id="{2}" class="img-responsive"></a></div>';
+	 var datas = getBestData(data);
+	 for(var i=0; i< datas.length; i++){
+	     var tempImg = datas[i]["c_img"];
+	   	 var tempName = datas[i]["name"];
+	   	 var tempId = datas[i]["id"] ;
+
+	   	 var tags = datas[i]["tags"];
+
+		 if(tags == '' || tags == null){
+		 	html += temp.replace("{0}", tempImg).replace("{1}", "scq1.html?id="+tempId).replace("{2}", tempId);
+		 }else{
+		 	html += temp.replace("{0}", tempImg).replace("{1}", "eg_detail.html?tags="+tags+"&column=2").replace("{2}", tempId);
+		 }
+	 }
+	 //读取不到数据时，设置默认值
+	 if(html == null || html ==''){
+		 html += '<div class="swiper-slide"><a href="scq1.html?id=637"><img class="img-responsive" src="skin/images/scroll_default.jpg"/></a></div>';
+	 }
+
+	 $(".swiper-wrapper").html(html);
+	 $(".swiper-slide img").error(function () {  
+	        $(this).attr("src", "skin/images/scroll_default.jpg");//JSP页面  
+	 });  
+	  var swiper = new Swiper('.swiper-container', {
+	        pagination: '.swiper-pagination',
+	        paginationClickable: true,
+	        autoplay : 3000,
+	        autoplayDisableOnInteraction:false
+	 });
+}
+
+
+//导航栏数据读取
+function template2(data){
+	var html  = "";
+	  var temp  = '<li id="{2}"><a href="eg_detail.html?tags={1}&column=1"><img src="{0}"><span>{3}</span></a></li>';
+	  var datas = data['channel'];
+	  for(var i=0; i< datas.length; i++){
+		  var tempImg = datas[i]["ico"];
+		  var tempName = datas[i]["name"];
+		  var tempId = datas[i]["id"] ;
+		  var tempName_1 = datas[i]["name"];
+	      html += temp.replace("{0}", tempImg).replace("{1}", tempName).replace("{2}", tempId).replace("{3}", tempName_1);
+	  }
+
+	  //读取不到数据时，设置默认值
+	  if(html == null || html ==''){
+		  html += '<li><a href="eg_detail.html?tags=表白&column=1"><img src="skin/images/ca1.png"><span>表白</span></a></li>';
+		  html += '<li><a href="eg_detail.html?tags=炫富&column=1"><img src="skin/images/ca2.png"><span>炫富</span></a></li>';
+		  html += '<li><a href="eg_detail.html?tags=游戏&column=1"><img src="skin/images/ca3.png"><span>游戏</span></a></li>';
+		  html += '<li><a href="eg_detail.html?tags=恶搞&column=1"><img src="skin/images/ca4.png"><span>恶搞</span></a></li>';
+		  html += '<li><a href="eg_detail.html?tags=节日&column=1"><img src="skin/images/ca5.png"><span>节日</span></a></li>';
+		  html += '<li><a href="eg_detail.html?tags=微信&column=1"><img src="skin/images/ca6.png"><span>微信</span></a></li>';
+		  html += '<li><a href="eg_detail.html?tags=证书&column=1"><img src="skin/images/ca7.png"><span>证书</span></a></li>';
+		  html += '<li><a href="eg_detail.html?tags=明星&column=1"><img src="skin/images/ca8.png"><span>明星</span></a></li>';
+		  html += '<li><a href="eg_detail.html?tags=其他&column=1"><img src="skin/images/ca9.png"><span>其他</span></a></li>';
+	  }
+
+	  $(".zw_20160620").html("<ul>"+html+"</ul>");
+	  
+	  $(".zw_20160620 img").each(function(i){
+		  $(this).error(function () {
+		        $(this).attr("src", "skin/images/ca"+(i+1)+".png");//JSP页面  
+		  });
+	  });
+	  
+	  //分类栏的高度设置
+		//等图片加载好了之后才能运行该js，不然会读取不到高度导致js执行效果错误。
+		//window.onload = function() { 
+			$(".zw_20160620 ul li").css("height" ,  $(".zw_20160620 ul li").width() );
+			$(".zw_20160620 ul ").css({"height" :  $(".zw_20160620 ul li").width()*3  , "position" :"relative" ,"width" : "100%"});	
+		//};
+
+		//根据手机屏幕宽度的不一致，从新定位每一个图标的位置。方便js动画的执行
+		//获得当前窗体的宽度，根据宽度来设置每一个元素的大小，位置。
+		var widow_width = $(".zw_20160620 ul li").width();
+		
+		//给每一个图标元素设置高、宽、定位。
+		if($(".zw_20160620 ul li").length){
+			$(".zw_20160620 ul li").each(function(i){
+				//设置每一个元素的坐标，用于轮播坐标移动。
+				$(this).css({"height" : widow_width , "width" : widow_width ,'position' : 'absolute', 'top' : parseInt(i/3)*widow_width , 'left' : i%3*widow_width , 'display' : 'block' ,"line-height" : widow_width+"px"});			
+			});
+		};
+		//$(".zw_20160620 ul li:nth-child(even)").css("background-color" , "#999");
+		
+		//制作动画效果
+		$("#zbsq_list_ad_img").show();
+}
+
+function template3(datas){
+	var temp = '<li class="clearfix"><a href="scq1.html?id={5}" class="clearfix"><div><p class="f-fl">';
+	temp += '<div class="lock"><img src="skin/images/acts_default.jpg" class="rimg{0}" alt=""><img class="lock" src="skin/images/unlock_icon.png" /></div></p>';
+	temp += '<div class="m-listdiv"><p class=""><span class="tags f-fr">{2}</span><span class="m-title">{3}</span></p>';
+	temp += '<p>{1}</p>';
+	temp += '<p class=""><span class="f-fl">使用<strong>{4}</strong>次</span></p></div></div></a><span id="cole{5}" class="cole" onclick="return addKeep({6}, this)"><i></i>收藏</span></li>';
+	var html = "";
+
+	if((page-1) * n > datas.length){
+		page--;
+		return;
+	}	
+	var ids =  getSCIds();
+
+	for(var i = (page-1) * n; i<page * n && i< datas.length; i++){
+		var title  = datas[i]["title"];
+		var catname = datas[i]["name"];
+		var info   = datas[i]["desp"];
+		var smallimg = datas[i]["small_img"];		
+		var hits = datas[i]["build_num"];
+		var id = datas[i]["id"];
+		var sc = datas[i]["sc"];
+		var vip = datas[i]["is_vip"];
+		var seven_num = datas[i]["seven"];
+		//if(window.idx == 1){
+			//hits = seven_num;
+		//>
+		html += temp.replace("{0}", id).replace("{1}", info).replace("{2}", catname).replace("{3}", title).replace("{4}", hits).replace("{5}", id).replace("{5}", id).replace("{6}", id);
+		if(sc == "1"){
+			ids.push(id);
+			putSCIds(ids);
+		}
+
+		//替换默认的图片
+		var orignImage = new Image();
+		orignImage.src = smallimg;
+		$(orignImage).prop("data-id", id);
+		orignImage.onload = function(){
+			var id = $(this).prop("data-id");
+			$(".rimg"+id).prop("src", this.src);
+		}
+	}
+
+	$(".m-listul").append($(html));
+    $("img.lock").each(function(i){
+    	var vip = datas[i]["is_vip"];
+   		if(vip == "0"){
+			$(this).hide();
+		}else{
+			$(this).show();
+		}
+    });
+	
+	patchSCStyls(datas);
+	$("img.lock").width(24).height(24);
+}
+
+
+//首页下拉显示分类信息	
+$(window).scroll(function(){
+	if($(window).scrollTop() > $(".swiper-container").width()/720*1040 - 140){
+		$(".zw_20160617_liebiao").show();
+	}
+	else{
+		$(".zw_20160617_liebiao").hide();}
+	});	
+//首页分类显示的信息js控制	
+$(".m-listnav li").click(function(){
+	var idx = $(".m-listnav li").index($(this));
+	if(window.idx == idx){
+		return;
+	}
+	page = 1;
+	
+	window.idx = idx;
+	if(idx == 0){
+		//_data = quickSort(window._data , "id", 0);
+
+		_data = sort.concat(id_sort);
+	}
+	else if(idx == 1){
+		 //_data = quickSort(window._data , "collect_num", 0);
+
+		 _data = getDataByHot(window._data);
+		 _data = quickSort(_data , "seven", 0);
+	}
+	else if(idx == 2){
+		 _data = quickSort(window._data , "build_num", 0);
+	}
+	
+	$(".m-listul").html("");
+	template3(_data);
+    $(".m-listnav li").removeClass("m-hover");
+    $(this).addClass("m-hover");
+    
+    window.localStorage.setItem("category_index", idx);
+});
+//分类栏的高度设置
+//等图片加载好了之后才能运行该js，不然会读取不到高度导致js执行效果错误。
+	window.onload = function() { 
+		$(".zw_20160620 ul li").css("height" ,  $(".zw_20160620 ul li").width() );       
+	};
+
+</script>
+</body>
+</html>

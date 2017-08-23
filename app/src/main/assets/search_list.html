@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>装B神器最新列表</title>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/><meta name="format-detection" content="telephone=no"/>
+<meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes"/>
+<script type="text/javascript"> var PageClass = 2; </script>
+<meta charset="UTF-8" />
+<script src="skin/js/jquery-1.11.3.min.js"></script>
+<script src="skin/js/appzb.js"></script>
+<script src="skin/js/touch-0.2.14.min.js"></script>
+<script src="skin/js/zepto.js"></script>
+<link href="skin/css/bootstrap.min.css" rel="stylesheet">
+<link href="skin/css/fycss.css" rel="stylesheet">
+<!-- <script src="file:///android_asset/data/data5.js"></script> -->
+<!-- <script src="/mnt/sdcard/TNZBSQ/data/data5.js"></script> -->
+<script src="skin/js/common.js"></script>
+<!-- <script src="/mnt/sdcard/TNZBSQ/data/data.js"></script> -->
+</head>
+<body>
+<section class="g-sec">
+	<ul class="m-listul">
+		
+	</ul>
+</section>
+<script type="text/javascript">
+var tempPath = AndroidJSObject.loadDataPath();
+
+var _data;
+var tags;
+
+//patchData(data);
+var datas;
+var search_data;
+$.getScript("file://"+tempPath+"/TNZBSQ/data/data.js", function(data1){
+	datas = data["data"];
+});
+
+
+function contains(arr, obj) {
+	var i = arr.length;
+	while (i--) {
+		if (arr[i] === obj) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function addHotWord(hot_word){
+	search_data =  getSearchHistory();
+	//去除重复记录
+	if(search_data.length > 0){
+		if(!contains(search_data,hot_word)){
+			search_data.push(hot_word);
+		}
+	}else{
+		search_data.push(hot_word);
+	}
+
+	putSearchHistory(search_data);
+}
+
+// 获取缓存中的ID
+function getSearchHistory(){
+	var his_data = window.localStorage.getItem("search_history_data");
+	if(his_data == null){
+		return [];
+	}
+	return JSON.parse(his_data);
+}
+
+function putSearchHistory(arr){
+	window.localStorage.setItem("search_history_data", JSON.stringify(arr));
+}
+
+function init(searchKey){
+	 addHotWord(searchKey);
+	  $.getJSON(tempPath+"/TNZBSQ/data/search_data.js",function(data_s){
+	    if(data_s['data'] == null || data_s['data'].length == 0){
+	        //$(".m-listul").addClass("nosearch");
+	        var souname = searchKey;//搜索关键字
+	        $(".g-nosou").remove();
+	        var nosou = '<section class="g-nosou">抱歉，没有找到<span>“' +souname+ '”</span>的搜索结果，<br>以下是为您推荐的内容：</section>';
+	        $('body').prepend(nosou);
+	        //初始化热门搜索数据
+	        $(function(){
+	        	$.getJSON("http://zs.qqtn.com/zbsq/index.php?m=Home&c=Index&a=hot", function(data_value){
+	        		//templateHot(datas['data']);
+	        		
+	        		var tagData = [];
+					var temp_data = data_value["data"];
+					
+					for(var i = 0; i<temp_data.length; i++){
+						var _tag  = temp_data[i]["title"];
+						for(var j = 0; j<datas.length; j++){
+							if(_tag == datas[j]["title"]){
+								tagData.push(datas[j]);
+							}
+						}
+					}
+					_data = tagData;
+					template3(tagData);
+	        	});
+	        });
+	        
+	    }else{
+	      $(".g-sec ul").removeClass("f-list").addClass("m-listul");
+	      //$(".m-listul").removeClass("nosearch");
+	      //patchData(data_s);
+	      _data = data_s['data'];
+	      //_data = quickSort(window._data , "id", 0);
+	      template3(_data);
+	      
+	    }
+	    
+	    window.setInterval(function(){
+	        patchSCStyls(_data);
+	    }, 2000);
+	    
+	  });
+}
+
+window.idx = 0;
+$(".m-listnav li").click(function(){
+	var idx = $(".m-listnav li").index($(this));
+	if(window.idx == idx){
+		return;
+	}
+	page = 1;
+	
+	window.idx = idx;
+	if(idx == 0){
+		 _data = quickSort(window._data , "id", 0);
+	}
+	else if(idx == 1){
+		 _data = quickSort(window._data , "num", 0);
+	}
+	else if(idx == 2){
+		 _data = quickSort(window._data , "collect", 0);
+	}
+	
+	$(".m-listul").html("");
+	template3(_data);
+    $(".m-listnav li").removeClass("m-hover");
+    $(this).addClass("m-hover");
+});
+
+
+function getDataByTag(tag){
+	var tagData = [];
+	var datas = data["data"];
+	for(var i = 0; i<datas.length; i++){
+		var _tag  = datas[i]["classtype"];
+		if(_tag == tag){
+			tagData.push(datas[i]);
+		}
+	}
+	return tagData;
+}
+
+function template3(datas){
+	var temp = '<li class="clearfix"><a href="scq1.html?id={5}" class="clearfix"><div><p class="f-fl">';
+	temp += '<img src="skin/images/acts_default.jpg" class="rimg{0}" alt=""></p>';
+	temp += '<div class="m-listdiv"><p class=""><span class="tags f-fr">{2}</span><span class="m-title">{3}</span></p>';
+	temp += '<p>{1}</p>';
+	temp += '<p class=""><span class="f-fl">使用<strong>{4}</strong>次</span></p></div></div></a><span id="cole{5}" class="cole" onclick="return addKeep({6}, this)"><i></i>收藏</span></li>';	
+	var ids = getSCIds();
+	var html = "";
+	if((page-1) * n > datas.length){
+		page--;
+		return;
+	}
+	for(var i = (page-1) * n; i<page * n && i< datas.length; i++){
+		
+		var title  = datas[i]["title"];
+		var catname = datas[i]["name"];
+		var info   = datas[i]["desp"];
+		var smallimg = datas[i]["small_img"];
+		var hits = datas[i]["build_num"];
+		var id = datas[i]["id"];
+		var sc = datas[i]["sc"];
+		
+		html += temp.replace("{0}", id).replace("{1}", info).replace("{2}", catname).replace("{3}", title).replace("{4}", hits).replace("{5}", id).replace("{5}", id).replace("{6}", id);
+		
+		for(var j = 0; j < ids.length; j++){
+			if(id == ids[j]){
+				datas[i]["sc"] = "1";
+			}
+		}
+
+		//替换默认的图片
+		var orignImage = new Image();
+		orignImage.src = smallimg;
+		$(orignImage).prop("data-id", id);
+		orignImage.onload = function(){
+			var id = $(this).prop("data-id");
+			$(".rimg"+id).prop("src", this.src);
+		}
+	}
+
+
+
+    html = $(".m-listul").html() + html;	
+	$(".m-listul").html(html);
+	patchSCStyls(datas);
+}
+
+//初始化热门搜索数据
+function templateHot(data_hot){
+	 $(".g-sec ul").removeClass("m-listul").addClass("f-list");
+	var html = "";
+	var temp = '<li><a href="#" onclick="return hotSearch(\'{1}\')">{0}</a></li>';
+	for(var i = 0; i< data_hot.length; i++){
+		var title  = data_hot[i]["title"];
+		html += temp.replace("{0}", title).replace("{1}", title)
+	}
+	
+	//html = $(".f-list").html() + html;
+	$(".f-list").html(html);
+}
+
+function hotSearch(obj){
+	AndroidJSObject.search(obj);
+}
+
+</script>
+<section class="backtop" style="display: none;"><a href="javascript:void(0);">返回顶部</a></section>
+</body>
+</html>

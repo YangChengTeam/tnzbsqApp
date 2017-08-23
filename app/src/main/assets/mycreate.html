@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="dns-prefetch" href="">
+<title>我装过的B</title>
+<meta name="keywords" content=""/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/><meta name="format-detection" content="telephone=no"/>
+<meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes"/>
+<script type="text/javascript"> var PageClass = 8; </script>
+<meta charset="UTF-8" />
+<script src="skin/js/jquery-1.11.3.min.js"></script>
+<script src="skin/js/appzb.js"></script>
+<link href="skin/css/bootstrap.min.css" rel="stylesheet">
+<link href="skin/css/fycss.css" rel="stylesheet">
+</head>
+<body>
+<section class="g-piclist1">
+	<ul class="clearfix cd-popup-trigger"></ul>
+</section>
+<!-- 弹出框 -->
+<div class="cd-popup" role="alert">
+    <div class="cd-popup-container imgtk">
+        <p class="f-tkimgp"><img src="" id="tkimg" /></p>      
+    </div>
+</div>
+<section class="backtop" style="display: none;"><a href="javascript:void(0);">返回顶部</a></section>
+<script type="text/javascript" src="scd.js"></script>
+<script type="text/javascript">
+$(function(){
+	var pwidth = window.screen.width/2;
+	console.log(pwidth);
+	$(".g-piclist1 ul li").height(pwidth);
+	
+	
+	
+	var n    = 1;
+	var page = 1;
+	function loadMeinv(){
+		var temp = '<li style="height:'+pwidth+'px"><p><img src="{0}" /></p></li>';			
+		var datas = data['data'];
+		var html = "";
+		for(var i = 1; i< datas.length; i++){
+			var scimg  = datas[i]["scimg"];
+			html += temp.replace("{0}", scimg);
+		}
+	    html = $(".g-piclist1 ul").html() + html;	
+		$(".g-piclist1 ul").html(html);	
+		
+		
+	}
+	loadMeinv();
+
+	//执行弹框
+	$('.cd-popup-trigger li').on('click', function(event){
+		event.preventDefault();
+		$('.f-tkimgp img').attr('src','');//去掉图片地址
+		var bigimg = $(this).find('img').attr('src');//获取点击时的图片		
+		$('.f-tkimgp img').attr('src',bigimg);//设置图片
+		var tkpheight = $('.f-tkimgp').height()/2
+		$('.imgtk').css("margin-top",-tkpheight);		
+		$('.cd-popup').addClass('is-visible');//显示弹出层
+	});
+	$('.cd-popup').on('click', function(event){
+		if( $(event.target).is('.imgtk img') || $(event.target).is('.cd-popup') ) {
+				event.preventDefault();
+				$(this).removeClass('is-visible');			
+		}
+		
+	});
+	
+
+	
+});
+</script>
+</body>
+</html>
