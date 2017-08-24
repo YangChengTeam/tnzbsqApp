@@ -112,9 +112,7 @@ public class MainActivity extends SlidingFragmentActivity implements TabLineLayo
                     break;
                 case 2:
                     Toast.makeText(context, "缓存已清除", Toast.LENGTH_SHORT).show();
-                    // 最后通知更新
-                    context.sendBroadcast(
-                            new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + Contants.BASE_SD_DIR)));
+                    context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + Contants.BASE_SD_DIR)));
                     break;
                 case 3:
                     break;
@@ -303,9 +301,10 @@ public class MainActivity extends SlidingFragmentActivity implements TabLineLayo
 
         for (int i = 0; i < 3; i++) {
             if (i == 0 || i == 1) {
-                CustomWebFragment customWebFragment = new CustomWebFragment();
-                customWebFragment.url = urls[i];
-                customWebFragments.add(customWebFragment);
+                //CustomWebFragment customWebFragment = new CustomWebFragment();
+                //customWebFragment.url = urls[i];
+                ZBFragment zbFragment = new ZBFragment();
+                customWebFragments.add(zbFragment);
             }
             if (i == 2) {
                 CustomWebOtherFragment customWebOtherFragment = new CustomWebOtherFragment();

@@ -129,22 +129,12 @@ public class CustomWebFragment extends CustomBaseFragment implements CustomWebVi
 				break;
 			case 2:
 				Toast.makeText(getActivity(), "缓存已清除", Toast.LENGTH_SHORT).show();
-				// 最后通知更新
 				getActivity().sendBroadcast(
 						new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + Contants.BASE_SD_DIR)));
 				break;
 			case 3:
-				//if (service != null) {
-					//此条不要 service.cancelTask();
-				//}
-				
-				//customWebView.loadUrl("javascript:refresh();");
-				// Toast.makeText(getActivity(), "下载完成",
-				// Toast.LENGTH_SHORT).show();
 				break;
 			case 4:
-				// Toast.makeText(getActivity(), "下载失败",
-				// Toast.LENGTH_SHORT).show();
 				break;
 			case 5:
 				Toast.makeText(getActivity(), "下载地址有误，请稍后重试", Toast.LENGTH_SHORT).show();
@@ -154,31 +144,14 @@ public class CustomWebFragment extends CustomBaseFragment implements CustomWebVi
 		}
 	};
 
-	/*public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		String tempStr = FileUtil.readFile(Contants.ALL_DATA_DIR_PATH + "/" + Contants.ALL_DATA_FILENAME);
-		tempStr = tempStr.replaceAll("var data=", " ");
-		KJLoger.debug(tempStr);
-		ActsRet ar = Contants.gson.fromJson(tempStr, new TypeToken<ActsRet>() {
-		}.getType());
-		actsList = ar.data;
-		if (actsList == null || actsList.size() == 0) {
-			actsList = new ArrayList<Acts>();
-		}
-		imageList = new ArrayList<String>();
-		cacheTopImage();
-		cacheImage();
-	};*/
-	
 	public float x, y;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.main_fragment, null);
 
 		customWebView = (CustomWebView) view.findViewById(R.id.webview);
 		loadingLayout = (LinearLayout) view.findViewById(R.id.loading_layout);
-		//loadingIv.setImageResource(R.drawable.main_loading_gif);
-		// navLineLayout = (NavLineLayout)view.findViewById(R.id.nav);
 		swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
 		swipeLayout.setColorSchemeResources(
 				android.R.color.holo_red_light,
@@ -256,83 +229,7 @@ public class CustomWebFragment extends CustomBaseFragment implements CustomWebVi
 	@Override
 	public void onResume() {
 		super.onResume();
-		
 	}
-	
-	/*public void cacheTopImage(){
-		List<String> topImageList = new ArrayList<String>();
-		for(int i=0;i<actsList.size();i++){
-			if(actsList.get(i).isbest >0){
-				topImageList.add(actsList.get(i).bestimg);
-			}
-		}
-		service = new DownloadService(Contants.ALL_SMALL_IMAGE_PATH, topImageList, new DownloadStateListener() {
-			@Override
-			public void onFinish() {
-				// 图片下载成功后，实现您的代码
-				Message message = new Message();
-				message.what = 3;
-				handler.sendMessage(message);
-			}
-
-			@Override
-			public void onFailed() {
-				// 图片下载成功后，实现您的代码
-				Message message = new Message();
-				message.what = 4;
-				handler.sendMessage(message);
-			}
-		});
-		service.startDownload();
-	}
-	
-	public void cacheImage() {
-
-		if (imageList != null && imageList.size() > 0) {
-			imageList.clear();
-		}
-		
-		int totalPage = 0;
-		if (actsList.size() % 10 == 0) {
-			totalPage = actsList.size() / 10;
-		} else {
-			totalPage = actsList.size() / 10 + 1;
-		}
-
-		if (totalPage >= currentPage) {
-			int temp = 0;
-			if(totalPage > currentPage){
-				temp = currentPage * 10;
-			}
-			if(totalPage == currentPage){
-				temp = actsList.size();
-			}
-			
-			for (int i = (currentPage - 1) * 10; i < temp; i++) {
-				imageList.add(actsList.get(i).smallimg);
-			}
-		}
-		
-		service = new DownloadService(Contants.ALL_SMALL_IMAGE_PATH, imageList, new DownloadStateListener() {
-			@Override
-			public void onFinish() {
-				// 图片下载成功后，实现您的代码
-				Message message = new Message();
-				message.what = 3;
-				handler.sendMessage(message);
-			}
-
-			@Override
-			public void onFailed() {
-				// 图片下载成功后，实现您的代码
-				Message message = new Message();
-				message.what = 4;
-				handler.sendMessage(message);
-			}
-		});
-
-		service.startDownload();
-	}*/
 
 	public void initData() {
 		File fileDir = new File(Contants.ALL_DATA_DIR_PATH);
@@ -574,9 +471,6 @@ public class CustomWebFragment extends CustomBaseFragment implements CustomWebVi
 			customWebView.loadUrl("javascript:init()");
 		}
 	}
-
-
-
 
 	private class AddKeepTask extends AsyncTask<Void, Void, MyCreateRet> {
 		private String id;

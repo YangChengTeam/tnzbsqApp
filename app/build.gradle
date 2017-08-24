@@ -59,6 +59,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:25.+'
+    compile 'com.android.support:recyclerview-v7:25.+'
     compile 'org.kymjs.kjframe:kjframe:2.6'
     compile files('libs/gesture_imageview.jar')
     compile project(':SlidingMenu')
@@ -71,4 +72,12 @@ dependencies {
     compile 'com.liulishuo.filedownloader:library:1.6.3'
     compile 'com.zxy.android:tiny:0.0.7'
     compile files('libs/umeng-analytics-v5.6.7.jar')
+    compile 'com.jakewharton:butterknife:8.7.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.3'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.zhy:okhttputils:2.6.2'
+    compile project(':banner')
 }
