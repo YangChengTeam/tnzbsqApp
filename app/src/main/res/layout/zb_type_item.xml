@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginBottom="8dp"
+              android:layout_height="80dp"
+              android:background="@drawable/main_banner_border"
               android:gravity="center"
               android:orientation="vertical">
 
     <ImageView
         android:id="@+id/iv_zb_type"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="53dp"
+        android:layout_height="33dp"
         android:src="@mipmap/zb_type_date"/>
 
     <TextView
         android:id="@+id/tv_zb_type_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
         android:gravity="center"
-        android:text="恶搞"
-        android:textColor="@color/black1"
-        android:textSize="14sp"/>
+        android:textColor="@color/forget_text_color"
+        android:textSize="12sp"/>
 </LinearLayout>

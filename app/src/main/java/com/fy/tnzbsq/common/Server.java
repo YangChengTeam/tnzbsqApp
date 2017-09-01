@@ -11,7 +11,7 @@ public class Server {
 	// 3、版本更新
 	public final static String URL_VERSION_UPDATE = URL_SERVER_IP + "m=Home&c=Zbsq&a=version";
 	// 4、所有数据
-	public final static String URL_ALL_DATA = URL_SERVER_IP + "m=Home&c=Zbsq&a=test";
+	public final static String URL_ALL_DATA = URL_SERVER_IP + "m=Home&c=Zbsq&a=test1";
 	// 5、图片合成
 	public final static String URL_IMAGE_CREATE = URL_SERVER_IP + "m=Home&c=Zbsq&a=start_zb";
 	// 6、我的收藏

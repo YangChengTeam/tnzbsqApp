@@ -1,6 +1,8 @@
 package com.fy.tnzbsq.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,25 +10,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.fy.tnzbsq.R;
 import com.fy.tnzbsq.adapter.ZBDataAdapter;
-import com.fy.tnzbsq.bean.ZBDataInfo;
+import com.fy.tnzbsq.adapter.ZBTypeAdapter;
+import com.fy.tnzbsq.bean.SlideInfo;
 import com.fy.tnzbsq.bean.ZBDataListRet;
 import com.fy.tnzbsq.common.Contants;
 import com.fy.tnzbsq.common.Server;
 import com.fy.tnzbsq.net.OKHttpRequest;
 import com.fy.tnzbsq.net.listener.OnResponseListener;
+import com.fy.tnzbsq.util.CommUtils;
 import com.fy.tnzbsq.util.StringUtils;
+import com.fy.tnzbsq.view.BannerImageLoader;
 import com.orhanobut.logger.Logger;
+import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
+ * 装逼图
  * Created by admin on 2017/8/24.
  */
 
@@ -35,22 +45,22 @@ public class ZBFragment extends CustomBaseFragment {
     @BindView(R.id.loading_layout)
     LinearLayout mLoadingLayout;
 
-    //@BindView(R.id.banner)
-    //Banner mBanner;
+    private Banner mBanner;
 
-   /* @BindView(R.id.zb_type_list)
-    RecyclerView mZbTypeView;*/
+    private RecyclerView mZbTypeView;
 
     @BindView(R.id.main_data_list)
     RecyclerView mDataListView;
 
-   // ZBTypeAdapter zbTypeAdapter;
+    ZBTypeAdapter zbTypeAdapter;
 
     ZBDataAdapter zbDataAdapter;
 
     OKHttpRequest okHttpRequest = null;
 
     private int currentPage = 1;
+
+    List<SlideInfo> mSlideInfoList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,70 +79,95 @@ public class ZBFragment extends CustomBaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        //mBanner.startAutoPlay();
+        mBanner.startAutoPlay();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        //mBanner.stopAutoPlay();
+        mBanner.stopAutoPlay();
+    }
+
+    private View getHeaderView() {
+        zbTypeAdapter = new ZBTypeAdapter(null);
+        View headView = getActivity().getLayoutInflater().inflate(R.layout.zb_fragment_head_view, (ViewGroup) mDataListView.getParent(), false);
+        mZbTypeView = ButterKnife.findById(headView, R.id.zb_type_list);
+        mBanner = ButterKnife.findById(headView, R.id.banner);
+        mZbTypeView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        mZbTypeView.setAdapter(zbTypeAdapter);
+        return headView;
     }
 
     public void init() {
         okHttpRequest = new OKHttpRequest();
 
-        //zbTypeAdapter = new ZBTypeAdapter(new ArrayList<ZBTypeInfo>());
-        zbDataAdapter = new ZBDataAdapter(new ArrayList<ZBDataInfo>());
-
-        //mZbTypeView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        zbDataAdapter = new ZBDataAdapter(getActivity(), null);
         mDataListView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        //mZbTypeView.setAdapter(zbTypeAdapter);
+        zbDataAdapter.addHeaderView(getHeaderView());
         mDataListView.setAdapter(zbDataAdapter);
 
-        /*mBanner.setOnBannerListener(new OnBannerListener() {
+        mBanner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                *//*SlideInfo slideInfo = mPresenter.getSlideInfo(position);
-                Intent intent = new Intent(getActivity() ,WebActivity.class);
-                intent.putExtra("title", slideInfo.getTitle());
-                intent.putExtra("url", slideInfo.getTypeValue());
-                startActivity(intent);*//*
+                Intent intent = new Intent(getActivity(), CategoryActivity.class);
+                if (mSlideInfoList != null && mSlideInfoList.get(position) != null) {
+                    intent.putExtra("title", mSlideInfoList.get(position).title);
+                }
+                startActivity(intent);
             }
-        });*/
+        });
 
-
-        /*mBanner.isAutoPlay(true)
-                .setDelayTime(1500)
-                .setImageLoader(new BannerImageLoader())
-                .setImages(null)
-                .start();*/
+        zbDataAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Logger.e("position --->" + position);
+                Intent intent = new Intent(getActivity(), CreateBeforeActivity.class);
+                intent.putExtra("zb_data_info", zbDataAdapter.getData().get(position));
+                startActivity(intent);
+            }
+        });
     }
 
     public void loadData() {
         final Map<String, String> params = new HashMap<String, String>();
         Logger.e("current page---" + currentPage);
-        params.put("p", String.valueOf(currentPage));
+        params.put("version", CommUtils.getVersionName(getActivity()));
+        params.put("page", currentPage + "");
         okHttpRequest.aget(Server.URL_ALL_DATA, params, new OnResponseListener() {
             @Override
             public void onSuccess(String response) {
                 if (!StringUtils.isEmpty(response)) {
                     ZBDataListRet result = Contants.gson.fromJson(response, ZBDataListRet.class);
                     if (result != null) {
+                        Logger.e("data size--->" + result.data.size());
                         mLoadingLayout.setVisibility(View.GONE);
+                        zbTypeAdapter.setNewData(result.channel);
                         zbDataAdapter.setNewData(result.data);
+
+                        //设置banner图
+                        if (result.banner != null) {
+                            mSlideInfoList = result.banner;
+                            List<String> imgUrls = new ArrayList<String>();
+                            for (int i = 0; i < result.banner.size(); i++) {
+                                imgUrls.add(result.banner.get(i).c_img);
+                            }
+
+                            mBanner.isAutoPlay(true)
+                                    .setDelayTime(3000)
+                                    .setImageLoader(new BannerImageLoader())
+                                    .setImages(imgUrls)
+                                    .start();
+                        }
                     }
                 }
             }
 
             @Override
             public void onError(Exception e) {
-
             }
 
             @Override
             public void onBefore() {
-
             }
         });
     }

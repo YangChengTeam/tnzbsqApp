@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.youth.banner.loader.ImageLoader;
 
 /**
@@ -17,9 +18,16 @@ public class BannerImageLoader extends ImageLoader {
     public void displayImage(Context context, Object path, ImageView imageView) {
         try {
             imageView.setBackgroundColor(Color.parseColor("#e0eaf4"));
-            Glide.with(context).load(path).into(imageView);
-        }catch (Exception e){
-            Log.e("BannerImageLoader",  e.getMessage());
+
+            if (path != null) {
+                if (path.toString().endsWith(".gif")) {
+                    Glide.with(context).load(path).diskCacheStrategy(DiskCacheStrategy.NONE).into(imageView);
+                } else {
+                    Glide.with(context).load(path).into(imageView);
+                }
+            }
+        } catch (Exception e) {
+            Log.e("BannerImageLoader", e.getMessage());
         }
     }
 }
