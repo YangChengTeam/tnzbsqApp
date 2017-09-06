@@ -118,5 +118,14 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:dropDownListViewStyle">@style/SpinnerStyle</item>
+    </style>
+
+    <style name="SpinnerStyle" parent="android:Widget.ListView.DropDown">
+        <!-- 分隔线颜色 -->
+        <item name="android:divider">@color/common_color</item>
+        <item name="android:dividerHeight">0.5dp</item>
+        <!-- item按下效果
+        <item name="android:listSelector">@drawable/selector_bg_text</item>-->
     </style>
 </resources>

@@ -272,6 +272,13 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
         </activity>
 
+        <activity android:name="me.iwf.photopicker.PhotoPickerActivity"
+                  android:theme="@style/Theme.AppCompat.NoActionBar"
+            />
+
+        <activity android:name="me.iwf.photopicker.PhotoPagerActivity"
+                  android:theme="@style/Theme.AppCompat.NoActionBar"/>
+
         <!--share -->
         <activity
             android:name=".wxapi.WXEntryActivity"
