@@ -48,4 +48,8 @@ public class Server {
 	public final static String URL_USER_SOURCE_STATE = URL_SERVER_IP + "m=api&c=index&a=user_source_state";
 	//22、价格设置
 	public final static String URL_PRICE = URL_SERVER_IP + "m=api&c=index&a=get_price";
+	//23、分类列表
+	public final static String CATEGORY_LIST_URL = URL_SERVER_IP + "m=Home&c=zbsq&a=getCateList";
+	//24、Banner列表
+	public final static String BANNER_LIST_URL = URL_SERVER_IP + "m=Home&c=zbsq&a=getSlideMore";
 }

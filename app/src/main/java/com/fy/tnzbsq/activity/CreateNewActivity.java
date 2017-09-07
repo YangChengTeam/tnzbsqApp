@@ -140,7 +140,7 @@ public class CreateNewActivity extends BaseActivity implements CustomWebViewDele
                                 String sourceIds = PreferencesUtils.getString(context, sourceIdsKey);
                                 if(!StringUtils.isEmpty(sourceIds)){
                                     String[] sourceArray = sourceIds.split(",");
-                                    if(isBuy(sourceArray,id)){
+                                    if(isBuyVip(sourceArray,id)){
                                         isBuy = true;
                                         return;
                                     }
@@ -161,7 +161,7 @@ public class CreateNewActivity extends BaseActivity implements CustomWebViewDele
         });
     }
 
-    public static boolean isBuy(String[] arr, String targetValue) {
+    public static boolean isBuyVip(String[] arr, String targetValue) {
         return Arrays.asList(arr).contains(targetValue);
     }
 

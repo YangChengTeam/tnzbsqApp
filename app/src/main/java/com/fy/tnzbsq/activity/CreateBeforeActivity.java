@@ -17,29 +17,49 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.fy.tnzbsq.App;
 import com.fy.tnzbsq.R;
+import com.fy.tnzbsq.bean.ImageCreateRet;
+import com.fy.tnzbsq.bean.Result;
 import com.fy.tnzbsq.bean.ZBDataFieldInfo;
 import com.fy.tnzbsq.bean.ZBDataInfo;
 import com.fy.tnzbsq.common.Contants;
+import com.fy.tnzbsq.common.Server;
 import com.fy.tnzbsq.net.OKHttpRequest;
+import com.fy.tnzbsq.net.listener.OnResponseListener;
 import com.fy.tnzbsq.util.HeadImageUtils;
+import com.fy.tnzbsq.util.PreferencesUtils;
 import com.fy.tnzbsq.util.SizeUtils;
+import com.fy.tnzbsq.view.ChargeDialog;
+import com.fy.tnzbsq.view.CustomProgress;
 import com.fy.tnzbsq.view.GlideCircleTransform;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.jaeger.library.StatusBarUtil;
 import com.kk.utils.ToastUtil;
 import com.orhanobut.logger.Logger;
+import com.umeng.analytics.MobclickAgent;
+
+import org.kymjs.kjframe.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import me.iwf.photopicker.PhotoPicker;
+
+import static android.R.attr.id;
 
 /**
  * Created by admin on 2017/8/29.
@@ -72,6 +92,12 @@ public class CreateBeforeActivity extends BaseAppActivity {
     private int cWidth;
 
     private int cHeight;
+
+    private boolean isBuy = false;
+
+    private CustomProgress dialog;
+
+    private boolean isChooseImage;
 
     @Override
     protected int getLayoutId() {
@@ -123,6 +149,8 @@ public class CreateBeforeActivity extends BaseAppActivity {
             int tHeight = SizeUtils.dp2px(this, 38);
             int tMargin = SizeUtils.dp2px(this, 42);
 
+            Map<String, String> requestData = new HashMap<String, String>();
+            Logger.e("create field --->" + mZbDataInfo.field.size());
             for (int i = 0; i < mZbDataInfo.field.size(); i++) {
                 ZBDataFieldInfo zField = mZbDataInfo.field.get(i);
                 if (zField.is_hide == 0) {
@@ -144,7 +172,7 @@ public class CreateBeforeActivity extends BaseAppActivity {
                         LinearLayout.LayoutParams sParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                         sParams.setMargins(tMargin + SizeUtils.dp2px(this, 10), 0, tMargin, SizeUtils.dp2px(this, 10));
                         sParams.gravity = Gravity.CENTER;
-                        Spinner niceSpinner = new Spinner(this);
+                        final Spinner niceSpinner = new Spinner(this);
 
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item);
                         adapter.setDropDownViewResource(R.layout.spinner_item_text);
@@ -162,7 +190,8 @@ public class CreateBeforeActivity extends BaseAppActivity {
                         niceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                ToastUtil.toast(CreateBeforeActivity.this, dataSet.get(position));
+                                niceSpinner.setContentDescription(dataSet.get(position));
+                                //ToastUtil.toast(CreateBeforeActivity.this, view.getContentDescription().toString());
                             }
 
                             @Override
@@ -212,21 +241,34 @@ public class CreateBeforeActivity extends BaseAppActivity {
                             }
                         });
                     }
+                } else {
+                    EditText hideEv = new EditText(this);
+                    hideEv.setVisibility(View.GONE);
+                    LinearLayout.LayoutParams hParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    hParams.gravity = Gravity.CENTER;
+                    mCreateTypeLayout.addView(hideEv, hParams);
                 }
             }
 
             //生成按钮
-            Button createBtn = new Button(this);
+            final Button createBtn = new Button(this);
             createBtn.setBackgroundResource(R.drawable.common_btn_selector);
             createBtn.setText("一键生成");
             createBtn.setTextColor(ContextCompat.getColor(this, R.color.white));
 
-            LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, tHeight);
+            LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, tHeight + 6);
             btnParams.gravity = Gravity.CENTER;
             btnParams.setMargins(tMargin, SizeUtils.dp2px(this, 10), tMargin, SizeUtils.dp2px(this, 30));
             mCreateTypeLayout.addView(createBtn, btnParams);
 
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+            createBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    createImage();
+                }
+            });
         }
     }
 
@@ -234,6 +276,67 @@ public class CreateBeforeActivity extends BaseAppActivity {
     protected void initData(Bundle savedInstanceState) {
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+
+        if (App.loginUser != null) {
+            getUserIsBuy();
+        }
+    }
+
+    public void getUserIsBuy() {
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("goods_id", mZbDataInfo != null ? mZbDataInfo.id : "");
+        params.put("user_id", App.loginUser.id + "");
+
+        okHttpRequest.aget(Server.URL_USER_SOURCE_STATE, params, new OnResponseListener() {
+            @Override
+            public void onSuccess(String response) {
+                if (response != null) {
+                    try {
+                        Result result = Contants.gson.fromJson(response, new TypeToken<Result>() {
+                        }.getType());
+                        if (result != null && result.errCode.equals("0")) {
+                            isBuy = true;
+                            return;
+                        } else {
+                            String sourceIdsKey = App.loginUser != null ? App.loginUser.id + "_ids" : App.ANDROID_ID + "_ids";
+                            String sourceIds = PreferencesUtils.getString(context, sourceIdsKey);
+                            if (!StringUtils.isEmpty(sourceIds)) {
+                                String[] sourceArray = sourceIds.split(",");
+                                if (isBuyVip(sourceArray, id + "")) {
+                                    isBuy = true;
+                                    return;
+                                }
+                            }
+                        }
+                    } catch (JsonSyntaxException e) {
+                        e.printStackTrace();
+                    } finally {
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+
+            @Override
+            public void onBefore() {
+
+            }
+        });
+    }
+
+    public static boolean isBuyVip(String[] arr, String targetValue) {
+        return Arrays.asList(arr).contains(targetValue);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -275,8 +378,176 @@ public class CreateBeforeActivity extends BaseAppActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            isChooseImage = true;
             HeadImageUtils.imgResultPath = tempFile.getAbsolutePath();
             Glide.with(this).load(tempFile).transform(new GlideCircleTransform(context)).into(createSelectImageView);
         }
+    }
+
+
+    public void createImage() {
+
+        boolean isAuth = false;
+
+        if (mZbDataInfo.is_vip.equals("0")) {
+            isAuth = true;
+        } else {
+            if (App.loginUser == null) {
+                Intent intent = new Intent(context, LoginActivity.class);
+                startActivity(intent);
+                return;
+            } else {
+                if (App.loginUser.is_vip == 1) {
+                    isAuth = true;
+                } else {
+                    if (isBuy) {
+                        isAuth = true;
+                    }
+                }
+            }
+        }
+
+        if (!isAuth) {
+            ChargeDialog dialog = new ChargeDialog(CreateBeforeActivity.this, mZbDataInfo != null ? mZbDataInfo.id : "");
+            dialog.showChargeDialog(dialog);
+            return;
+        }
+
+        if (dialog == null) {
+            dialog = CustomProgress.create(context, "正在生成图片...", true, null);
+        }
+
+        dialog.show();
+
+        Map<String, String> requestData = new HashMap<String, String>();
+        if (mCreateTypeLayout != null) {
+            boolean isValidate = true;
+            for (int i = 0; i < mCreateTypeLayout.getChildCount(); i++) {
+                if (mCreateTypeLayout.getChildAt(i) instanceof EditText) {
+                    EditText iEditText = (EditText) mCreateTypeLayout.getChildAt(i);
+                    if (StringUtils.isEmpty(iEditText.getText()) && iEditText.getVisibility() == View.VISIBLE) {
+                        ToastUtil.toast(this, "请输入值");
+                        isValidate = false;
+                        break;
+                    } else {
+                        requestData.put(i + "", iEditText.getText().toString());
+                    }
+                    continue;
+                }
+
+                if (mCreateTypeLayout.getChildAt(i) instanceof Spinner) {
+                    Spinner iSpinner = (Spinner) mCreateTypeLayout.getChildAt(i);
+                    if (StringUtils.isEmpty(iSpinner.getContentDescription())) {
+                        ToastUtil.toast(this, "请选择值");
+                        isValidate = false;
+                        break;
+                    } else {
+                        requestData.put(i + "", iSpinner.getContentDescription().toString());
+                    }
+                    continue;
+                }
+                if (mCreateTypeLayout.getChildAt(i) instanceof RelativeLayout) {
+                    RelativeLayout tempLayout = (RelativeLayout) mCreateTypeLayout.getChildAt(i);
+                    for (int j = 0; j < tempLayout.getChildCount(); j++) {
+                        if (tempLayout.getChildAt(j) instanceof ImageView) {
+                            requestData.put(i + "", "");
+                            break;
+                        }
+                    }
+                    continue;
+                }
+            }
+
+            if (isValidate) {
+                Logger.e("create field json data--->" + JSON.toJSONString(requestData) + "file path--->" + HeadImageUtils.imgResultPath);
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("id", mZbDataInfo != null ? mZbDataInfo.id : "");
+                params.put("mime", App.ANDROID_ID);
+
+                if (requestData.size() > 0) {
+                    params.put("requestData", JSON.toJSONString(requestData));
+                }
+
+                if (isChooseImage) {
+                    okHttpRequest.aget(Server.URL_IMAGE_CREATE, params, new File(HeadImageUtils.imgResultPath), new OnResponseListener() {
+                        @Override
+                        public void onSuccess(String response) {
+
+                            if (dialog != null && dialog.isShowing()) {
+                                dialog.dismiss();
+                            }
+                            doResult(response);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                        }
+
+                        @Override
+                        public void onBefore() {
+                        }
+                    });
+                } else {
+                    okHttpRequest.aget(Server.URL_IMAGE_CREATE, params, new OnResponseListener() {
+                        @Override
+                        public void onSuccess(String response) {
+
+                            if (dialog != null && dialog.isShowing()) {
+                                dialog.dismiss();
+                            }
+                            doResult(response);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                        }
+
+                        @Override
+                        public void onBefore() {
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    public void doResult(String response) {
+        if (response != null) {
+            Logger.e("create result --- >" + response);
+            try {
+                ImageCreateRet res = Contants.gson.fromJson(response, new TypeToken<ImageCreateRet>() {
+                }.getType());
+                if (Result.checkResult(CreateBeforeActivity.this, res)) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("imagePath", res.data);
+                    bundle.putString("createTitle", mZbDataInfo != null ? mZbDataInfo.title : "");
+
+                    Intent intent = new Intent(CreateBeforeActivity.this, ResultActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(CreateBeforeActivity.this, "生成失败,请稍后重试!", Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(CreateBeforeActivity.this, "生成失败,请稍后重试!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        HeadImageUtils.imgPath = null;
+        HeadImageUtils.imgResultPath = null;
     }
 }

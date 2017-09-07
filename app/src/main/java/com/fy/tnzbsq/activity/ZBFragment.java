@@ -2,6 +2,7 @@ package com.fy.tnzbsq.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,7 +41,10 @@ import butterknife.ButterKnife;
  * Created by admin on 2017/8/24.
  */
 
-public class ZBFragment extends CustomBaseFragment {
+public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+
+    @BindView(R.id.swipe)
+    SwipeRefreshLayout swipeLayout;
 
     @BindView(R.id.loading_layout)
     LinearLayout mLoadingLayout;
@@ -99,6 +103,13 @@ public class ZBFragment extends CustomBaseFragment {
     }
 
     public void init() {
+        swipeLayout.setColorSchemeResources(
+                android.R.color.holo_red_light,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_blue_light);
+        swipeLayout.setOnRefreshListener(this);
+
         okHttpRequest = new OKHttpRequest();
 
         zbDataAdapter = new ZBDataAdapter(getActivity(), null);
@@ -111,7 +122,18 @@ public class ZBFragment extends CustomBaseFragment {
             public void OnBannerClick(int position) {
                 Intent intent = new Intent(getActivity(), CategoryActivity.class);
                 if (mSlideInfoList != null && mSlideInfoList.get(position) != null) {
-                    intent.putExtra("title", mSlideInfoList.get(position).title);
+                    intent.putExtra("banner_id", mSlideInfoList.get(position).id);
+                }
+                startActivity(intent);
+            }
+        });
+
+        zbTypeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(getActivity(), CategoryActivity.class);
+                if (zbTypeAdapter.getData() != null) {
+                    intent.putExtra("type_id", zbTypeAdapter.getData().get(position).id);
                 }
                 startActivity(intent);
             }
@@ -126,6 +148,13 @@ public class ZBFragment extends CustomBaseFragment {
                 startActivity(intent);
             }
         });
+
+        zbDataAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                loadData();
+            }
+        }, mDataListView);
     }
 
     public void loadData() {
@@ -136,16 +165,22 @@ public class ZBFragment extends CustomBaseFragment {
         okHttpRequest.aget(Server.URL_ALL_DATA, params, new OnResponseListener() {
             @Override
             public void onSuccess(String response) {
+                swipeLayout.setRefreshing(false);
                 if (!StringUtils.isEmpty(response)) {
                     ZBDataListRet result = Contants.gson.fromJson(response, ZBDataListRet.class);
                     if (result != null) {
                         Logger.e("data size--->" + result.data.size());
                         mLoadingLayout.setVisibility(View.GONE);
                         zbTypeAdapter.setNewData(result.channel);
-                        zbDataAdapter.setNewData(result.data);
+
+                        if (currentPage == 1) {
+                            zbDataAdapter.setNewData(result.data);
+                        } else {
+                            zbDataAdapter.addData(result.data);
+                        }
 
                         //设置banner图
-                        if (result.banner != null) {
+                        if (result.banner != null && currentPage == 1) {
                             mSlideInfoList = result.banner;
                             List<String> imgUrls = new ArrayList<String>();
                             for (int i = 0; i < result.banner.size(); i++) {
@@ -158,18 +193,34 @@ public class ZBFragment extends CustomBaseFragment {
                                     .setImages(imgUrls)
                                     .start();
                         }
+
+                        if (result.data.size() == 20) {
+                            currentPage++;
+                            zbDataAdapter.loadMoreComplete();
+                        } else {
+                            zbDataAdapter.loadMoreEnd();
+                        }
                     }
                 }
             }
 
             @Override
             public void onError(Exception e) {
+                swipeLayout.setRefreshing(false);
             }
 
             @Override
             public void onBefore() {
+                swipeLayout.setRefreshing(false);
             }
         });
+    }
+
+    @Override
+    public void onRefresh() {
+        currentPage = 1;
+        mSlideInfoList.clear();
+        loadData();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.fy.tnzbsq.net;
 
 
+import com.fy.tnzbsq.common.Contants;
 import com.fy.tnzbsq.net.listener.OnResponseListener;
 import com.orhanobut.logger.Logger;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -29,7 +30,7 @@ public class OKHttpRequest {
 
             @Override
             public void onResponse(String response, int id) {
-                //Logger.e("--- data success---" + response);
+                Logger.e("--- data success---" + response);
                 if (onResponseListener != null) {
                     onResponseListener.onSuccess(response);
                 }
@@ -43,8 +44,8 @@ public class OKHttpRequest {
     }
 
     public void aget(String url, Map<String, String> params, File upFile, final OnResponseListener onResponseListener) {
-
-        OkHttpUtils.post().addFile("img","img",upFile).params(params).url(url).build().execute(new StringCallback() {
+        String fileName = Contants.BASE_NORMAL_FILE_DIR + File.separator + System.currentTimeMillis() + (int) (Math.random() * 10000) + ".jpg";
+        OkHttpUtils.post().addHeader("Cookie", "cookie_tnzbsq").params(params).addFile("img", fileName, upFile).url(url).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
                 Logger.e("---data error---");

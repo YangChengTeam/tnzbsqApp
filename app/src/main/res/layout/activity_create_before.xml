@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/bg_color">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bg_color"
+                android:gravity="center">
 
-    <LinearLayout
+    <include
+        android:id="@+id/toolbarContainer"
+        layout="@layout/toolbar_layout"></include>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <include
-            android:id="@+id/toolbarContainer"
-            layout="@layout/toolbar_layout"></include>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbarContainer"
+        android:background="@color/bg_color">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -54,5 +56,6 @@
                     android:src="@drawable/main_loading_gif"/>
             </LinearLayout>
         </FrameLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+
+</RelativeLayout>
