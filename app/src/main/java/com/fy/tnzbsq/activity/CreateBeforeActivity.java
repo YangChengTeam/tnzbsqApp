@@ -152,7 +152,7 @@ public class CreateBeforeActivity extends BaseAppActivity {
         if (mZbDataInfo != null && mZbDataInfo.field != null) {
 
             int paddingLeft = SizeUtils.dp2px(this, 10);
-            int textSize = SizeUtils.sp2px(this, 6);
+            int textSize = SizeUtils.sp2px(this, 5);
             int tHeight = SizeUtils.dp2px(this, 38);
             int tMargin = SizeUtils.dp2px(this, 42);
 
@@ -177,7 +177,7 @@ public class CreateBeforeActivity extends BaseAppActivity {
                     if (zField.input_type == 1) {
 
                         LinearLayout.LayoutParams sParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                        sParams.setMargins(tMargin + SizeUtils.dp2px(this, 10), 0, tMargin, SizeUtils.dp2px(this, 10));
+                        sParams.setMargins(tMargin, 0, tMargin, SizeUtils.dp2px(this, 10));
                         sParams.gravity = Gravity.CENTER;
                         final Spinner niceSpinner = new Spinner(this);
 
@@ -187,7 +187,9 @@ public class CreateBeforeActivity extends BaseAppActivity {
 
                         if (zField.select != null && zField.select.size() > 0) {
                             for (int j = 0; j < zField.select.size(); j++) {
-                                dataSet.add(zField.select.get(j).opt_text);
+                                if(!zField.select.get(j).opt_text.equals("自定义文字")){
+                                    dataSet.add(zField.select.get(j).opt_text);
+                                }
                             }
                         }
                         adapter.addAll(dataSet);
@@ -394,38 +396,6 @@ public class CreateBeforeActivity extends BaseAppActivity {
 
     public void createImage() {
 
-        boolean isAuth = false;
-
-        if (mZbDataInfo.is_vip == 0) {
-            isAuth = true;
-        } else {
-            if (App.loginUser == null) {
-                Intent intent = new Intent(context, LoginActivity.class);
-                startActivity(intent);
-                return;
-            } else {
-                if (App.loginUser.is_vip == 1) {
-                    isAuth = true;
-                } else {
-                    if (isBuy) {
-                        isAuth = true;
-                    }
-                }
-            }
-        }
-
-        if (!isAuth) {
-            ChargeDialog dialog = new ChargeDialog(CreateBeforeActivity.this, mZbDataInfo != null ? mZbDataInfo.id : "");
-            dialog.showChargeDialog(dialog);
-            return;
-        }
-
-        if (dialog == null) {
-            dialog = CustomProgress.create(context, "正在生成图片...", true, null);
-        }
-
-        dialog.show();
-
         Map<String, String> requestData = new HashMap<String, String>();
         if (mCreateTypeLayout != null) {
             boolean isValidate = true;
@@ -466,6 +436,39 @@ public class CreateBeforeActivity extends BaseAppActivity {
             }
 
             if (isValidate) {
+
+                boolean isAuth = false;
+
+                if (mZbDataInfo.is_vip == 0) {
+                    isAuth = true;
+                } else {
+                    if (App.loginUser == null) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        startActivity(intent);
+                        return;
+                    } else {
+                        if (App.loginUser.is_vip == 1) {
+                            isAuth = true;
+                        } else {
+                            if (isBuy) {
+                                isAuth = true;
+                            }
+                        }
+                    }
+                }
+                isAuth = true;
+                if (!isAuth) {
+                    ChargeDialog dialog = new ChargeDialog(CreateBeforeActivity.this, mZbDataInfo != null ? mZbDataInfo.id : "");
+                    dialog.showChargeDialog(dialog);
+                    return;
+                }
+
+                if (dialog == null) {
+                    dialog = CustomProgress.create(context, "正在生成图片...", true, null);
+                }
+
+                dialog.show();
+
                 Logger.e("create field json data--->" + JSON.toJSONString(requestData) + "file path--->" + HeadImageUtils.imgResultPath);
 
                 Map<String, String> params = new HashMap<String, String>();

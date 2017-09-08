@@ -134,6 +134,7 @@
                     android:drawablePadding="1dp"
                     android:gravity="center"
                     android:text="收藏"
+                    android:visibility="gone"
                     android:textColor="@color/black1"
                     android:textSize="12sp"/>
             </RelativeLayout>

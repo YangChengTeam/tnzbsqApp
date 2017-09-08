@@ -180,6 +180,7 @@ public class ResultActivity extends BaseAppActivity {
             }
         });
 
+
         Glide.with(this).load(imagePath).asBitmap().toBytes().into(new SimpleTarget<byte[]>() {
             @Override
             public void onResourceReady(byte[] resource, GlideAnimation<? super byte[]> glideAnimation) {

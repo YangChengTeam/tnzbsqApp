@@ -1,15 +1,20 @@
 package com.fy.tnzbsq.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.fy.tnzbsq.R;
@@ -22,12 +27,18 @@ import com.fy.tnzbsq.common.Server;
 import com.fy.tnzbsq.net.OKHttpRequest;
 import com.fy.tnzbsq.net.listener.OnResponseListener;
 import com.fy.tnzbsq.util.CommUtils;
+import com.fy.tnzbsq.util.NetUtil;
 import com.fy.tnzbsq.util.StringUtils;
 import com.fy.tnzbsq.view.BannerImageLoader;
+import com.fy.tnzbsq.view.NotifyUtil;
+import com.liulishuo.filedownloader.BaseDownloadTask;
+import com.liulishuo.filedownloader.FileDownloadListener;
+import com.liulishuo.filedownloader.FileDownloader;
 import com.orhanobut.logger.Logger;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +52,7 @@ import butterknife.ButterKnife;
  * Created by admin on 2017/8/24.
  */
 
-public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout.OnRefreshListener,MainActivity.CurrentTabIndex {
+public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout.OnRefreshListener, MainActivity.CurrentTabIndex {
 
     @BindView(R.id.swipe)
     SwipeRefreshLayout swipeLayout;
@@ -67,6 +78,32 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
     List<SlideInfo> mSlideInfoList;
 
     private MainActivity.CurrentTabIndex currentTabIndex;
+
+    private LinearLayout zbsqAdLayout;
+
+    private int downloadId = 0;
+
+    int progresses = 0;
+
+    int total = 0;
+
+    File gameAdFile;
+
+    private void showProgress() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                    /*if (progresses > total) {
+                        return;
+                    }*/
+
+                NotifyUtil.buildProgress(10201, R.mipmap.game_ad_logo, "正在下载", progresses, total, "下载进度:%dM/%dM").show();//"下载进度:%d%%"
+                showProgress();
+
+            }
+        }, 100);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,17 +136,20 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
         View headView = getActivity().getLayoutInflater().inflate(R.layout.zb_fragment_head_view, (ViewGroup) mDataListView.getParent(), false);
         mZbTypeView = ButterKnife.findById(headView, R.id.zb_type_list);
         mBanner = ButterKnife.findById(headView, R.id.banner);
+        zbsqAdLayout = ButterKnife.findById(headView, R.id.zbsq_ad_layout);
         mZbTypeView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         mZbTypeView.setAdapter(zbTypeAdapter);
         return headView;
     }
+
     @Override
     public void currentSelect(int index) {
 
     }
+
     public void init() {
         currentTabIndex = this;
-        ((MainActivity)getActivity()).setCurrentTabIndex(currentTabIndex);
+        ((MainActivity) getActivity()).setCurrentTabIndex(currentTabIndex);
         swipeLayout.setColorSchemeResources(
                 android.R.color.holo_red_light,
                 android.R.color.holo_green_light,
@@ -162,6 +202,93 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
                 loadData();
             }
         }, mDataListView);
+
+        zbsqAdLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adDown();
+            }
+        });
+    }
+
+    public void adDown() {
+        //已安装，直接启动
+        if (CommUtils.appInstalled(getActivity(), "com.tencent.tmgp.sgame")) {
+
+            PackageManager packageManager = getActivity().getPackageManager();
+            Intent intent = new Intent();
+            intent = packageManager.getLaunchIntentForPackage("com.tencent.tmgp.sgame");
+            getActivity().startActivity(intent);
+        } else {
+            final File fileDir = new File(Contants.BASE_NORMAL_FILE_DIR);
+            if (!fileDir.exists()) {
+                fileDir.mkdirs();
+            }
+
+            gameAdFile = new File(fileDir + "/10005700_com.tencent.tmgp.sgame_u146_1.20.1.21.apk");
+
+            try {
+                if (gameAdFile.exists()) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setDataAndType(Uri.fromFile(gameAdFile), "application/vnd.android.package-archive");
+                    getActivity().startActivity(intent);
+                } else {
+
+                    if (NetUtil.isWIFIConnected(getActivity())) {
+                        Toast.makeText(getActivity(), "王者荣耀送金币版下载中", Toast.LENGTH_LONG).show();
+                        String gameUrl = "http://tj.tt1386.com/452465851/0070000";
+                        showProgress();
+                        FileDownloader.setup(getActivity());
+                        downloadId = FileDownloader.getImpl().create(gameUrl).setPath(fileDir + "/10005700_com.tencent.tmgp.sgame_u146_1.20.1.21.apk", false).setListener(new FileDownloadListener() {
+                            @Override
+                            protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                                total = totalBytes / 1024 / 1024;
+                            }
+
+                            @Override
+                            protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                                total = totalBytes / 1024 / 1024;
+                                progresses = soFarBytes / 1024 / 1024;
+                                Log.e("progress total", "progress total--->" + total);
+                                Log.e("progress", "progress--->" + progresses);
+                            }
+
+                            @Override
+                            protected void completed(BaseDownloadTask task) {
+                                progresses = total;
+                                Log.e("completed progress", " completed progress--->" + progresses);
+                                NotifyUtil.cancelAll();
+                                //FileDownloader.getImpl().clearAllTaskData();
+                                if (gameAdFile.exists()) {
+                                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.setDataAndType(Uri.fromFile(gameAdFile), "application/vnd.android.package-archive");
+                                    getActivity().startActivity(intent);
+                                }
+                            }
+
+                            @Override
+                            protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+
+                            }
+
+                            @Override
+                            protected void error(BaseDownloadTask task, Throwable e) {
+
+                            }
+
+                            @Override
+                            protected void warn(BaseDownloadTask task) {
+
+                            }
+                        }).start();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void loadData() {
@@ -173,6 +300,7 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
             @Override
             public void onSuccess(String response) {
                 swipeLayout.setRefreshing(false);
+                zbsqAdLayout.setVisibility(View.VISIBLE);
                 if (!StringUtils.isEmpty(response)) {
                     ZBDataListRet result = Contants.gson.fromJson(response, ZBDataListRet.class);
                     if (result != null) {

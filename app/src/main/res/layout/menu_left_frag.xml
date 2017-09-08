@@ -74,11 +74,13 @@
             android:id="@+id/my_keep_tv"
             style="@style/tab_style"
             android:drawableLeft="@mipmap/keep_icon"
+            android:visibility="gone"
             android:text="@string/keep_name"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:visibility="gone"
             android:background="#e7e3e2"/>
 
         <TextView
