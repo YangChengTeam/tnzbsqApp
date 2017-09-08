@@ -41,7 +41,7 @@ import butterknife.ButterKnife;
  * Created by admin on 2017/8/24.
  */
 
-public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout.OnRefreshListener,MainActivity.CurrentTabIndex {
 
     @BindView(R.id.swipe)
     SwipeRefreshLayout swipeLayout;
@@ -65,6 +65,8 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
     private int currentPage = 1;
 
     List<SlideInfo> mSlideInfoList;
+
+    private MainActivity.CurrentTabIndex currentTabIndex;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -101,8 +103,13 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
         mZbTypeView.setAdapter(zbTypeAdapter);
         return headView;
     }
+    @Override
+    public void currentSelect(int index) {
 
+    }
     public void init() {
+        currentTabIndex = this;
+        ((MainActivity)getActivity()).setCurrentTabIndex(currentTabIndex);
         swipeLayout.setColorSchemeResources(
                 android.R.color.holo_red_light,
                 android.R.color.holo_green_light,

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.fy.tnzbsq.App;
 import com.fy.tnzbsq.R;
@@ -20,6 +21,7 @@ import com.fy.tnzbsq.bean.User;
 import com.fy.tnzbsq.util.HeadImageUtils;
 import com.fy.tnzbsq.util.PreferencesUtils;
 import com.fy.tnzbsq.view.TabLineLayout;
+import com.hwangjr.rxbus.RxBus;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import org.kymjs.kjframe.KJBitmap;
@@ -45,7 +47,9 @@ public abstract class BaseFragment extends Fragment implements OnClickListener, 
     /**
      * 右菜单按钮
      */
-    private ImageButton rightMenuBtn;
+    private ImageView rightMenuBtn;
+
+    private int currentIndex;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -63,10 +67,11 @@ public abstract class BaseFragment extends Fragment implements OnClickListener, 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        RxBus.get().register(this);
         rootView = initView(inflater);
         leftMenuBtn = (ImageButton) rootView.findViewById(R.id.main_title_more_icon);
         leftMenuUserImg = (RoundImageView) rootView.findViewById(R.id.main_user_icon);
-        rightMenuBtn = (ImageButton) rootView.findViewById(R.id.main_search_icon);
+        rightMenuBtn = (ImageView) rootView.findViewById(R.id.main_search_icon);
         leftMenuBtn.setOnClickListener(this);
         leftMenuUserImg.setOnClickListener(this);
         rightMenuBtn.setOnClickListener(this);
@@ -84,7 +89,7 @@ public abstract class BaseFragment extends Fragment implements OnClickListener, 
 
         User user = (User) PreferencesUtils.getObject(ct, "login_user", User.class);
         App.loginUser = user;
-        if(App.loginUser != null){
+        if (App.loginUser != null) {
             setUserImage(App.loginUser.logo);
         }
     }
@@ -105,6 +110,13 @@ public abstract class BaseFragment extends Fragment implements OnClickListener, 
             case R.id.main_search_icon: // 点击右边按钮，右菜单缩放
                 Intent intent = new Intent(getActivity(), SearchActivity.class);
                 startActivity(intent);
+                /*if (currentIndex == 0) {
+                    Intent intent = new Intent(getActivity(), SearchActivity.class);
+                    startActivity(intent);
+                }
+                if (currentIndex == 2) {
+                    RxBus.get().post(Contants.COMMUNITY_ADD, "1");
+                }*/
                 break;
             default:
                 break;
@@ -133,6 +145,7 @@ public abstract class BaseFragment extends Fragment implements OnClickListener, 
 
 
     public void tabFragment(int index) {
+        currentIndex = index;
         if (index == 0) {
             if (rightMenuBtn.getVisibility() == View.GONE) {
                 rightMenuBtn.setVisibility(View.VISIBLE);

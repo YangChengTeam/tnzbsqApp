@@ -101,4 +101,6 @@ public class Contants {
 
 	public static final String GAME_PACKAGE_NAME = "com.regin.dgsd.leqi6071";
 
+    public static final String COMMUNITY_ADD = "community_add";
+
 }

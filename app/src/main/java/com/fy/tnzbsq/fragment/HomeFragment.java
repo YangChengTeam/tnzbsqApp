@@ -1,10 +1,10 @@
 package com.fy.tnzbsq.fragment;
 
-import com.fy.tnzbsq.R;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import com.fy.tnzbsq.R;
 
 public class HomeFragment extends BaseFragment {
 

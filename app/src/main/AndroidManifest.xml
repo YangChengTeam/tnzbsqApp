@@ -271,6 +271,9 @@
         </activity>
 
         <activity
+            android:name=".activity.CommunityImageShowActivity"
+            android:theme="@style/ImageShowStyle"/>
+        <activity
             android:name="me.iwf.photopicker.PhotoPickerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             />

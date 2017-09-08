@@ -122,8 +122,10 @@ public class CreateBeforeActivity extends BaseAppActivity {
                         mCreateBgImageView.setImageBitmap(resource);
                         mLoadingLayout.setVisibility(View.GONE);
                         Logger.e("w-->" + resource.getWidth() + "---h-->" + resource.getHeight());
+                        createInputView();
                     }
                 });
+
             }
         } else {
             mToolbar.setTitle("素材制作");
@@ -141,6 +143,11 @@ public class CreateBeforeActivity extends BaseAppActivity {
 
     @Override
     protected void initViews() {
+
+    }
+
+
+    protected void createInputView() {
 
         if (mZbDataInfo != null && mZbDataInfo.field != null) {
 
@@ -389,7 +396,7 @@ public class CreateBeforeActivity extends BaseAppActivity {
 
         boolean isAuth = false;
 
-        if (mZbDataInfo.is_vip.equals("0")) {
+        if (mZbDataInfo.is_vip == 0) {
             isAuth = true;
         } else {
             if (App.loginUser == null) {

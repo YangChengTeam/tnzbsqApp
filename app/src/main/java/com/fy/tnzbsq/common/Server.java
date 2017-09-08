@@ -52,4 +52,6 @@ public class Server {
 	public final static String CATEGORY_LIST_URL = URL_SERVER_IP + "m=Home&c=zbsq&a=getCateList";
 	//24、Banner列表
 	public final static String BANNER_LIST_URL = URL_SERVER_IP + "m=Home&c=zbsq&a=getSlideMore";
+	//25、帖子列表
+	public final static String NOTE_LIST_URL = URL_SERVER_IP + "m=Api&c=note&a=notelist";
 }

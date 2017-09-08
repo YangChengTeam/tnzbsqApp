@@ -310,6 +310,8 @@ public class MainActivity extends SlidingFragmentActivity implements TabLineLayo
                 CustomWebOtherFragment customWebOtherFragment = new CustomWebOtherFragment();
                 customWebOtherFragment.url = urls[i];
                 customWebFragments.add(customWebOtherFragment);
+                //CommunityFragment communityFragment = new CommunityFragment();
+                //customWebFragments.add(communityFragment);
             }
         }
     }

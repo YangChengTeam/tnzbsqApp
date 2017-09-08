@@ -23,7 +23,7 @@ public class ZBDataInfo implements Serializable {
     public String collect_num;
     public String add_time;
     public String sort;
-    public String is_vip;
+    public int is_vip;
     public String price;
     public String name;
     public String seven;

@@ -1,1 +1,1 @@
-include ':app', ':SlidingMenu', ':pay', ':iapppay_plugin', ':banner'
+include ':app', ':SlidingMenu', ':pay', ':iapppay_plugin', ':banner', ':rxbus'

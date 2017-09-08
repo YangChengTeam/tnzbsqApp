@@ -16,7 +16,7 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -26,7 +26,15 @@
                 android:layout_height="80dp"
                 android:layout_marginLeft="8dp"
                 android:src="@mipmap/acts_default"/>
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/iv_is_lock"
+                android:layout_gravity="top|right"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/lock_icon"/>
+        </FrameLayout>
 
         <RelativeLayout
             android:layout_width="0dp"

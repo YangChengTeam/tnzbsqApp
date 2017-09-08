@@ -29,6 +29,11 @@ public class ZBDataAdapter extends BaseQuickAdapter<ZBDataInfo, BaseViewHolder> 
                 .setText(R.id.tv_use_count, item.build_num);
         Glide.with(mContext).load(item.small_img)
                 .transform(new GlideRoundTransform(mContext, 1))
-                .into((ImageView)helper.getConvertView().findViewById(R.id.iv_zb_thumb));
+                .into((ImageView) helper.getConvertView().findViewById(R.id.iv_zb_thumb));
+        if (item.is_vip == 0) {
+            helper.setVisible(R.id.iv_is_lock, false);
+        } else {
+            helper.setVisible(R.id.iv_is_lock, true);
+        }
     }
 }

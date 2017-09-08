@@ -128,4 +128,9 @@
         <!-- item按下效果
         <item name="android:listSelector">@drawable/selector_bg_text</item>-->
     </style>
+
+    <style name="ImageShowStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
 </resources>

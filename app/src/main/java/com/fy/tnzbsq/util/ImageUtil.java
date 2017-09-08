@@ -1,14 +1,9 @@
 package com.fy.tnzbsq.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import com.fy.tnzbsq.common.Contants;
-
+import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -16,7 +11,18 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
+
+import com.fy.tnzbsq.R;
+import com.fy.tnzbsq.common.Contants;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 
 public class ImageUtil {
@@ -547,4 +553,33 @@ public class ImageUtil {
         }
         return Bitmap.createBitmap(argb, width, height, Bitmap.Config.ARGB_8888);
     }
+
+    /**
+     * 获取资源下的图片Uri
+     *
+     * @param context
+     * @return
+     */
+    public static Uri getAddUri(Context context) {
+        Uri addUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://"
+                + context.getResources().getResourcePackageName(R.mipmap.note_image_add_icon) + "/"
+                + context.getResources().getResourceTypeName(R.mipmap.note_image_add_icon) + "/"
+                + context.getResources().getResourceEntryName(R.mipmap.note_image_add_icon));
+        return addUri;
+    }
+
+    /**
+     * 根据
+     * @param context
+     * @param uri
+     * @return
+     */
+    public static String getPathBuUri(Context context, Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = ((Activity) context).getContentResolver().query(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+
 }

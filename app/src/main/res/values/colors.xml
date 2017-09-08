@@ -36,5 +36,5 @@
     <color name="more_line_color">#eeeeee</color>
     <color name="refresh_normal_color">#999999</color>
     <color name="refresh_select_color">#f28989</color>
-
+    <color name="black_alpha_30">#DFFFFFFF</color>
 </resources>

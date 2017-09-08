@@ -1,17 +1,20 @@
 package com.fy.tnzbsq.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Utils {
     public static final String TAG = "PushDemoActivity";
@@ -81,6 +84,25 @@ public class Utils {
         Editor editor = sp.edit();
         editor.putString("log_text", text);
         editor.commit();
+    }
+
+    @SuppressLint("NewApi")
+    public static boolean isValidContext(Context ctx) {
+        Activity activity = (Activity) ctx;
+
+        if (Build.VERSION.SDK_INT > 17) {
+            if (activity == null || activity.isDestroyed() || activity.isFinishing()) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            if (activity == null || activity.isFinishing()) {
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
 
 }
