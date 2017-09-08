@@ -1,63 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/result_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#f2f2f2"
-    android:gravity="center"
-    android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/result_layout"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#f2f2f2"
+              android:orientation="vertical" >
 
     <include
         android:id="@+id/title_layout"
-        layout="@layout/common_result_share"/>
+        layout="@layout/common_result_share" />
 
-    <ScrollView
+    <com.fy.tnzbsq.view.CustomWebView
+        android:id="@+id/webview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/title_layout">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="top">
-
-            <ImageView
-                android:id="@+id/iv_result"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|center"
-                android:layout_marginTop="18dp"/>
-
-            <LinearLayout
-                android:id="@+id/loading_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center">
-
-                <pl.droidsonroids.gif.GifImageView
-                    android:id="@+id/loading_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/main_loading_gif"/>
-            </LinearLayout>
-        </FrameLayout>
-    </ScrollView>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none" />
 
     <LinearLayout
         android:id="@+id/btn_layout"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center">
+        android:gravity="center|bottom" >
+
+        <!--
+        <TextView
+            android:id="@+id/save_btn"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/save_btn_bg"
+            android:drawableLeft="@drawable/save"
+            android:gravity="center"
+            android:paddingLeft="30dp"
+            android:paddingRight="10dp"
+            android:text="保存相册"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/share_btn"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/share_btn_bg"
+            android:drawableLeft="@drawable/fenxiang"
+            android:gravity="center"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
+            android:text="分享"
+            android:textColor="@color/white" />
+        -->
 
         <ImageView
             android:id="@+id/share_layout_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
-            android:src="@mipmap/share_app_bg"/>
+            android:src="@mipmap/share_app_bg" />
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

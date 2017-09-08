@@ -27,6 +27,7 @@ import com.fy.tnzbsq.App;
 import com.fy.tnzbsq.R;
 import com.fy.tnzbsq.bean.ImageCreateRet;
 import com.fy.tnzbsq.bean.Result;
+import com.fy.tnzbsq.bean.User;
 import com.fy.tnzbsq.bean.ZBDataFieldInfo;
 import com.fy.tnzbsq.bean.ZBDataInfo;
 import com.fy.tnzbsq.common.Contants;
@@ -139,6 +140,10 @@ public class CreateBeforeActivity extends BaseAppActivity {
                 finish();
             }
         });
+
+        User user = (User) PreferencesUtils.getObject(context, "login_user", User.class);
+        App.loginUser = user;
+
     }
 
     @Override
@@ -438,7 +443,6 @@ public class CreateBeforeActivity extends BaseAppActivity {
             if (isValidate) {
 
                 boolean isAuth = false;
-
                 if (mZbDataInfo.is_vip == 0) {
                     isAuth = true;
                 } else {
@@ -456,7 +460,6 @@ public class CreateBeforeActivity extends BaseAppActivity {
                         }
                     }
                 }
-                isAuth = true;
                 if (!isAuth) {
                     ChargeDialog dialog = new ChargeDialog(CreateBeforeActivity.this, mZbDataInfo != null ? mZbDataInfo.id : "");
                     dialog.showChargeDialog(dialog);

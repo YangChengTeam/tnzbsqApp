@@ -19,11 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fy.tnzbsq.R;
-import com.fy.tnzbsq.common.Contants;
-import com.hwangjr.rxbus.RxBus;
-import com.hwangjr.rxbus.annotation.Subscribe;
-import com.hwangjr.rxbus.annotation.Tag;
-import com.hwangjr.rxbus.thread.EventThread;
 import com.shizhefei.view.indicator.FixedIndicatorView;
 import com.shizhefei.view.indicator.Indicator;
 import com.shizhefei.view.indicator.slidebar.ColorBar;
@@ -80,7 +75,7 @@ public class CommunityFragment extends CustomBaseFragment implements SwipeRefres
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mRootView = inflater.inflate(R.layout.community_fragment, null);
         ButterKnife.bind(this, mRootView);
-        RxBus.get().register(this);
+        //RxBus.get().register(this);
         init();
         return mRootView;
     }
@@ -273,12 +268,12 @@ public class CommunityFragment extends CustomBaseFragment implements SwipeRefres
         }
     };
 
-    @Subscribe(
+    /*@Subscribe(
             thread = EventThread.MAIN_THREAD,
             tags = {
                     @Tag(Contants.COMMUNITY_ADD)
             }
-    )
+    )*/
     public void showMenu(String tag) {
         if (menuLayout.getVisibility() == View.INVISIBLE) {
             menuLayout.setVisibility(View.VISIBLE);

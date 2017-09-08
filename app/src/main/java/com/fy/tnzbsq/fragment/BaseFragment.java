@@ -21,7 +21,7 @@ import com.fy.tnzbsq.bean.User;
 import com.fy.tnzbsq.util.HeadImageUtils;
 import com.fy.tnzbsq.util.PreferencesUtils;
 import com.fy.tnzbsq.view.TabLineLayout;
-import com.hwangjr.rxbus.RxBus;
+
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import org.kymjs.kjframe.KJBitmap;
@@ -67,7 +67,7 @@ public abstract class BaseFragment extends Fragment implements OnClickListener, 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RxBus.get().register(this);
+       // RxBus.get().register(this);
         rootView = initView(inflater);
         leftMenuBtn = (ImageButton) rootView.findViewById(R.id.main_title_more_icon);
         leftMenuUserImg = (RoundImageView) rootView.findViewById(R.id.main_user_icon);

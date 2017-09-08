@@ -250,60 +250,60 @@ public class ShareActsDialog extends Dialog {
      * 纯图片分享
      * 分享到QQ或者QQ空间
 
-    private void shareToQQorQzone() {
+     private void shareToQQorQzone() {
 
-        new ShareAction((Activity) context).withText("")
-                .setPlatform(SHARE_MEDIA.QQ)
-                .setCallback(umShareListener).share();
+     new ShareAction((Activity) context).withText("")
+     .setPlatform(SHARE_MEDIA.QQ)
+     .setCallback(umShareListener).share();
 
-        //分享类型
-        Bundle params = new Bundle();
-        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_IMAGE);
-        params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, fileName);
-        App.mTencent.shareToQQ((Activity) context, params, new IUiListener() {
-            @Override
-            public void onComplete(Object o) {
-                if (isValidContext(context) && shareDialog != null) {
-                    shareDialog.dismiss();
-                    shareDialog = null;
-                }
-                try {
-                    Toast.makeText(context, "QQ分享成功啦", Toast.LENGTH_SHORT).show();
-                    closeShareDialog();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onError(UiError uiError) {
-                if (isValidContext(context) && shareDialog != null) {
-                    shareDialog.dismiss();
-                    shareDialog = null;
-                }
-                try {
-                    Toast.makeText(context, "QQ分享失败", Toast.LENGTH_SHORT).show();
-                    closeShareDialog();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onCancel() {
-                if (isValidContext(context) && shareDialog != null) {
-                    shareDialog.dismiss();
-                    shareDialog = null;
-                }
-                try {
-                    Toast.makeText(context, "QQ分享取消了", Toast.LENGTH_SHORT).show();
-                    closeShareDialog();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+     //分享类型
+     Bundle params = new Bundle();
+     params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_IMAGE);
+     params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, fileName);
+     App.mTencent.shareToQQ((Activity) context, params, new IUiListener() {
+    @Override
+    public void onComplete(Object o) {
+    if (isValidContext(context) && shareDialog != null) {
+    shareDialog.dismiss();
+    shareDialog = null;
     }
+    try {
+    Toast.makeText(context, "QQ分享成功啦", Toast.LENGTH_SHORT).show();
+    closeShareDialog();
+    } catch (Exception e) {
+    e.printStackTrace();
+    }
+    }
+
+    @Override
+    public void onError(UiError uiError) {
+    if (isValidContext(context) && shareDialog != null) {
+    shareDialog.dismiss();
+    shareDialog = null;
+    }
+    try {
+    Toast.makeText(context, "QQ分享失败", Toast.LENGTH_SHORT).show();
+    closeShareDialog();
+    } catch (Exception e) {
+    e.printStackTrace();
+    }
+    }
+
+    @Override
+    public void onCancel() {
+    if (isValidContext(context) && shareDialog != null) {
+    shareDialog.dismiss();
+    shareDialog = null;
+    }
+    try {
+    Toast.makeText(context, "QQ分享取消了", Toast.LENGTH_SHORT).show();
+    closeShareDialog();
+    } catch (Exception e) {
+    e.printStackTrace();
+    }
+    }
+    });
+     }
      */
 
 	/*public void saveImageToGallery(Context context, Bitmap bmp) {

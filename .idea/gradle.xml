@@ -13,7 +13,6 @@
             <option value="$PROJECT_DIR$/banner" />
             <option value="$PROJECT_DIR$/iapppay_plugin" />
             <option value="$PROJECT_DIR$/pay" />
-            <option value="$PROJECT_DIR$/rxbus" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

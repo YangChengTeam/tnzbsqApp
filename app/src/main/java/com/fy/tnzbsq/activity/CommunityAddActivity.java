@@ -16,17 +16,12 @@ import com.fy.tnzbsq.bean.CommunityInfo;
 import com.fy.tnzbsq.bean.UpFileInfo;
 import com.fy.tnzbsq.util.ImageUtil;
 import com.kk.utils.ToastUtil;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.PicassoEngine;
 
 import org.kymjs.kjframe.utils.StringUtils;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.BindView;
 
@@ -162,7 +157,7 @@ public class CommunityAddActivity extends BaseAppActivity {
 
 
     public void selectImages() {
-        Set<MimeType> sets = new HashSet<MimeType>();
+       /* Set<MimeType> sets = new HashSet<MimeType>();
         sets.add(MimeType.PNG);
         sets.add(MimeType.JPEG);
 
@@ -172,7 +167,7 @@ public class CommunityAddActivity extends BaseAppActivity {
                 .countable(true)
                 .maxSelectable(3)
                 .imageEngine(new PicassoEngine())
-                .forResult(REQUEST_CODE_CHOOSE);
+                .forResult(REQUEST_CODE_CHOOSE);*/
     }
 
     @Override
