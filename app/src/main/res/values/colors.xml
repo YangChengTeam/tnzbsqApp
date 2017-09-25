@@ -37,4 +37,8 @@
     <color name="refresh_normal_color">#999999</color>
     <color name="refresh_select_color">#f28989</color>
     <color name="black_alpha_30">#DFFFFFFF</color>
+    <color name="my_bg_color">#7ff1f1f1</color>
+
+    <color name="main_tab_text_color">#7e8272</color>
+    <color name="dialog_color">#b1b1b1</color>
 </resources>

@@ -1,14 +1,5 @@
 package com.fy.tnzbsq.activity;
 
-import org.kymjs.kjframe.KJActivity;
-import org.kymjs.kjframe.ui.BindView;
-
-import com.fy.tnzbsq.R;
-import com.fy.tnzbsq.bean.GameInfo;
-import com.fy.tnzbsq.common.CustomWebViewDelegate;
-import com.fy.tnzbsq.common.ServiceInterface;
-import com.fy.tnzbsq.view.CustomWebView;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -17,6 +8,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.fy.tnzbsq.R;
+import com.fy.tnzbsq.bean.GameInfo;
+import com.fy.tnzbsq.common.CustomWebViewDelegate;
+import com.fy.tnzbsq.common.ServiceInterface;
+import com.fy.tnzbsq.view.CustomWebView;
+
+import org.kymjs.kjframe.KJActivity;
+import org.kymjs.kjframe.ui.BindView;
 
 public class SearchActivity extends KJActivity implements CustomWebViewDelegate{ 
 
@@ -71,7 +71,7 @@ public class SearchActivity extends KJActivity implements CustomWebViewDelegate{
 				return;
 			}
 			
-			Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
+			Intent intent = new Intent(SearchActivity.this, SearchResult1Activity.class);
 			intent.putExtra("searchKey", searchKeyEv.getText().toString());
 			startActivity(intent);
 			
@@ -258,7 +258,7 @@ public class SearchActivity extends KJActivity implements CustomWebViewDelegate{
 
 		customWebView.loadUrl("javascript:addHotWord('"+temp+"');");
 
-		Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
+		Intent intent = new Intent(SearchActivity.this, SearchResult1Activity.class);
 		intent.putExtra("searchKey", keyword.toString());
 		startActivity(intent);
 	}

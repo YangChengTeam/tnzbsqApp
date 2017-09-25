@@ -1,10 +1,13 @@
 package com.fy.tnzbsq.util;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+
+import static com.fy.tnzbsq.util.NavgationBarUtils.checkDeviceHasNavigationBar;
 
 public final class SizeUtils {
 
@@ -161,5 +164,16 @@ public final class SizeUtils {
      */
     public static int getMeasuredHeight(final View view) {
         return measureView(view)[1];
+    }
+
+
+    public static int getNavigationBarHeight(Context context) {
+        int navigationBarHeight = 0;
+        Resources rs = context.getResources();
+        int id = rs.getIdentifier("navigation_bar_height", "dimen", "android");
+        if (id > 0 && checkDeviceHasNavigationBar(context)) {
+            navigationBarHeight = rs.getDimensionPixelSize(id);
+        }
+        return navigationBarHeight;
     }
 }

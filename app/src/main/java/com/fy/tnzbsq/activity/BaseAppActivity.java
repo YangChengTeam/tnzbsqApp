@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.hwangjr.rxbus.RxBus;
+
 import butterknife.ButterKnife;
 
 /**
@@ -18,6 +20,7 @@ public abstract class BaseAppActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
+        RxBus.get().register(this);
         context = this;
         ButterKnife.bind(this);
         initVars();

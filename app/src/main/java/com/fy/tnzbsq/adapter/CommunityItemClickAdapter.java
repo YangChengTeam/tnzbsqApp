@@ -1,5 +1,6 @@
 package com.fy.tnzbsq.adapter;
 
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -20,6 +21,7 @@ import com.fy.tnzbsq.bean.CommunityInfo;
 import com.fy.tnzbsq.util.SizeUtils;
 import com.fy.tnzbsq.util.TimeUtils;
 import com.fy.tnzbsq.view.GlideCircleTransform;
+import com.kk.utils.ToastUtil;
 
 import org.kymjs.kjframe.utils.StringUtils;
 
@@ -30,6 +32,16 @@ public class CommunityItemClickAdapter extends BaseQuickAdapter<CommunityInfo, B
 
     private Context mContext;
 
+    public interface PraiseListener{
+        void praiseItem(int parentPosition);
+    }
+
+    public PraiseListener praiseListener;
+
+    public void setPraiseListener(PraiseListener praiseListener) {
+        this.praiseListener = praiseListener;
+    }
+
     public CommunityItemClickAdapter(Context context, List<CommunityInfo> datas) {
         super(R.layout.community_note_list_item, datas);
         this.mContext = context;
@@ -37,10 +49,10 @@ public class CommunityItemClickAdapter extends BaseQuickAdapter<CommunityInfo, B
 
     @Override
     protected void convert(final BaseViewHolder helper, final CommunityInfo item) {
-        helper.setText(R.id.tv_note_title, item.getContent())
-                .setText(R.id.tv_note_user_name, item.getUser_name())
-                .setText(R.id.tv_comment_count, item.getFollow_count())
-                .setText(R.id.tv_praise_count, item.getAgree_count());
+        helper.setText(R.id.ev_note_title, item.content)
+                .setText(R.id.tv_note_user_name, item.user_name)
+                .setText(R.id.tv_comment_count, item.follow_count)
+                .setText(R.id.tv_praise_count, item.agree_count);
 
         if (helper.getAdapterPosition() == 0) {
             FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
@@ -48,23 +60,41 @@ public class CommunityItemClickAdapter extends BaseQuickAdapter<CommunityInfo, B
             helper.getConvertView().setLayoutParams(layoutParams);
         }
 
-        if (!StringUtils.isEmpty(item.getAdd_time())) {
-            long addTime = Long.parseLong(item.getAdd_time()) * 1000;
+        if (!StringUtils.isEmpty(item.add_time)) {
+            long addTime = Long.parseLong(item.add_time) * 1000;
             helper.setText(R.id.tv_note_date, TimeUtils.millis2String(addTime));
         }
 
-        Glide.with(mContext).load(item.getFace()).transform(new GlideCircleTransform(mContext)).into((ImageView) helper.getConvertView().findViewById(R.id.iv_note_user_img));
+        Glide.with(mContext).load(item.face).transform(new GlideCircleTransform(mContext)).into((ImageView) helper.getConvertView().findViewById(R.id.iv_note_user_img));
+        helper.addOnClickListener(R.id.tv_comment_count);
 
-        helper.addOnClickListener(R.id.tv_comment_count).addOnClickListener(R.id.tv_praise_count);
+        helper.getConvertView().findViewById(R.id.tv_praise_count).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                praiseListener.praiseItem(helper.getAdapterPosition());
+            }
+        });
 
-        CommunityImageAdapter communityImageAdapter = new CommunityImageAdapter(mContext, item.getImages());
+        helper.getConvertView().findViewById(R.id.ev_note_title).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ClipboardManager cm =(ClipboardManager)mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                cm.setText(item.content);
+                ToastUtil.toast(mContext,"已复制到粘贴板");
+                return false;
+            }
+        });
+
+        helper.addOnLongClickListener(R.id.ev_note_title);
+
+        CommunityImageAdapter communityImageAdapter = new CommunityImageAdapter(mContext, item.images);
         RecyclerView imagesRecyclerView = (RecyclerView) helper.getConvertView().findViewById(R.id.imgs_list);
         imagesRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         imagesRecyclerView.setAdapter(communityImageAdapter);
 
         TextView praiseTextView = (TextView) helper.getConvertView().findViewById(R.id.tv_praise_count);
 
-        if (item.getAgreed().equals("1")) {
+        if (item.agreed.equals("1")) {
             Drawable isZan = mContext.getResources().getDrawable(R.mipmap.is_zan_icon);
             isZan.setBounds(0, 0, isZan.getMinimumWidth(), isZan.getMinimumHeight());
             praiseTextView.setCompoundDrawables(isZan, null, null, null);
@@ -79,7 +109,7 @@ public class CommunityItemClickAdapter extends BaseQuickAdapter<CommunityInfo, B
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(mContext, CommunityImageShowActivity.class);
                 intent.putExtra("current_position",position);
-                intent.putExtra("images", (Serializable) item.getImages());
+                intent.putExtra("images", (Serializable) item.images);
                 mContext.startActivity(intent);
             }
         });
@@ -87,12 +117,12 @@ public class CommunityItemClickAdapter extends BaseQuickAdapter<CommunityInfo, B
 
     public void changeView(View cView, int pos) {
         TextView praiseTextView = (TextView) cView.findViewById(R.id.tv_praise_count);
-        String isPraise = this.getData().get(pos).getAgreed();
+        String isPraise = this.getData().get(pos).agreed;
         if (isPraise.equals("1")) {
             Drawable isZan = ContextCompat.getDrawable(mContext, R.mipmap.is_zan_icon);
             isZan.setBounds(0, 0, isZan.getMinimumWidth(), isZan.getMinimumHeight());
             praiseTextView.setCompoundDrawables(isZan, null, null, null);
-            praiseTextView.setText((Integer.parseInt(this.getData().get(pos).getAgree_count()) + 1) + "");
+            praiseTextView.setText(this.getData().get(pos).agree_count);
         } else {
             Drawable isZan = ContextCompat.getDrawable(mContext, R.mipmap.no_zan_icon);
             isZan.setBounds(0, 0, isZan.getMinimumWidth(), isZan.getMinimumHeight());

@@ -141,7 +141,33 @@
                 android:textColor="@color/forget_text_color"
                 android:textSize="12sp"/>
         </LinearLayout>
-    </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/layout_goto_market"
+            android:layout_width="240dp"
+            android:layout_height="52dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/market_btn_selector"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:text="应用市场好评免费解锁"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="(认真完成评论才有效哦)"
+                android:textColor="@color/dialog_color"
+                android:textSize="12sp"/>
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

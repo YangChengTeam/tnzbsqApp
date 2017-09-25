@@ -44,4 +44,16 @@
 -dontwarn android.support.design.**
 -keep class android.support.design.** { *; }
 -keep interface android.support.design.** { *; }
--keep public class android.support.design.R$* { *;
+-keep public class android.support.design.R$* { *;}
+
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+
+-keep public class [com.fy.tnzbsq].R$*{
+    public static final int *;
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}

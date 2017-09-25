@@ -1,9 +1,14 @@
 package com.fy.tnzbsq.activity;
 
-import java.io.File;
-import java.io.FileOutputStream;
-
-import org.kymjs.kjframe.ui.BindView;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Environment;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.fy.tnzbsq.App;
 import com.fy.tnzbsq.R;
@@ -15,15 +20,10 @@ import com.fy.tnzbsq.common.ServiceInterface;
 import com.fy.tnzbsq.view.CustomWebView;
 import com.umeng.analytics.MobclickAgent;
 
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Environment;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
+import org.kymjs.kjframe.ui.BindView;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class SearchResultActivity extends BaseActivity implements CustomWebViewDelegate {
 
@@ -62,7 +62,6 @@ public class SearchResultActivity extends BaseActivity implements CustomWebViewD
 		super.initData();
 		Intent intent = getIntent();
 		Bundle bundle = intent.getExtras();
-		
 
 		if(bundle != null && bundle.getString("searchKey") != null && bundle.getString("searchKey").length() >0){
 			searchKey = bundle.getString("searchKey");

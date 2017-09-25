@@ -13,13 +13,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.fy.tnzbsq.R;
 import com.fy.tnzbsq.adapter.ZBDataAdapter;
 import com.fy.tnzbsq.adapter.ZBTypeAdapter;
+import com.fy.tnzbsq.bean.AdDataInfo;
+import com.fy.tnzbsq.bean.AdDataListRet;
 import com.fy.tnzbsq.bean.SlideInfo;
 import com.fy.tnzbsq.bean.ZBDataListRet;
 import com.fy.tnzbsq.common.Contants;
@@ -31,6 +35,8 @@ import com.fy.tnzbsq.util.NetUtil;
 import com.fy.tnzbsq.util.StringUtils;
 import com.fy.tnzbsq.view.BannerImageLoader;
 import com.fy.tnzbsq.view.NotifyUtil;
+import com.jakewharton.rxbinding.view.RxView;
+import com.kk.utils.ToastUtil;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
@@ -43,16 +49,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.functions.Action1;
 
 /**
  * 装逼图
  * Created by admin on 2017/8/24.
  */
 
-public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout.OnRefreshListener, MainActivity.CurrentTabIndex {
+public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+
+    @BindView(R.id.search_img)
+    ImageView mSearchImageView;
 
     @BindView(R.id.swipe)
     SwipeRefreshLayout swipeLayout;
@@ -77,9 +88,9 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
 
     List<SlideInfo> mSlideInfoList;
 
-    private MainActivity.CurrentTabIndex currentTabIndex;
-
     private LinearLayout zbsqAdLayout;
+
+    private ImageView mZbsqAdImageView;
 
     private int downloadId = 0;
 
@@ -89,28 +100,32 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
 
     File gameAdFile;
 
+    private View mRootView;
+
+    private AdDataInfo adDataInfo;
+
     private void showProgress() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
-                    /*if (progresses > total) {
-                        return;
-                    }*/
-
+                /*if (progresses > total) {
+                    return;
+                }*/
                 NotifyUtil.buildProgress(10201, R.mipmap.game_ad_logo, "正在下载", progresses, total, "下载进度:%dM/%dM").show();//"下载进度:%d%%"
                 showProgress();
-
             }
         }, 100);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View mRootView = inflater.inflate(R.layout.zb_fragment, null);
-        ButterKnife.bind(this, mRootView);
-        init();
-        loadData();
+        if (mRootView == null) {
+            mRootView = inflater.inflate(R.layout.zb_fragment, null);
+            ButterKnife.bind(this, mRootView);
+            init();
+            loadData();
+            loadDataAd();
+        }
         return mRootView;
     }
 
@@ -137,19 +152,14 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
         mZbTypeView = ButterKnife.findById(headView, R.id.zb_type_list);
         mBanner = ButterKnife.findById(headView, R.id.banner);
         zbsqAdLayout = ButterKnife.findById(headView, R.id.zbsq_ad_layout);
+        mZbsqAdImageView = ButterKnife.findById(headView, R.id.iv_zbsq_ad);
         mZbTypeView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         mZbTypeView.setAdapter(zbTypeAdapter);
         return headView;
     }
 
-    @Override
-    public void currentSelect(int index) {
-
-    }
-
     public void init() {
-        currentTabIndex = this;
-        ((MainActivity) getActivity()).setCurrentTabIndex(currentTabIndex);
+
         swipeLayout.setColorSchemeResources(
                 android.R.color.holo_red_light,
                 android.R.color.holo_green_light,
@@ -206,26 +216,39 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
         zbsqAdLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                adDown();
+                if (adDataInfo != null) {
+                    adDown();
+                } else {
+                    ToastUtil.toast(getActivity(), "下载数据异常,请稍后重试");
+                }
+            }
+        });
+
+        //搜索
+        RxView.clicks(mSearchImageView).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                startActivity(intent);
             }
         });
     }
 
     public void adDown() {
         //已安装，直接启动
-        if (CommUtils.appInstalled(getActivity(), "com.tencent.tmgp.sgame")) {
+        if (CommUtils.appInstalled(getActivity(), adDataInfo.pack_name)) {
 
             PackageManager packageManager = getActivity().getPackageManager();
-            Intent intent = new Intent();
-            intent = packageManager.getLaunchIntentForPackage("com.tencent.tmgp.sgame");
-            getActivity().startActivity(intent);
+            Intent sIntent = new Intent();
+            sIntent = packageManager.getLaunchIntentForPackage(adDataInfo.pack_name);
+            getActivity().startActivity(sIntent);
         } else {
             final File fileDir = new File(Contants.BASE_NORMAL_FILE_DIR);
             if (!fileDir.exists()) {
                 fileDir.mkdirs();
             }
 
-            gameAdFile = new File(fileDir + "/10005700_com.tencent.tmgp.sgame_u146_1.20.1.21.apk");
+            gameAdFile = new File(fileDir + adDataInfo.file_name);
 
             try {
                 if (gameAdFile.exists()) {
@@ -236,11 +259,11 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
                 } else {
 
                     if (NetUtil.isWIFIConnected(getActivity())) {
-                        Toast.makeText(getActivity(), "王者荣耀送金币版下载中", Toast.LENGTH_LONG).show();
-                        String gameUrl = "http://tj.tt1386.com/452465851/0070000";
+                        Toast.makeText(getActivity(), adDataInfo.toast_value, Toast.LENGTH_LONG).show();
+                        String gameUrl = adDataInfo.down_url;
                         showProgress();
                         FileDownloader.setup(getActivity());
-                        downloadId = FileDownloader.getImpl().create(gameUrl).setPath(fileDir + "/10005700_com.tencent.tmgp.sgame_u146_1.20.1.21.apk", false).setListener(new FileDownloadListener() {
+                        downloadId = FileDownloader.getImpl().create(gameUrl).setPath(fileDir + adDataInfo.file_name, false).setListener(new FileDownloadListener() {
                             @Override
                             protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
                                 total = totalBytes / 1024 / 1024;
@@ -300,7 +323,6 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
             @Override
             public void onSuccess(String response) {
                 swipeLayout.setRefreshing(false);
-                zbsqAdLayout.setVisibility(View.VISIBLE);
                 if (!StringUtils.isEmpty(response)) {
                     ZBDataListRet result = Contants.gson.fromJson(response, ZBDataListRet.class);
                     if (result != null) {
@@ -350,6 +372,48 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
             }
         });
     }
+
+    public void loadDataAd() {
+        final Map<String, String> params = new HashMap<String, String>();
+        params.put("version", CommUtils.getVersionName(getActivity()));
+        okHttpRequest.aget(Server.AD_URL, params, new OnResponseListener() {
+            @Override
+            public void onSuccess(String response) {
+
+                zbsqAdLayout.setVisibility(View.VISIBLE);
+                if (!StringUtils.isEmpty(response)) {
+                    AdDataListRet result = Contants.gson.fromJson(response, AdDataListRet.class);
+                    if (result != null && result.data.size() > 0) {
+                        if (result.errCode.equals("0")) {
+                            for (int i = 0; i < result.data.size(); i++) {
+                                adDataInfo = result.data.get(i);
+                                if (CommUtils.appInstalled(getActivity(), adDataInfo.pack_name)) {
+                                    continue;
+                                } else {
+                                    break;
+                                }
+                            }
+                            Glide.with(getActivity()).load(adDataInfo.image_url).into(mZbsqAdImageView);
+                        }
+                        if (result.errCode.equals("1")) {
+                            zbsqAdLayout.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                swipeLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onBefore() {
+                swipeLayout.setRefreshing(false);
+            }
+        });
+    }
+
 
     @Override
     public void onRefresh() {

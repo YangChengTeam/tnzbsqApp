@@ -1,5 +1,6 @@
 package com.fy.tnzbsq.activity;
 
+import android.content.Intent;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,26 +15,38 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Transformation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.fy.tnzbsq.App;
 import com.fy.tnzbsq.R;
+import com.fy.tnzbsq.common.Contants;
+import com.fy.tnzbsq.util.StringUtils;
+import com.hwangjr.rxbus.RxBus;
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.annotation.Tag;
+import com.hwangjr.rxbus.thread.EventThread;
+import com.jakewharton.rxbinding.view.RxView;
 import com.shizhefei.view.indicator.FixedIndicatorView;
 import com.shizhefei.view.indicator.Indicator;
 import com.shizhefei.view.indicator.slidebar.ColorBar;
 import com.shizhefei.view.indicator.transition.OnTransitionTextListener;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.functions.Action1;
 
 /**
  * Created by admin on 2017/9/7.
  */
 
-public class CommunityFragment extends CustomBaseFragment implements SwipeRefreshLayout.OnRefreshListener, MainActivity.CurrentTabIndex {
+public class CommunityFragment extends CustomBaseFragment {
 
-    /*@BindView(R.id.rl_maincenter_title)
-    RelativeLayout topLayout;*/
+    @BindView(R.id.iv_add_note)
+    ImageView addNoteImageView;
 
     @BindView(R.id.viewpager)
     ViewPager mViewPager;
@@ -67,16 +79,16 @@ public class CommunityFragment extends CustomBaseFragment implements SwipeRefres
 
     public boolean isShow = false;
 
-    private int currentPosition;
-
-    private MainActivity.CurrentTabIndex currentTabIndex;
+    private View mRootView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View mRootView = inflater.inflate(R.layout.community_fragment, null);
-        ButterKnife.bind(this, mRootView);
-        //RxBus.get().register(this);
-        init();
+        if (mRootView == null) {
+            mRootView = inflater.inflate(R.layout.community_fragment, null);
+            RxBus.get().register(this);
+            ButterKnife.bind(this, mRootView);
+            init();
+        }
         return mRootView;
     }
 
@@ -87,8 +99,6 @@ public class CommunityFragment extends CustomBaseFragment implements SwipeRefres
 
     public void init() {
         //topLayout.setVisibility(View.GONE);
-        currentTabIndex = this;
-        ((MainActivity) getActivity()).setCurrentTabIndex(currentTabIndex);
 
         location = new int[]{1000, 0};
         maxSize = 2.5f * 15;
@@ -137,6 +147,29 @@ public class CommunityFragment extends CustomBaseFragment implements SwipeRefres
             }
         });
 
+        RxView.clicks(addNoteImageView).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                if (menuLayout.getVisibility() == View.INVISIBLE) {
+                    menuLayout.setVisibility(View.VISIBLE);
+                    menuLayout.setFocusable(true);
+                    menuLayout.setClickable(true);
+
+                    animationOpen.setDuration(600);
+                    animationOpen.setInterpolator(new DecelerateInterpolator());
+                    animationOpen.setFillAfter(true);
+                    groundView.startAnimation(animationOpen);
+                    mFriendCircleTextView.startAnimation(qq_friend_in);
+                    mGameTextView.startAnimation(game_in);
+
+                    isShow = true;
+                    //showAddIv.setClickable(false);
+                } else {
+                    closeMenu();
+                }
+            }
+        });
+
         menuLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,26 +180,43 @@ public class CommunityFragment extends CustomBaseFragment implements SwipeRefres
         mFriendCircleTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                toAddNoteActivity("1");
             }
         });
 
         mGameTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                toAddNoteActivity("2");
             }
         });
     }
 
-    @Override
-    public void onRefresh() {
-
+    public void toAddNoteActivity(String type) {
+        if (App.loginUser != null) {
+            Intent intent = new Intent(getActivity(), CommunityAddActivity.class);
+            intent.putExtra("note_type", type);
+            startActivity(intent);
+            closeMenu();
+        } else {
+            closeMenu();
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+        }
     }
 
-    @Override
-    public void currentSelect(int index) {
-
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(Contants.COMMUNITY_ADD_REFRESH)
+            }
+    )
+    public void rxSetCurrentFragment(String tag) {
+        if (!StringUtils.isEmpty(tag)) {
+            int addItem = Integer.parseInt(tag);
+            mFixedIndicatorView.setCurrentItem(addItem, true);
+            mViewPager.setCurrentItem(addItem);
+        }
     }
 
     private CommunitySubFragment courseFragment1;
@@ -180,7 +230,6 @@ public class CommunityFragment extends CustomBaseFragment implements SwipeRefres
 
         @Override
         public Fragment getItem(int position) {
-            currentPosition = position;
             Bundle bundle = new Bundle();
             if (position == 0) {
                 if (courseFragment1 == null) {
@@ -214,7 +263,7 @@ public class CommunityFragment extends CustomBaseFragment implements SwipeRefres
     }
 
     private class MyAdapter extends Indicator.IndicatorAdapter {
-        private final String[] titles = new String[]{"热门", "自拍交友", "游戏互动"};
+        private final String[] titles = new String[]{"热门", "自拍交友", "游戏开黑"};
 
         private final int count;
 
@@ -267,33 +316,6 @@ public class CommunityFragment extends CustomBaseFragment implements SwipeRefres
             }
         }
     };
-
-    /*@Subscribe(
-            thread = EventThread.MAIN_THREAD,
-            tags = {
-                    @Tag(Contants.COMMUNITY_ADD)
-            }
-    )*/
-    public void showMenu(String tag) {
-        if (menuLayout.getVisibility() == View.INVISIBLE) {
-            menuLayout.setVisibility(View.VISIBLE);
-            menuLayout.setFocusable(true);
-            menuLayout.setClickable(true);
-
-            animationOpen.setDuration(600);
-            animationOpen.setInterpolator(new DecelerateInterpolator());
-            animationOpen.setFillAfter(true);
-            groundView.startAnimation(animationOpen);
-            mFriendCircleTextView.startAnimation(qq_friend_in);
-            mGameTextView.startAnimation(game_in);
-
-            isShow = true;
-            //showAddIv.setClickable(false);
-        } else {
-            closeMenu();
-        }
-    }
-
 
     /**
      * 关闭菜单

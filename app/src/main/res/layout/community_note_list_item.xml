@@ -76,8 +76,8 @@
                 />
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_note_title"
+        <EditText
+            android:id="@+id/ev_note_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -86,6 +86,10 @@
             android:layout_marginTop="10dp"
             android:text="发帖的标题，测试发帖的标题"
             android:textColor="@color/black1"
+            android:background="@null"
+            android:editable="false"
+            android:textIsSelectable="true"
+            android:textCursorDrawable="@null"
             android:textSize="16sp"/>
 
         <android.support.v7.widget.RecyclerView

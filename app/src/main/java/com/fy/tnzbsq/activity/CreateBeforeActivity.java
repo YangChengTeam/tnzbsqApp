@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -56,17 +57,17 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import me.iwf.photopicker.PhotoPicker;
-
-import static android.R.attr.id;
 
 /**
  * Created by admin on 2017/8/29.
  */
 
-public class CreateBeforeActivity extends BaseAppActivity {
+public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialog.TimeListener {
 
     private static final int REQUEST_CODE_CHOOSE = 23;
 
@@ -99,6 +100,10 @@ public class CreateBeforeActivity extends BaseAppActivity {
     private CustomProgress dialog;
 
     private boolean isChooseImage;
+
+    private int timeNum = 0;
+
+    private Timer timer;
 
     @Override
     protected int getLayoutId() {
@@ -151,13 +156,12 @@ public class CreateBeforeActivity extends BaseAppActivity {
 
     }
 
-
     protected void createInputView() {
 
         if (mZbDataInfo != null && mZbDataInfo.field != null) {
 
             int paddingLeft = SizeUtils.dp2px(this, 10);
-            int textSize = SizeUtils.sp2px(this, 5);
+            int textSize = SizeUtils.sp2px(this, 6);
             int tHeight = SizeUtils.dp2px(this, 38);
             int tMargin = SizeUtils.dp2px(this, 42);
 
@@ -172,7 +176,7 @@ public class CreateBeforeActivity extends BaseAppActivity {
                         wordTv.setHint(zField.def_val);
                         wordTv.setBackgroundResource(R.drawable.input_bg);
                         wordTv.setPadding(paddingLeft, 0, 0, 0);
-                        wordTv.setTextSize(textSize);
+                        wordTv.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
 
                         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, tHeight);
                         params.gravity = Gravity.CENTER;
@@ -192,7 +196,7 @@ public class CreateBeforeActivity extends BaseAppActivity {
 
                         if (zField.select != null && zField.select.size() > 0) {
                             for (int j = 0; j < zField.select.size(); j++) {
-                                if(!zField.select.get(j).opt_text.equals("自定义文字")){
+                                if (!zField.select.get(j).opt_text.equals("自定义文字")) {
                                     dataSet.add(zField.select.get(j).opt_text);
                                 }
                             }
@@ -226,7 +230,7 @@ public class CreateBeforeActivity extends BaseAppActivity {
 
                         TextView imageText = new TextView(this);
                         imageText.setText("选择图片：");
-                        imageText.setTextSize(SizeUtils.sp2px(this, 6));
+                        imageText.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
                         RelativeLayout.LayoutParams leftParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                         leftParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
                         leftParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
@@ -295,7 +299,6 @@ public class CreateBeforeActivity extends BaseAppActivity {
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-
         if (App.loginUser != null) {
             getUserIsBuy();
         }
@@ -322,7 +325,7 @@ public class CreateBeforeActivity extends BaseAppActivity {
                             String sourceIds = PreferencesUtils.getString(context, sourceIdsKey);
                             if (!StringUtils.isEmpty(sourceIds)) {
                                 String[] sourceArray = sourceIds.split(",");
-                                if (isBuyVip(sourceArray, id + "")) {
+                                if (isBuyVip(sourceArray, mZbDataInfo.id)) {
                                     isBuy = true;
                                     return;
                                 }
@@ -331,6 +334,15 @@ public class CreateBeforeActivity extends BaseAppActivity {
                     } catch (JsonSyntaxException e) {
                         e.printStackTrace();
                     } finally {
+                        String sourceIdsKey = App.loginUser != null ? App.loginUser.id + "_ids" : App.ANDROID_ID + "_ids";
+                        String sourceIds = PreferencesUtils.getString(context, sourceIdsKey);
+                        if (!StringUtils.isEmpty(sourceIds)) {
+                            String[] sourceArray = sourceIds.split(",");
+                            if (isBuyVip(sourceArray, mZbDataInfo.id)) {
+                                isBuy = true;
+                                return;
+                            }
+                        }
                     }
                 }
             }
@@ -353,8 +365,39 @@ public class CreateBeforeActivity extends BaseAppActivity {
 
 
     @Override
+    public void timeStart() {
+        if (timer == null) {
+            timer = new Timer();
+        }
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                timeNum++;
+                if (timeNum > 20) {
+                    timer.cancel();
+                    timer.purge();
+                    timer = null;
+                }
+            }
+        };
+        timer.schedule(task, 1000, 1000);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (timeNum > 20) {
+            String sourceIdsKey = App.loginUser != null ? App.loginUser.id + "_ids" : App.ANDROID_ID + "_ids";
+            StringBuffer sourceIds = new StringBuffer(PreferencesUtils.getString(context, sourceIdsKey, ""));
+            if (!StringUtils.isEmpty(sourceIds.toString())) {
+                sourceIds.append(",");
+            }
+
+            sourceIds.append(mZbDataInfo.id);
+            PreferencesUtils.putString(context, sourceIdsKey, sourceIds.toString());
+
+            PreferencesUtils.putBoolean(context, "is_comment", true);
+        }
 
         if (resultCode == RESULT_OK && requestCode == PhotoPicker.REQUEST_CODE) {
             if (data != null) {
@@ -462,6 +505,7 @@ public class CreateBeforeActivity extends BaseAppActivity {
                 }
                 if (!isAuth) {
                     ChargeDialog dialog = new ChargeDialog(CreateBeforeActivity.this, mZbDataInfo != null ? mZbDataInfo.id : "");
+                    dialog.setTimeListener(this);
                     dialog.showChargeDialog(dialog);
                     return;
                 }

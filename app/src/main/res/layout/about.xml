@@ -1,58 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#f2f2f2"
-    android:orientation="vertical" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/about_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#f2f2f2"
+                android:orientation="vertical">
 
     <include
         android:id="@+id/title_layout"
-        layout="@layout/common_back" />
+        layout="@layout/common_back"/>
 
-    <com.fy.tnzbsq.view.CustomWebView
-        android:id="@+id/webview"
+    <LinearLayout
+        android:id="@+id/weixin_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_layout"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="腾牛装逼神器"
+            android:textColor="@color/black1"
+            android:textSize="22sp"/>
+
+        <TextView
+            android:id="@+id/tv_weixin_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            android:text="微信号：tnzbsq"/>
+
+        <ImageView
+            android:id="@+id/iv_weixin_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:src="@mipmap/weixin_code"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="扫码关注或点击分享"
+            android:textSize="12sp"
+            android:textColor="@color/quick_text_color"/>
+
+        <TextView
+            android:id="@+id/tv_app_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginTop="18dp"
+            android:lineSpacingMultiplier="1.5"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#f2f2f2"
+        android:layout_above="@+id/version_layout"
         android:layout_gravity="bottom"
-        android:gravity="center"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginTop="10dp"
-        android:orientation="vertical" >
+        android:background="#f2f2f2"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/join_tv"
             android:layout_width="300dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
             android:background="#FFD39B"
             android:gravity="center"
             android:text="QQ群：462869974 (点击加群)"
-            android:textSize="18sp" />
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/join_password"
             android:layout_width="300dp"
-            android:layout_height="35dp"
-            android:textColor="#FF8C00"
+            android:layout_height="32dp"
             android:layout_marginTop="6dp"
             android:gravity="center"
             android:text="加群、加Q 验证：977"
-            android:textSize="18sp" />
+            android:textColor="#FF8C00"
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/copy_tv"
             android:layout_width="300dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
             android:layout_marginTop="6dp"
             android:background="#FFD39B"
             android:gravity="center"
             android:text="联系QQ：1358808844 (点击复制)"
-            android:textSize="18sp" />
+            android:textSize="16sp"/>
     </LinearLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/version_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="v3.0"
+            android:textColor="@color/send_title_color"/>
+    </LinearLayout>
+</RelativeLayout>

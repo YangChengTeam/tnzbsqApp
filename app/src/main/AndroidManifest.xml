@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.fy.tnzbsq"
-          android:versionCode="50"
-          android:versionName="2.9.2">
+          android:versionCode="52"
+          android:versionName="3.0.1">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -62,7 +62,7 @@
             android:name=".activity.SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -83,6 +83,21 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+        </activity>
+        <activity
+            android:name=".activity.Main5Activity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".activity.CommunityAddActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".activity.CommunityDetailActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".activity.GuideActivity"
@@ -107,6 +122,11 @@
         </activity>
         <activity
             android:name=".activity.CategoryActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".activity.OrderInfoActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
@@ -181,9 +201,7 @@
         <activity
             android:name=".activity.AboutActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".activity.UpdateActivity"
@@ -205,6 +223,11 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+        </activity>
+        <activity
+            android:name=".activity.SearchResult1Activity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".activity.CreateActivity"
@@ -275,12 +298,12 @@
             android:theme="@style/ImageShowStyle"/>
         <activity
             android:name="me.iwf.photopicker.PhotoPickerActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:theme="@style/customTheme"
             />
 
         <activity
             android:name="me.iwf.photopicker.PhotoPagerActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:theme="@style/customTheme"/>
 
         <!--share -->
         <activity
@@ -317,7 +340,7 @@
 
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="LIURENJUN">
+            android:value="LONGPENG">
         </meta-data>
 
         <!-- 微支付SDK界面 -->

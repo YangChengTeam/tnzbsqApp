@@ -1,28 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <!--
-    <com.fy.tnzbsq.view.NavLineLayout
-        android:id="@+id/nav"
-        android:fitsSystemWindows="true"
+    <RelativeLayout
+        android:id="@+id/main_top_layout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#f03e10">
-    </com.fy.tnzbsq.view.NavLineLayout>
-    -->
+        android:layout_height="48dp"
+        android:background="@color/colorAccent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="斗图"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+    </RelativeLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:layout_below="@+id/main_top_layout">
 
         <com.fy.tnzbsq.view.CustomWebView
             android:id="@+id/webview"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:scrollbars="none" />
+            android:scrollbars="none"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

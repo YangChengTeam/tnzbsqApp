@@ -4,6 +4,30 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/colorAccent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="广场"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+        <ImageView
+            android:id="@+id/iv_add_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:background="@drawable/ripple_bg"
+            android:src="@mipmap/add_note_icon"/>
+    </RelativeLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -22,8 +46,8 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gray"></View>
+                android:layout_height="0.8dp"
+                android:background="@color/bg_line_color"></View>
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"
@@ -63,7 +87,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginTop="40dp"
                     android:clickable="true"
-                    android:drawableLeft="@mipmap/community_game_icon"
+                    android:drawableLeft="@mipmap/photo_friends_icon"
                     android:drawablePadding="6dp"
                     android:gravity="center"
                     android:text="自拍交友"
@@ -81,7 +105,7 @@
                     android:drawableLeft="@mipmap/community_game_icon"
                     android:drawablePadding="4dp"
                     android:gravity="center"
-                    android:text="游戏互动"
+                    android:text="游戏开黑"
                     android:textColor="@color/black"
                     android:textSize="16sp"/>
             </RelativeLayout>

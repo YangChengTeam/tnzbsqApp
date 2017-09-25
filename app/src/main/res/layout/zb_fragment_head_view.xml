@@ -23,11 +23,12 @@
         android:id="@+id/zbsq_ad_layout"
         android:layout_width="match_parent"
         android:visibility="invisible"
-        android:layout_height="53dp">
+        android:layout_height="100dp">
 
         <ImageView
+            android:id="@+id/iv_zbsq_ad"
             android:layout_width="match_parent"
-            android:layout_height="53dp"
+            android:layout_height="100dp"
             android:scaleType="fitXY"
             android:src="@mipmap/zbsq_list_ad_icon"/>
     </LinearLayout>

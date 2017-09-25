@@ -3,7 +3,6 @@
     android:id="@+id/main_left_menu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/left_top_bg"
     android:orientation="vertical" >
 
     <RelativeLayout

@@ -3,7 +3,10 @@ package com.fy.tnzbsq.view;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -38,6 +41,16 @@ public class ChargeDialog extends Dialog {
 
     String payWayName = "iapppay";
 
+    public interface TimeListener {
+        void timeStart();
+    }
+
+    public TimeListener timeListener;
+
+    public void setTimeListener(TimeListener timeListener) {
+        this.timeListener = timeListener;
+    }
+
     public ChargeDialog(Context context, String goodId) {
         super(context, R.style.Dialog);
         iPayAbs = new I1PayAbs((Activity) context);
@@ -63,7 +76,7 @@ public class ChargeDialog extends Dialog {
         TextView singleHintTv = (TextView) view.findViewById(R.id.tv_single_hint);
         TextView vipTv = (TextView) view.findViewById(R.id.tv_vip);
         TextView vipHintTv = (TextView) view.findViewById(R.id.tv_vip_hint);
-
+        LinearLayout marketLayout = (LinearLayout) view.findViewById(R.id.layout_goto_market);
         setContentView(view);
 
         if (!StringUtils.isEmpty(App.sigleRemark)) {
@@ -81,12 +94,19 @@ public class ChargeDialog extends Dialog {
         LinearLayout vipLayout = (LinearLayout) view.findViewById(R.id.layout_vip_charge);
         oneLayout.setOnClickListener(new clickListener());
         vipLayout.setOnClickListener(new clickListener());
+        marketLayout.setOnClickListener(new clickListener());
         Window dialogWindow = getWindow();
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         DisplayMetrics d = context.getResources().getDisplayMetrics(); // 获取屏幕宽、高用
         lp.width = (int) (d.widthPixels * 0.8); // 高度设置为屏幕的0.7
         dialogWindow.setAttributes(lp);
 
+        boolean isComment = PreferencesUtils.getBoolean(context, "is_comment", false);
+        if (isComment) {
+            marketLayout.setVisibility(View.GONE);
+        } else {
+            marketLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     private class clickListener implements View.OnClickListener {
@@ -100,9 +120,25 @@ public class ChargeDialog extends Dialog {
                 case R.id.layout_vip_charge:
                     buy(2, App.vipPrice == 0 ? 18f : App.vipPrice, "装逼神器VIP");
                     break;
+                case R.id.layout_goto_market:
+                    goToMarket(context, context.getPackageName());
+                    break;
                 default:
                     break;
             }
+        }
+    }
+
+    public void goToMarket(Context context, String packageName) {
+        Uri uri = Uri.parse("market://details?id=" + packageName);
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        try {
+            timeListener.timeStart();
+            ((Activity) context).startActivityForResult(goToMarket, 1);
+            dismiss();
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, "手机上未安装应用市场", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
     }
 

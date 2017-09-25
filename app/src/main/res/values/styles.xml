@@ -67,12 +67,12 @@
     <style name="tab_style">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/tab_background</item>
-        <item name="android:drawablePadding">15dip</item>
+        <!--<item name="android:background">@drawable/tab_background</item>-->
+        <item name="android:drawablePadding">8dip</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:padding">10dip</item>
-        <item name="android:textColor">@color/overlay</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:padding">8dip</item>
+        <item name="android:textColor">@color/black1</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:clickable">true</item>
     </style>
 
@@ -115,7 +115,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:dropDownListViewStyle">@style/SpinnerStyle</item>
@@ -131,6 +131,18 @@
 
     <style name="ImageShowStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="actionBarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@android:color/primary_text_light</item>
+        <item name="actionBarSize">48dp</item>
+    </style>
+
+    <style name="customTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="actionBarTheme">@style/actionBarTheme</item>
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="actionBarSize">48dp</item>
+        <item name="colorPrimaryDark">@color/colorAccent</item>
     </style>
 
 </resources>

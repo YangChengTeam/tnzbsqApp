@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:background="@mipmap/left_top_bg"
         android:gravity="center"
         android:orientation="vertical">
         <LinearLayout

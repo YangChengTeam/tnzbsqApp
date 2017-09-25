@@ -293,11 +293,6 @@ public class MainActivity extends SlidingFragmentActivity implements TabLineLayo
         customWebFragments = new ArrayList<CustomBaseFragment>();
         String[] urls = new String[]{"file:///android_asset/index.html", "file:///android_asset/index.html",
                 "file:///android_asset/index-dt.html", "file:///android_asset/index-dt.html"};
-        /*
-         * for (String url : urls) { CustomBaseFragment customWebFragment = new
-		 * CustomBaseFragment(); customWebFragment.url = url;
-		 * customWebFragments.add(customWebFragment); }
-		 */
 
         for (int i = 0; i < 3; i++) {
             if (i == 0 || i == 1) {

@@ -5,96 +5,144 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fy.tnzbsq.R;
-import com.fy.tnzbsq.bean.GameInfo;
-import com.fy.tnzbsq.common.CustomWebViewDelegate;
+import com.fy.tnzbsq.util.CommUtils;
+import com.fy.tnzbsq.util.SizeUtils;
 import com.fy.tnzbsq.view.CustomProgress;
-import com.fy.tnzbsq.view.CustomWebView;
+import com.fy.tnzbsq.view.SharePopupWindow;
+import com.jakewharton.rxbinding.view.RxView;
+import com.kk.utils.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.utils.Log;
+import com.umeng.socialize.utils.SocializeUtils;
 
-import org.kymjs.kjframe.ui.BindView;
+import java.util.concurrent.TimeUnit;
 
-public class AboutActivity extends BaseActivity implements CustomWebViewDelegate {
+import butterknife.BindView;
+import rx.functions.Action1;
 
-    @BindView(id = R.id.back_img, click = true)
-    private ImageView backImg;
 
-    @BindView(id = R.id.top_title)
-    private TextView titleNameTv;
+public class AboutActivity extends BaseAppActivity {
 
-    @BindView(id = R.id.share_img, click = true)
-    private ImageView shareImg;
+    @BindView(R.id.about_layout)
+    RelativeLayout aboutLayout;
 
-    @BindView(id = R.id.share_text, click = true)
-    private TextView shareTv;
+    @BindView(R.id.back_img)
+    ImageView backImg;
 
-    @BindView(id = R.id.webview)
-    private CustomWebView customWebView;
+    @BindView(R.id.top_title)
+    TextView titleNameTv;
 
-    @BindView(id = R.id.join_tv, click = true)
-    private TextView joinTv;
+    @BindView(R.id.iv_weixin_code)
+    ImageView mWeixinImageView;
 
-    @BindView(id = R.id.copy_tv, click = true)
-    private TextView copyTv;
+    @BindView(R.id.tv_weixin_code)
+    TextView mWeixinCodeTextView;
+
+    @BindView(R.id.join_tv)
+    TextView joinTv;
+
+    @BindView(R.id.copy_tv)
+    TextView copyTv;
+
+    @BindView(R.id.tv_app_show)
+    TextView mAppShowTextView;
+
+    @BindView(R.id.tv_version)
+    TextView mVersionNameTextView;
 
     private String url = "";
 
+    //分享弹出窗口
+    private SharePopupWindow shareWindow;
+
+    CustomProgress dialog;
+
     @Override
-    public void setRootView() {
-        setContentView(R.layout.about);
+    protected int getLayoutId() {
+        return R.layout.about;
     }
 
     @Override
-    public void initWidget() {
-        super.initWidget();
+    protected void initVars() {
+
     }
 
     @Override
-    public void initData() {
-        super.initData();
-
+    protected void initViews() {
         titleNameTv.setText(getResources().getString(R.string.app_name));
+        mAppShowTextView.setText("我们是一群热血青年\n" +
+                "我们向往未来，向往外面的世界\n" +
+                "不是因为炫耀，纯粹只是娱乐大众\n" +
+                "这就是我，真真正正的我");
 
-        customWebView.delegate = this;
-        customWebView.loadUrl("file:///android_asset/about.html");
-        CustomProgress dialog = CustomProgress.create(AboutActivity.this, "正在分享...", true, null);
+        mVersionNameTextView.setText(CommUtils.getVersionName(AboutActivity.this));
+
+        dialog = CustomProgress.create(AboutActivity.this, "正在分享...", true, null);
         dialog.setTitle("装B神器分享");
-    }
 
-    @Override
-    public void widgetClick(View v) {
-        UMImage image = new UMImage(AboutActivity.this, R.mipmap.logo_108);
-        final SHARE_MEDIA[] displaylist = new SHARE_MEDIA[]{SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE,
-                SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE};
-        switch (v.getId()) {
-            case R.id.back_img:
-                finish();
-                break;
-            case R.id.share_img:
 
-                break;
-            case R.id.share_text:
+        RxView.clicks(backImg).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+               finish();
+            }
+        });
 
-                break;
-            case R.id.join_tv:
+        RxView.clicks(joinTv).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
                 joinQQGroup("_KpIQPwGrQac_1gXm3WPb4l_vV8smP7A");
-                break;
-            case R.id.copy_tv:
+            }
+        });
+
+        RxView.clicks(copyTv).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
                 ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 // 将文本内容放到系统剪贴板里。
                 cm.setPrimaryClip(ClipData.newPlainText(null, "1358808844"));
-                Toast.makeText(this, "复制成功，可以加QQ了", Toast.LENGTH_LONG).show();
-                break;
-            default:
-                break;
-        }
+                ToastUtil.toast(AboutActivity.this, "复制成功，可以加QQ了");
+            }
+        });
+
+        RxView.clicks(mWeixinCodeTextView).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                // 将文本内容放到系统剪贴板里。
+                cm.setPrimaryClip(ClipData.newPlainText(null, "tnzbsq"));
+                ToastUtil.toast(AboutActivity.this, "复制成功，可以加微信了");
+            }
+        });
+
+        RxView.clicks(mWeixinImageView).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                shareWindow = new SharePopupWindow(AboutActivity.this, itemsOnClick);
+                shareWindow.showAtLocation(aboutLayout, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, SizeUtils.getNavigationBarHeight(AboutActivity.this));
+                backgroundAlpha(0.5f);
+                shareWindow.setOnDismissListener(new PoponDismissListener());
+            }
+        });
+    }
+
+    @Override
+    protected void initData(Bundle savedInstanceState) {
     }
 
     /****************
@@ -129,153 +177,103 @@ public class AboutActivity extends BaseActivity implements CustomWebViewDelegate
         MobclickAgent.onPause(this);
     }
 
-    @Override
-    public void Horizontal() {
+    private UMShareListener umShareListener = new UMShareListener() {
 
+        /**
+         * @descrption 分享开始的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            SocializeUtils.safeShowDialog(dialog);
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            Log.d("plat", "platform" + platform);
+            ToastUtil.toast(AboutActivity.this, "分享成功啦");
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            ToastUtil.toast(AboutActivity.this, "分享失败啦");
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            ToastUtil.toast(AboutActivity.this, "分享取消了");
+        }
+    };
+
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha;
+        getWindow().setAttributes(lp);
     }
 
-    @Override
-    public void networkSet() {
-
-    }
-
-    @Override
-    public void reload() {
-
-    }
-
-    @Override
-    public void setTitle(String title) {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void show() {
-
-    }
-
-    @Override
-    public void startFullActivity(GameInfo gameInfo) {
-
-    }
-
-    @Override
-    public void setUrl(String url) {
-        if (!url.contains("no-wifi")) {
-            this.url = url;
+    //弹出窗口监听消失
+    public class PoponDismissListener implements PopupWindow.OnDismissListener {
+        @Override
+        public void onDismiss() {
+            backgroundAlpha(1f);
         }
     }
 
-    @Override
-    public void showWheelView() {
-
+    private void ShareWeb(int thumb_img, SHARE_MEDIA platform) {
+        UMImage thumb = new UMImage(AboutActivity.this, thumb_img);
+        UMWeb web = new UMWeb("http://zs.qqtn.com");
+        web.setThumb(thumb);
+        web.setDescription("有人向你发起了装逼挑战，是否一战？");
+        web.setTitle("装逼神器");
+        new ShareAction(this).withMedia(web).setPlatform(platform).setCallback(umShareListener).share();
     }
 
-    @Override
-    public void createImage(String id, String data,String isVip,String price) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void saveImage(String imageRealPath) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void addKeep(String id) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void imageShow(String path) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void updateVersion() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void selectPic(int xvalue, int yvalue) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void submitMesage(String str, String description) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void clearCache() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void toSave() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void toShare() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void initWithUrl(String url) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void updateUserName(String userName) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void setShowState(boolean flag) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void loadImageList(int currentPage) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void search(String keyword) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void photoGraph() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void fightMenu() {
-        // TODO Auto-generated method stub
-
-    }
-
-
+    //为弹出窗口实现监听类
+    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.cancel_layout:
+                    if (shareWindow != null && shareWindow.isShowing()) {
+                        shareWindow.dismiss();
+                    }
+                    break;
+                case R.id.qq_layout:
+                    ShareWeb(R.mipmap.logo_share, SHARE_MEDIA.QQ);
+                    if (shareWindow != null && shareWindow.isShowing()) {
+                        shareWindow.dismiss();
+                    }
+                    break;
+                case R.id.qzone_layout:
+                    ShareWeb(R.mipmap.logo_share, SHARE_MEDIA.QZONE);
+                    if (shareWindow != null && shareWindow.isShowing()) {
+                        shareWindow.dismiss();
+                    }
+                    break;
+                case R.id.wechat_layout:
+                    ShareWeb(R.mipmap.logo_share, SHARE_MEDIA.WEIXIN);
+                    if (shareWindow != null && shareWindow.isShowing()) {
+                        shareWindow.dismiss();
+                    }
+                    break;
+                case R.id.wxcircle_layout:
+                    ShareWeb(R.mipmap.logo_share, SHARE_MEDIA.WEIXIN_CIRCLE);
+                    if (shareWindow != null && shareWindow.isShowing()) {
+                        shareWindow.dismiss();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 }

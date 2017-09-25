@@ -1,0 +1,24 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/add_layout"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:layout_marginTop="24dp"
+    android:background="@drawable/special_tab_bg"
+    android:foreground="@drawable/ripple_bg"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:focusable="false"
+        android:clickable="false"
+        android:layout_gravity="center"/>
+
+</LinearLayout>
+
+
+
+
+

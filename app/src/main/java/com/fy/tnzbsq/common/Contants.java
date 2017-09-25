@@ -103,4 +103,9 @@ public class Contants {
 
     public static final String COMMUNITY_ADD = "community_add";
 
+	public static final String COMMUNITY_REFRESH = "community_refresh";
+
+	public static final String COMMUNITY_ADD_REFRESH = "community_add_refresh";
+
+	public static final String COMMUNITY_ACTIVITY_REFRESH = "community_activity_refresh";
 }

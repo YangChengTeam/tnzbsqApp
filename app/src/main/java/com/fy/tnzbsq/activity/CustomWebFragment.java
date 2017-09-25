@@ -28,7 +28,6 @@ import android.widget.Toast;
 
 import com.fy.tnzbsq.App;
 import com.fy.tnzbsq.R;
-import com.fy.tnzbsq.activity.MainActivity.CurrentTabIndex;
 import com.fy.tnzbsq.bean.Acts;
 import com.fy.tnzbsq.bean.ActsRet;
 import com.fy.tnzbsq.bean.GameInfo;
@@ -74,7 +73,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class CustomWebFragment extends CustomBaseFragment implements CustomWebViewDelegate, NavLineLayout.NavDelegate,OnRefreshListener,CurrentTabIndex{
+public class CustomWebFragment extends CustomBaseFragment implements CustomWebViewDelegate, NavLineLayout.NavDelegate,OnRefreshListener{
 	
 	private static final int REQUESTCODE_PICK = 0;// 相册选图标记
 	private static final int REQUESTCODE_TAKE = 1;// 相机拍照标记
@@ -115,8 +114,7 @@ public class CustomWebFragment extends CustomBaseFragment implements CustomWebVi
 
 	public boolean isShow = false;
 	
-	private CurrentTabIndex currentTabIndex;
-	
+
 	private Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
@@ -193,11 +191,7 @@ public class CustomWebFragment extends CustomBaseFragment implements CustomWebVi
 					SystemTool.getDataTime("yyyy-MM-dd"));
 			task = new VersionUpdateServiceTask(true).execute();
 		}
-		currentTabIndex = this;
-		
-		((MainActivity)getActivity()).setCurrentTabIndex(currentTabIndex);
-		
-		
+
 		customWebView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -988,19 +982,6 @@ public class CustomWebFragment extends CustomBaseFragment implements CustomWebVi
 				return true;
 			}
 		}
-	}
-
-	@Override
-	public void currentSelect(int index) {
-		//Toast.makeText(getActivity(), "当前--"+this.getId(), Toast.LENGTH_SHORT).show();
-		
-		//CustomWebFragment temp = ((MainActivity)getActivity()).customWebFragments.get(index);
-		
-		/*if(index ==2 || index ==3){
-			this.swipeLayout.setEnabled(false);
-		}else{
-			this.swipeLayout.setEnabled(true);
-		}*/
 	}
 
 	@Override

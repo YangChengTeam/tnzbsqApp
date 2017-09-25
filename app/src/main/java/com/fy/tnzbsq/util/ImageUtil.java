@@ -28,6 +28,8 @@ import java.io.IOException;
 public class ImageUtil {
     private static final String TAG = ImageUtil.class.getSimpleName();
 
+    public static final String ADD_PATH = "file:///android_asset/note_image_add_icon.png";
+
     public static Bitmap zoomByWidth(Bitmap bitmap, int width) throws Exception {
         // 获取这个图片的宽和高
         float originalWidth = bitmap.getWidth();

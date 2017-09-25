@@ -54,4 +54,16 @@ public class Server {
 	public final static String BANNER_LIST_URL = URL_SERVER_IP + "m=Home&c=zbsq&a=getSlideMore";
 	//25、帖子列表
 	public final static String NOTE_LIST_URL = URL_SERVER_IP + "m=Api&c=note&a=notelist";
+	//26、发帖
+	public final static String ADD_NOTE_URL = URL_SERVER_IP + "m=Api&c=note&a=add";
+	//27、帖子回复列表
+	public final static String FOLLOW_LIST_URL = URL_SERVER_IP + "m=Api&c=note&a=followlist";
+	//28、点赞
+	public final static String AGREE_URL = URL_SERVER_IP + "m=Api&c=note&a=agree";
+	//29、回复
+	public final static String FOLLOW_URL = URL_SERVER_IP + "m=Api&c=note&a=follow";
+	//30、获取广告地址
+	public final static String AD_URL = URL_SERVER_IP + "m=Home&c=zbsq&a=Advertisement";
+	//31、订单记录
+	public final static String ORDER_INFO_URL = URL_SERVER_IP + "m=Home&c=zbsq&a=Advertisement";
 }

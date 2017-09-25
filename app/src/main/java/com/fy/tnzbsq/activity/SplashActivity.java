@@ -1,35 +1,5 @@
 package com.fy.tnzbsq.activity;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Map;
-
-import org.kymjs.kjframe.KJHttp;
-import org.kymjs.kjframe.http.HttpCallBack;
-import org.kymjs.kjframe.http.HttpParams;
-import org.kymjs.kjframe.utils.FileUtils;
-import org.kymjs.kjframe.utils.KJLoger;
-import org.kymjs.kjframe.utils.PreferenceHelper;
-import org.kymjs.kjframe.utils.SystemTool;
-
-
-import com.fy.tnzbsq.App;
-import com.fy.tnzbsq.R;
-import com.fy.tnzbsq.bean.ActsRet;
-
-import com.fy.tnzbsq.common.Contants;
-
-import com.fy.tnzbsq.common.ServiceInterface;
-
-import com.fy.tnzbsq.view.CustomDialog;
-
-import com.fy.tnzbsq.view.RoundProgressBar;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.umeng.analytics.MobclickAgent;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -41,10 +11,31 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
-
-import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.fy.tnzbsq.App;
+import com.fy.tnzbsq.R;
+import com.fy.tnzbsq.bean.ActsRet;
+import com.fy.tnzbsq.common.Contants;
+import com.fy.tnzbsq.common.ServiceInterface;
+import com.fy.tnzbsq.view.CustomDialog;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.umeng.analytics.MobclickAgent;
+
+import org.kymjs.kjframe.KJHttp;
+import org.kymjs.kjframe.http.HttpCallBack;
+import org.kymjs.kjframe.http.HttpParams;
+import org.kymjs.kjframe.utils.FileUtils;
+import org.kymjs.kjframe.utils.KJLoger;
+import org.kymjs.kjframe.utils.PreferenceHelper;
+import org.kymjs.kjframe.utils.SystemTool;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Map;
 
 public class SplashActivity extends BaseActivity {
 
@@ -304,7 +295,7 @@ public class SplashActivity extends BaseActivity {
     public void initDataFromThread() {
         super.initDataFromThread();
         try {
-            Thread.sleep(2500);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -393,8 +384,6 @@ public class SplashActivity extends BaseActivity {
         return lastId;
     }
 
-
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -418,7 +407,7 @@ public class SplashActivity extends BaseActivity {
         //}
 
         Intent intent = new Intent();
-        intent.setClass(SplashActivity.this,MainActivity.class);
+        intent.setClass(SplashActivity.this,Main5Activity.class);
         startActivity(intent);
         SplashActivity.this.finish();
     }
