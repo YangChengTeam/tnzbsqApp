@@ -17,7 +17,7 @@ public class ZBDataFieldInfo implements Serializable {
     public int input_type;
     public String def_val;
     public String val;
-    public String text_len_limit;
+    public int text_len_limit;
     public int x1;
     public int y1;
     public int x2;

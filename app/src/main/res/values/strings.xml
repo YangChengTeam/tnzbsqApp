@@ -67,4 +67,5 @@
     <string name="hint_confirm_password_text">请再次输入密码</string>
 
     <string name="login_text">登 录</string>
+    <string name="order_info_text">订单信息</string>
 </resources>

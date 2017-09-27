@@ -74,7 +74,7 @@
             android:layout_height="32dp"
             android:background="#FFD39B"
             android:gravity="center"
-            android:text="QQ群：462869974 (点击加群)"
+            android:text="QQ群：479687673 (点击加群)"
             android:textSize="16sp"/>
 
         <TextView
@@ -94,7 +94,7 @@
             android:layout_marginTop="6dp"
             android:background="#FFD39B"
             android:gravity="center"
-            android:text="联系QQ：1358808844 (点击复制)"
+            android:text="联系QQ：3258186647 (点击复制)"
             android:textSize="16sp"/>
     </LinearLayout>
 

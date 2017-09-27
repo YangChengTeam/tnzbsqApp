@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.fy.tnzbsq"
-          android:versionCode="52"
-          android:versionName="3.0.1">
+          android:versionCode="53"
+          android:versionName="3.0.2">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -340,12 +340,12 @@
 
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="LONGPENG">
+            android:value="LIURENJUN">
         </meta-data>
 
         <!-- 微支付SDK界面 -->
         <!-- 显示网页界面 -->
-        <activity
+        <!--<activity
             android:name="com.iapppay.sdk.main.WebActivity"
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
@@ -354,13 +354,13 @@
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
-        <!-- 收银台-普通 -->
+        &lt;!&ndash; 收银台-普通 &ndash;&gt;
         <activity
             android:name="com.iapppay.ui.activity.PayHubActivity"
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
-        <!-- 选择充值金额界面 -->
+        &lt;!&ndash; 选择充值金额界面 &ndash;&gt;
         <activity
             android:name="com.iapppay.ui.activity.SelectAmountActivity"
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
@@ -371,12 +371,12 @@
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-        <!-- 游戏卡和话费卡界面 -->
+        &lt;!&ndash; 游戏卡和话费卡界面 &ndash;&gt;
         <activity
             android:name="com.iapppay.ui.card.GamepayActivity"
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
             android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>-->
 
         <!-- alipay sdk begin (新的支付宝) -->
         <activity

@@ -65,5 +65,5 @@ public class Server {
 	//30、获取广告地址
 	public final static String AD_URL = URL_SERVER_IP + "m=Home&c=zbsq&a=Advertisement";
 	//31、订单记录
-	public final static String ORDER_INFO_URL = URL_SERVER_IP + "m=Home&c=zbsq&a=Advertisement";
+	public final static String ORDER_INFO_URL = URL_SERVER_IP + "m=api&c=index&a=user_order_list";
 }

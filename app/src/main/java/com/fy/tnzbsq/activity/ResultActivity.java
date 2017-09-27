@@ -31,6 +31,7 @@ import com.fy.tnzbsq.R;
 import com.fy.tnzbsq.bean.GameInfo;
 import com.fy.tnzbsq.common.Contants;
 import com.fy.tnzbsq.common.CustomWebViewDelegate;
+import com.fy.tnzbsq.util.SizeUtils;
 import com.fy.tnzbsq.view.CapturePhotoUtils;
 import com.fy.tnzbsq.view.CustomProgress;
 import com.fy.tnzbsq.view.CustomWebView;
@@ -224,8 +225,7 @@ public class ResultActivity extends BaseActivity implements CustomWebViewDelegat
 
             case R.id.share_app_layout:
                 shareWindow = new SharePopupWindow(context, itemsOnClick);
-                shareWindow.showAtLocation(resultLayout, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0,
-                        0);
+                shareWindow.showAtLocation(resultLayout, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, SizeUtils.getNavigationBarHeight(this));
                 backgroundAlpha(0.5f);
                 shareWindow.setOnDismissListener(new PoponDismissListener());
                 break;

@@ -418,7 +418,9 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
     @Override
     public void onRefresh() {
         currentPage = 1;
-        mSlideInfoList.clear();
+        if (mSlideInfoList != null && mSlideInfoList.size() > 0) {
+            mSlideInfoList.clear();
+        }
         loadData();
     }
 

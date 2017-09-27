@@ -106,7 +106,7 @@ public class AboutActivity extends BaseAppActivity {
         RxView.clicks(joinTv).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
             @Override
             public void call(Void aVoid) {
-                joinQQGroup("_KpIQPwGrQac_1gXm3WPb4l_vV8smP7A");
+                joinQQGroup("7BFn1GxAlvk1i9ZxdpEtysy4nDRrszid");
             }
         });
 
@@ -115,7 +115,7 @@ public class AboutActivity extends BaseAppActivity {
             public void call(Void aVoid) {
                 ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 // 将文本内容放到系统剪贴板里。
-                cm.setPrimaryClip(ClipData.newPlainText(null, "1358808844"));
+                cm.setPrimaryClip(ClipData.newPlainText(null, "3258186647"));
                 ToastUtil.toast(AboutActivity.this, "复制成功，可以加QQ了");
             }
         });
@@ -146,8 +146,9 @@ public class AboutActivity extends BaseAppActivity {
     }
 
     /****************
-     * 发起添加群流程。群号：腾牛装逼神器(462869974) 的 key 为： _KpIQPwGrQac_1gXm3WPb4l_vV8smP7A
-     * 调用 joinQQGroup(_KpIQPwGrQac_1gXm3WPb4l_vV8smP7A) 即可发起手Q客户端申请加群 腾牛装逼神器(462869974)
+     *
+     * 发起添加群流程。群号：装逼神器官方群(479687673) 的 key 为： 7BFn1GxAlvk1i9ZxdpEtysy4nDRrszid
+     * 调用 joinQQGroup(7BFn1GxAlvk1i9ZxdpEtysy4nDRrszid) 即可发起手Q客户端申请加群 装逼神器官方群(479687673)
      *
      * @param key 由官网生成的key
      * @return 返回true表示呼起手Q成功，返回fals表示呼起失败

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -37,6 +39,7 @@ import com.fy.tnzbsq.net.OKHttpRequest;
 import com.fy.tnzbsq.net.listener.OnResponseListener;
 import com.fy.tnzbsq.util.HeadImageUtils;
 import com.fy.tnzbsq.util.PreferencesUtils;
+import com.fy.tnzbsq.util.ScreenUtils;
 import com.fy.tnzbsq.util.SizeUtils;
 import com.fy.tnzbsq.view.ChargeDialog;
 import com.fy.tnzbsq.view.CustomProgress;
@@ -76,6 +79,9 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
 
     @BindView(R.id.toolbarContainer)
     Toolbar mToolbar;
+
+    @BindView(R.id.image_layout)
+    LinearLayout mImageLayout;
 
     @BindView(R.id.iv_create_bg_iv)
     ImageView mCreateBgImageView;
@@ -125,7 +131,10 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
                 Glide.with(this).load(mZbDataInfo.front_img).asBitmap().into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        mCreateBgImageView.getLayoutParams().width = getRealWidth(resource.getWidth());
+                        mCreateBgImageView.getLayoutParams().height = getRealWHeight(resource.getHeight());
                         mCreateBgImageView.setImageBitmap(resource);
+
                         mLoadingLayout.setVisibility(View.GONE);
                         Logger.e("w-->" + resource.getWidth() + "---h-->" + resource.getHeight());
                         createInputView();
@@ -148,12 +157,33 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
 
         User user = (User) PreferencesUtils.getObject(context, "login_user", User.class);
         App.loginUser = user;
+    }
 
+    public int getRealWidth(int cWidth){
+        if(cWidth > ScreenUtils.getScreenWidth(this)){
+            return ScreenUtils.getScreenWidth(this) - SizeUtils.dp2px(this, 20);
+        }else{
+            return cWidth;
+        }
+    }
+
+    public int getRealWHeight(int cHeight){
+        if(cHeight > ScreenUtils.getScreenHeight(this)){
+            return ScreenUtils.getScreenHeight(this) - SizeUtils.dp2px(this, 20);
+        }else{
+            return cHeight;
+        }
     }
 
     @Override
     protected void initViews() {
+        FrameLayout.LayoutParams iParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        iParams.setMargins(SizeUtils.dp2px(this, 6), SizeUtils.dp2px(this, 6), SizeUtils.dp2px(this, 6), SizeUtils.dp2px(this, 6));
+        mImageLayout.setLayoutParams(iParams);
 
+        LinearLayout.LayoutParams cParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        cParams.setMargins(0, SizeUtils.dp2px(this, 12), 0, 0);
+        mCreateTypeLayout.setLayoutParams(cParams);
     }
 
     protected void createInputView() {
@@ -176,7 +206,8 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
                         wordTv.setHint(zField.def_val);
                         wordTv.setBackgroundResource(R.drawable.input_bg);
                         wordTv.setPadding(paddingLeft, 0, 0, 0);
-                        wordTv.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+                        wordTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+                        wordTv.setFilters(new InputFilter[]{new InputFilter.LengthFilter(zField.text_len_limit)});
 
                         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, tHeight);
                         params.gravity = Gravity.CENTER;
@@ -230,7 +261,7 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
 
                         TextView imageText = new TextView(this);
                         imageText.setText("选择图片：");
-                        imageText.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
+                        imageText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                         RelativeLayout.LayoutParams leftParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                         leftParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
                         leftParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);

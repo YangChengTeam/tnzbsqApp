@@ -28,7 +28,7 @@
         android:layout_height="0.5dp"
         android:background="@color/blue"></View>
 
-    <!--<LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -44,37 +44,37 @@
             android:textSize="14sp"/>
 
         <RadioGroup
+            android:id="@+id/pay_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left|center"
             android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/alipay_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/alipay_btn_selector"
-                android:button="@null"
-                android:checked="true"
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textSize="17.0sp"
-                />
-
-            <RadioButton
                 android:id="@+id/wx_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="6dp"
                 android:background="@drawable/wx_btn_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:checked="true"
+                android:textColor="@android:color/black"
+                android:textSize="17.0sp"
+                />
+            <RadioButton
+                android:id="@+id/alipay_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:background="@drawable/alipay_btn_selector"
                 android:button="@null"
                 android:gravity="center"
                 android:textColor="@android:color/black"
                 android:textSize="17.0sp"
                 />
         </RadioGroup>
-    </LinearLayout>-->
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -141,7 +141,6 @@
                 android:textColor="@color/forget_text_color"
                 android:textSize="12sp"/>
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/layout_goto_market"
             android:layout_width="240dp"
@@ -169,5 +168,6 @@
                 android:textSize="12sp"/>
         </LinearLayout>
     </LinearLayout>
+
 
 </LinearLayout>

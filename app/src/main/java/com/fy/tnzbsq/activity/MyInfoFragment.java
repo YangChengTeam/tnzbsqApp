@@ -230,6 +230,16 @@ public class MyInfoFragment extends CustomBaseFragment {
             }
         });
 
+        RxView.clicks(userNameTv).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                if (App.loginUser == null) {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
         RxView.clicks(mLoginoutLayout).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
             @Override
             public void call(Void aVoid) {
@@ -255,11 +265,13 @@ public class MyInfoFragment extends CustomBaseFragment {
                 vipImageView.setVisibility(View.VISIBLE);
             }
             mLoginoutLayout.setVisibility(View.VISIBLE);
+            mOrderLayout.setVisibility(View.VISIBLE);
             lineView.setVisibility(View.VISIBLE);
         } else {
             vipImageView.setVisibility(View.GONE);
             lineView.setVisibility(View.GONE);
             mLoginoutLayout.setVisibility(View.GONE);
+            mOrderLayout.setVisibility(View.GONE);
             userNameTv.setText(getString(R.string.default_user_name_text));
             mUserImageView.setImageResource(R.mipmap.user_default_img);
         }
