@@ -159,18 +159,18 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
         App.loginUser = user;
     }
 
-    public int getRealWidth(int cWidth){
-        if(cWidth > ScreenUtils.getScreenWidth(this)){
+    public int getRealWidth(int cWidth) {
+        if (cWidth > ScreenUtils.getScreenWidth(this)) {
             return ScreenUtils.getScreenWidth(this) - SizeUtils.dp2px(this, 20);
-        }else{
+        } else {
             return cWidth;
         }
     }
 
-    public int getRealWHeight(int cHeight){
-        if(cHeight > ScreenUtils.getScreenHeight(this)){
+    public int getRealWHeight(int cHeight) {
+        if (cHeight > ScreenUtils.getScreenHeight(this)) {
             return ScreenUtils.getScreenHeight(this) - SizeUtils.dp2px(this, 20);
-        }else{
+        } else {
             return cHeight;
         }
     }
@@ -190,10 +190,10 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
 
         if (mZbDataInfo != null && mZbDataInfo.field != null) {
 
-            int paddingLeft = SizeUtils.dp2px(this, 10);
-            int textSize = SizeUtils.sp2px(this, 6);
-            int tHeight = SizeUtils.dp2px(this, 38);
-            int tMargin = SizeUtils.dp2px(this, 42);
+            final int paddingLeft = SizeUtils.dp2px(this, 10);
+            final int textSize = SizeUtils.sp2px(this, 6);
+            final int tHeight = SizeUtils.dp2px(this, 38);
+            final int tMargin = SizeUtils.dp2px(this, 42);
 
             Map<String, String> requestData = new HashMap<String, String>();
             Logger.e("create field --->" + mZbDataInfo.field.size());
@@ -216,6 +216,10 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
                     }
                     if (zField.input_type == 1) {
 
+                        final LinearLayout customLayout = new LinearLayout(this);
+                        LinearLayout.LayoutParams cParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        customLayout.setOrientation(LinearLayout.VERTICAL);
+
                         LinearLayout.LayoutParams sParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                         sParams.setMargins(tMargin, 0, tMargin, SizeUtils.dp2px(this, 10));
                         sParams.gravity = Gravity.CENTER;
@@ -227,25 +231,52 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
 
                         if (zField.select != null && zField.select.size() > 0) {
                             for (int j = 0; j < zField.select.size(); j++) {
-                                if (!zField.select.get(j).opt_text.equals("自定义文字")) {
-                                    dataSet.add(zField.select.get(j).opt_text);
-                                }
+                                //if (!zField.select.get(j).opt_text.equals("自定义文字")) {
+                                dataSet.add(zField.select.get(j).opt_text);
+                                //}
                             }
                         }
                         adapter.addAll(dataSet);
                         niceSpinner.setAdapter(adapter);
-                        mCreateTypeLayout.addView(niceSpinner, sParams);
+                        customLayout.addView(niceSpinner, sParams);
+
+                        EditText customTv = new EditText(CreateBeforeActivity.this);
+                        customTv.setHint("请输入文字");
+                        customTv.setBackgroundResource(R.drawable.input_bg);
+                        customTv.setPadding(paddingLeft, 0, 0, 0);
+                        customTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+                        customTv.setVisibility(View.GONE);
+                        customTv.setFilters(new InputFilter[]{new InputFilter.LengthFilter(zField.text_len_limit)});
+
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, tHeight);
+                        params.gravity = Gravity.CENTER;
+                        params.setMargins(tMargin, 0, tMargin, SizeUtils.dp2px(CreateBeforeActivity.this, 10));
+                        customLayout.addView(customTv, params);
+
+                        mCreateTypeLayout.addView(customLayout, cParams);
 
                         niceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 niceSpinner.setContentDescription(dataSet.get(position));
-                                //ToastUtil.toast(CreateBeforeActivity.this, view.getContentDescription().toString());
+
+                                if (dataSet.get(position).contains("自定义")) {
+                                    for (int i = 0; i < customLayout.getChildCount(); i++) {
+                                        if (customLayout.getChildAt(i) instanceof EditText) {
+                                            customLayout.getChildAt(i).setVisibility(View.VISIBLE);
+                                        }
+                                    }
+                                } else {
+                                    for (int i = 0; i < customLayout.getChildCount(); i++) {
+                                        if (customLayout.getChildAt(i) instanceof EditText) {
+                                            customLayout.getChildAt(i).setVisibility(View.GONE);
+                                        }
+                                    }
+                                }
                             }
 
                             @Override
                             public void onNothingSelected(AdapterView<?> parent) {
-
                             }
                         });
                     }
@@ -491,17 +522,37 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
                     continue;
                 }
 
-                if (mCreateTypeLayout.getChildAt(i) instanceof Spinner) {
-                    Spinner iSpinner = (Spinner) mCreateTypeLayout.getChildAt(i);
-                    if (StringUtils.isEmpty(iSpinner.getContentDescription())) {
-                        ToastUtil.toast(this, "请选择值");
-                        isValidate = false;
-                        break;
-                    } else {
-                        requestData.put(i + "", iSpinner.getContentDescription().toString());
+                if (mCreateTypeLayout.getChildAt(i) instanceof LinearLayout) {
+                    LinearLayout tempLinearLayout = (LinearLayout) mCreateTypeLayout.getChildAt(i);
+                    for (int m = 0; m < tempLinearLayout.getChildCount(); m++) {
+                        if (tempLinearLayout.getChildAt(m) instanceof EditText) {
+                            EditText iEditText = (EditText) tempLinearLayout.getChildAt(m);
+                            if (StringUtils.isEmpty(iEditText.getText()) && iEditText.getVisibility() == View.VISIBLE) {
+                                ToastUtil.toast(this, "请输入值");
+                                isValidate = false;
+                                break;
+                            } else {
+                                if (iEditText.getVisibility() == View.VISIBLE) {
+                                    requestData.put(i + "", iEditText.getText().toString());
+                                }
+                            }
+                            continue;
+                        }
+
+                        if (tempLinearLayout.getChildAt(m) instanceof Spinner) {
+                            Spinner iSpinner = (Spinner) tempLinearLayout.getChildAt(m);
+                            if (StringUtils.isEmpty(iSpinner.getContentDescription())) {
+                                ToastUtil.toast(this, "请选择值");
+                                isValidate = false;
+                                break;
+                            } else {
+                                requestData.put(i + "", iSpinner.getContentDescription().toString());
+                            }
+                            continue;
+                        }
                     }
-                    continue;
                 }
+
                 if (mCreateTypeLayout.getChildAt(i) instanceof RelativeLayout) {
                     RelativeLayout tempLayout = (RelativeLayout) mCreateTypeLayout.getChildAt(i);
                     for (int j = 0; j < tempLayout.getChildCount(); j++) {
@@ -534,6 +585,7 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
                         }
                     }
                 }
+
                 if (!isAuth) {
                     ChargeDialog dialog = new ChargeDialog(CreateBeforeActivity.this, mZbDataInfo != null ? mZbDataInfo.id : "");
                     dialog.setTimeListener(this);

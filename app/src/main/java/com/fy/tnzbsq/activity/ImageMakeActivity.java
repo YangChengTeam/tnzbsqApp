@@ -135,7 +135,7 @@ public class ImageMakeActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    ShareActsDialog shareActsDialog = new ShareActsDialog(context, showBitmap, tempFightName, "gif");
+                    ShareActsDialog shareActsDialog = new ShareActsDialog(context, showBitmap, tempFightName, tempType);
                     shareActsDialog.showShareDialog(shareActsDialog);
                     break;
             }
