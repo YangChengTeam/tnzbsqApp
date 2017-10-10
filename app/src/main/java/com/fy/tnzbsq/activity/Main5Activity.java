@@ -7,13 +7,26 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.fy.tnzbsq.App;
 import com.fy.tnzbsq.R;
 import com.fy.tnzbsq.adapter.MyViewPagerAdapter;
+import com.fy.tnzbsq.bean.PriceRet;
+import com.fy.tnzbsq.common.Contants;
+import com.fy.tnzbsq.common.Server;
 import com.fy.tnzbsq.util.SizeUtils;
+import com.fy.tnzbsq.util.StringUtils;
 import com.fy.tnzbsq.view.CreatePopupWindow;
 import com.fy.tnzbsq.view.SpecialNoTitleTab;
 import com.fy.tnzbsq.view.SpecialTab;
 import com.fy.tnzbsq.view.SpecialTabRound;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
+
+import org.kymjs.kjframe.KJHttp;
+import org.kymjs.kjframe.http.HttpCallBack;
+import org.kymjs.kjframe.http.HttpParams;
+
+import java.util.Map;
 
 import me.majiajie.pagerbottomtabstrip.NavigationController;
 import me.majiajie.pagerbottomtabstrip.PageNavigationView;
@@ -71,6 +84,8 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
 
             }
         });
+
+        getPriceConfig();
     }
 
     @Override
@@ -153,4 +168,56 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
         }
 
     }
+
+
+    public void getPriceConfig() {
+
+        KJHttp kjh = new KJHttp();
+        kjh.cleanCache();
+        HttpParams params = new HttpParams();
+        params.put("mime", App.ANDROID_ID);
+
+        kjh.post(Server.URL_PRICE, params, new HttpCallBack() {
+            @Override
+            public void onSuccess(Map<String, String> headers, byte[] bt) {
+                super.onSuccess(headers, bt);
+
+                if (bt != null && bt.length > 0) {
+                    String resultValue = new String(bt);
+                    if (resultValue != null) {
+                        try {
+                            PriceRet result = Contants.gson.fromJson(resultValue, new TypeToken<PriceRet>() {}.getType());
+                            if (result != null && result.errCode.equals("0")) {
+                                App.siglePrice = result.data != null ? Float.parseFloat(result.data.single) : 2f;
+                                App.vipPrice = result.data != null ? Float.parseFloat(result.data.vip) : 18f;
+
+                                if(result.data != null && !StringUtils.isEmpty(result.data.singledesp)){
+                                    App.sigleRemark = result.data.singledesp;
+                                }else{
+                                    App.sigleRemark = "付费解锁&(购买单个素材2元/个)";
+                                }
+
+                                if(result.data != null && !StringUtils.isEmpty(result.data.vipdesp)){
+                                    App.vipRemark = result.data.vipdesp;
+                                }else{
+                                    App.vipRemark = "永久VIP会员&所有素材免费,原价58元现价18.8元";
+                                }
+
+                                return;
+                            }
+                        } catch (JsonSyntaxException e) {
+                            e.printStackTrace();
+                        } finally {
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int errorNo, String strMsg) {
+                super.onFailure(errorNo, strMsg);
+            }
+        });
+    }
+
 }
