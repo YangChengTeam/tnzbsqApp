@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.kk.pay.IPayImpl;
+import com.kk.pay.other.ToastUtil;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -14,7 +15,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 
-public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
+public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     private IWXAPI api;
 
@@ -42,19 +43,43 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             // resp.errCode == -2 原因 用户取消,无需处理。发生场景：用户不支付了，点击取消，返回APP
             if (resp.errCode == 0) //支付成功
             {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtil.toast2(WXPayEntryActivity.this, "支付成功");
+                    }
+                });
                 IPayImpl.uOrderInfo.setMessage("支付成功");
                 IPayImpl.uiPayCallback.onSuccess(IPayImpl.uOrderInfo);
             } else if (resp.errCode == -1) // 支付错误
             {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtil.toast2(WXPayEntryActivity.this, "支付错误");
+                    }
+                });
                 IPayImpl.uOrderInfo.setMessage("支付错误");
                 IPayImpl.uiPayCallback.onFailure(IPayImpl.uOrderInfo);
 
             } else if (resp.errCode == -2) // 支付取消
             {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtil.toast2(WXPayEntryActivity.this, "支付取消");
+                    }
+                });
                 IPayImpl.uOrderInfo.setMessage("支付取消");
                 IPayImpl.uiPayCallback.onFailure(IPayImpl.uOrderInfo);
 
             } else {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtil.toast2(WXPayEntryActivity.this, "支付失败");
+                    }
+                });
                 IPayImpl.uOrderInfo.setMessage("支付失败");
                 IPayImpl.uiPayCallback.onFailure(IPayImpl.uOrderInfo);
             }

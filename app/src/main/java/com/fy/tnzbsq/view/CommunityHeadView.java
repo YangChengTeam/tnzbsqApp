@@ -1,11 +1,13 @@
 package com.fy.tnzbsq.view;
 
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +19,7 @@ import com.fy.tnzbsq.bean.CommunityInfo;
 import com.fy.tnzbsq.util.StringUtils;
 import com.fy.tnzbsq.util.TimeUtils;
 import com.jakewharton.rxbinding.view.RxView;
+import com.kk.utils.ToastUtil;
 
 import java.net.URLDecoder;
 import java.util.List;
@@ -36,6 +39,9 @@ public class CommunityHeadView extends BaseView {
     @BindView(R.id.iv_note_user_img)
     ImageView noteUserImageView;
 
+    @BindView(R.id.iv_is_vip)
+    ImageView mVipImageView;
+
     @BindView(R.id.tv_note_user_name)
     TextView mUserNameTextView;
 
@@ -43,7 +49,7 @@ public class CommunityHeadView extends BaseView {
     TextView mNoteDateTextView;
 
     @BindView(R.id.tv_note_title)
-    TextView mNoteTitleTextView;
+    EditText mNoteTitleEditText;
 
     @BindView(R.id.tv_comment_count)
     TextView mCommentCountTextView;
@@ -82,6 +88,17 @@ public class CommunityHeadView extends BaseView {
     @Override
     public void init() {
         super.init();
+
+        mNoteTitleEditText.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ClipboardManager cm = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                cm.setText(mNoteTitleEditText.getText().toString());
+                ToastUtil.toast(mContext, "已复制到粘贴板");
+                return false;
+            }
+        });
+
     }
 
     @Override
@@ -96,15 +113,24 @@ public class CommunityHeadView extends BaseView {
         mNoteDetailImagesRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         mImageDetailSelectedAdapter = new ImageDetailSelectedAdapter(mContext, imageList);
         mNoteDetailImagesRecyclerView.setAdapter(mImageDetailSelectedAdapter);
+        try {
+            mUserNameTextView.setText(URLDecoder.decode(communityInfo.user_name, "UTF-8"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        mUserNameTextView.setText(communityInfo.user_name);
+        if (communityInfo.istop == 1) {
+            mVipImageView.setVisibility(View.VISIBLE);
+        } else {
+            mVipImageView.setVisibility(View.GONE);
+        }
 
         if (!StringUtils.isEmpty(communityInfo.add_time)) {
             long addTime = Long.parseLong(communityInfo.add_time) * 1000;
             mNoteDateTextView.setText(TimeUtils.millis2String(addTime));
         }
         try {
-            mNoteTitleTextView.setText(URLDecoder.decode(communityInfo.content, "UTF-8"));
+            mNoteTitleEditText.setText(URLDecoder.decode(communityInfo.content, "UTF-8"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -135,7 +161,12 @@ public class CommunityHeadView extends BaseView {
         mPraiseCountTextView.setText(count + "");
     }
 
-    public void updatePraiseState(Drawable state) {
+    public void updatePraiseState(Drawable state, String type) {
+        if (type.equals("1")) {
+            mPraiseCountTextView.setClickable(false);
+        } else {
+            mPraiseCountTextView.setClickable(true);
+        }
         mPraiseCountTextView.setCompoundDrawables(state, null, null, null);
     }
 

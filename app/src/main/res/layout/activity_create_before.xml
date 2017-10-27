@@ -48,14 +48,19 @@
             android:id="@+id/loading_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:visibility="gone">
+            android:gravity="center">
 
             <pl.droidsonroids.gif.GifImageView
                 android:id="@+id/loading_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/main_loading_gif"/>
+
+            <ImageView
+                android:id="@+id/iv_no_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/no_data_icon"/>
         </LinearLayout>
     </FrameLayout>
 </RelativeLayout>

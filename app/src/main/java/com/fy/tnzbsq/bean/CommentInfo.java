@@ -26,4 +26,6 @@ public class CommentInfo {
 
     public String add_time;
 
+    public int isvip;
+
 }

@@ -325,11 +325,11 @@ public class CommunityDetailActivity extends BaseAppActivity implements Communit
         if (type != null && type.equals("1")) {
             Drawable isZan = ContextCompat.getDrawable(CommunityDetailActivity.this, R.mipmap.is_zan_icon);
             isZan.setBounds(0, 0, isZan.getMinimumWidth(), isZan.getMinimumHeight());
-            headView.updatePraiseState(isZan);
+            headView.updatePraiseState(isZan,"1");
         } else {
             Drawable noZan = ContextCompat.getDrawable(CommunityDetailActivity.this, R.mipmap.no_zan_icon);
             noZan.setBounds(0, 0, noZan.getMinimumWidth(), noZan.getMinimumHeight());
-            headView.updatePraiseState(noZan);
+            headView.updatePraiseState(noZan,"0");
         }
     }
 

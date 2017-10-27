@@ -29,7 +29,7 @@ public class CommentItemAdapter extends BaseQuickAdapter<CommentInfo, BaseViewHo
     @Override
     protected void convert(final BaseViewHolder helper, final CommentInfo item) {
         try {
-            helper.setText(R.id.tv_comment_user_name, item.user_name)
+            helper.setText(R.id.tv_comment_user_name, URLDecoder.decode(item.user_name, "UTF-8"))
                     .setText(R.id.tv_comment_content, URLDecoder.decode(item.content, "UTF-8"));
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,6 +39,13 @@ public class CommentItemAdapter extends BaseQuickAdapter<CommentInfo, BaseViewHo
             helper.setText(R.id.tv_comment_date, TimeUtils.millis2String(addTime, new SimpleDateFormat("MM-dd HH:mm",
                     Locale.getDefault())));
         }
+
+        if (item.isvip == 1) {
+            helper.setVisible(R.id.iv_is_vip, true);
+        } else {
+            helper.setVisible(R.id.iv_is_vip, false);
+        }
+
         Glide.with(mContext).load(item.face).transform(new GlideRoundTransform(mContext, 25)).into((ImageView) helper.getConvertView().findViewById(R.id.iv_comment_user_img));
     }
 }

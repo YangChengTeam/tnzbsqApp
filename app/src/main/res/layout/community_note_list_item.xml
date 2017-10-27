@@ -19,39 +19,70 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp">
 
-            <ImageView
-                android:id="@+id/iv_note_user_img"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="6dp"
-                android:src="@mipmap/user_default_img"
-                android:padding="3dp"/>
+            <FrameLayout
+                android:id="@+id/user_head_layout"
+                android:layout_width="40dp"
+                android:layout_height="36dp"
+                android:layout_alignParentTop="true">
 
-            <TextView
-                android:id="@+id/tv_note_user_name"
+                <ImageView
+                    android:id="@+id/iv_note_user_img"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginLeft="6dp"
+                    android:padding="2dp"
+                    android:src="@mipmap/user_default_img"/>
+
+                <ImageView
+                    android:id="@+id/iv_is_vip"
+                    android:layout_width="12dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:visibility="gone"
+                    android:src="@mipmap/vip"/>
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/user_name_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="2dp"
-                android:textColor="@color/black1"
-                android:layout_toRightOf="@+id/iv_note_user_img"
-                android:text="火星用户"
-                android:textSize="14sp"/>
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@+id/user_head_layout"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_note_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="6dp"
+                    android:text="火星用户"
+                    android:textColor="@color/black1"
+                    android:textSize="15sp"/>
+
+                <TextView
+                    android:id="@+id/tv_note_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="7dp"
+                    android:text="10-13 09:18"
+                    android:textColor="@color/quick_text_color"
+                    android:textSize="10sp"
+                    />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_top_note"
-                android:layout_width="25dp"
-                android:layout_height="12dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/tv_note_user_name"
+                android:layout_width="32dp"
+                android:layout_height="18dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
                 android:text="置顶"
                 android:textColor="@color/white"
-                android:textSize="8sp"
+                android:textSize="10sp"
                 android:visibility="gone"/>
 
             <ImageView
@@ -64,16 +95,6 @@
                 android:layout_toRightOf="@+id/tv_top_note"
                 android:visibility="gone"/>
 
-            <TextView
-                android:id="@+id/tv_note_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="8dp"
-                android:text="10-13 09:18"
-                android:textSize="12sp"
-                />
         </RelativeLayout>
 
         <EditText
@@ -84,13 +105,13 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="10dp"
-            android:text="发帖的标题，测试发帖的标题"
-            android:textColor="@color/black1"
             android:background="@null"
             android:editable="false"
-            android:textIsSelectable="true"
+            android:text="发帖的标题，测试发帖的标题"
+            android:textColor="@color/black1"
             android:textCursorDrawable="@null"
-            android:textSize="16sp"/>
+            android:textIsSelectable="true"
+            android:textSize="14sp"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/imgs_list"
@@ -121,6 +142,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="false"
                 android:gravity="center">
 
                 <TextView

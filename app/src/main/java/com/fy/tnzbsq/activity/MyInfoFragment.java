@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -54,6 +53,8 @@ import com.umeng.socialize.utils.Log;
 import com.umeng.socialize.utils.SocializeUtils;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -247,6 +248,10 @@ public class MyInfoFragment extends CustomBaseFragment {
                 setUserState();
             }
         });
+        //StatusBarUtil.setTranslucentForImageViewInFragment(getActivity(),null);
+        //StatusBarUtil.setColor(getActivity(), getResources().getColor(R.color.common_color));
+        //getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
     }
 
     @Override
@@ -260,7 +265,12 @@ public class MyInfoFragment extends CustomBaseFragment {
         App.loginUser = user;
         if (App.loginUser != null) {
             Glide.with(getActivity()).load(user.logo).transform(new GlideRoundTransform(getActivity(), 25)).into(mUserImageView);
-            userNameTv.setText(StringUtils.isEmpty(user.nickname) ? "火星用户" : user.nickname);
+            try {
+                userNameTv.setText(StringUtils.isEmpty(user.nickname) ? "火星用户" : URLDecoder.decode(user.nickname, "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
             if (user.is_vip == 1) {
                 vipImageView.setVisibility(View.VISIBLE);
             }

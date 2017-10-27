@@ -6,7 +6,6 @@
       <module fileurl="file://$PROJECT_DIR$/Tnzbsq2.iml" filepath="$PROJECT_DIR$/Tnzbsq2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/banner/banner.iml" filepath="$PROJECT_DIR$/banner/banner.iml" />
-      <module fileurl="file://$PROJECT_DIR$/iapppay_plugin/iapppay_plugin.iml" filepath="$PROJECT_DIR$/iapppay_plugin/iapppay_plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/pay/pay.iml" filepath="$PROJECT_DIR$/pay/pay.iml" />
       <module fileurl="file://$PROJECT_DIR$/rxbus/rxbus.iml" filepath="$PROJECT_DIR$/rxbus/rxbus.iml" />
     </modules>

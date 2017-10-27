@@ -44,30 +44,30 @@
             android:textSize="14sp"/>
 
         <RadioGroup
-            android:id="@+id/pay_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left|center"
             android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/wx_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:background="@drawable/wx_btn_selector"
-                android:button="@null"
-                android:gravity="center"
-                android:checked="true"
-                android:textColor="@android:color/black"
-                android:textSize="17.0sp"
-                />
-            <RadioButton
                 android:id="@+id/alipay_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="14dp"
+                android:layout_marginLeft="20dp"
                 android:background="@drawable/alipay_btn_selector"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:textSize="17.0sp"
+                />
+
+            <RadioButton
+                android:id="@+id/wx_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/wx_btn_selector"
                 android:button="@null"
                 android:gravity="center"
                 android:textColor="@android:color/black"
@@ -89,7 +89,7 @@
             android:layout_width="240dp"
             android:layout_height="52dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/login_btn_selector"
             android:gravity="center"
@@ -119,7 +119,6 @@
             android:layout_width="240dp"
             android:layout_height="52dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
             android:background="@drawable/sigle_btn_selector"
             android:gravity="center"
             android:orientation="vertical">
@@ -141,13 +140,14 @@
                 android:textColor="@color/forget_text_color"
                 android:textSize="12sp"/>
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/layout_goto_market"
             android:layout_width="240dp"
             android:layout_height="52dp"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/market_btn_selector"
             android:gravity="center"
             android:orientation="vertical">

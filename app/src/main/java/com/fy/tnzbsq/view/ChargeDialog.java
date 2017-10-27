@@ -15,8 +15,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,9 +39,7 @@ public class ChargeDialog extends Dialog {
 
     private String goodId;
 
-    String payWayName = "ipaynow_wxpay";
-
-    RadioGroup payRadioGroup;
+    String payWayName = "alipay";
 
     public interface TimeListener {
         void timeStart();
@@ -54,7 +50,6 @@ public class ChargeDialog extends Dialog {
     public void setTimeListener(TimeListener timeListener) {
         this.timeListener = timeListener;
     }
-
 
     public ChargeDialog(Context context, String goodId) {
         super(context, R.style.Dialog);
@@ -74,7 +69,8 @@ public class ChargeDialog extends Dialog {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.charge_dialog, null);
 
-        payRadioGroup = (RadioGroup)view.findViewById(R.id.pay_group);
+        //RadioButton alipayBtn = (RadioButton) view.findViewById(R.id.alipay_btn);
+        //RadioButton wxBtn = (RadioButton) view.findViewById(R.id.wx_btn);
 
         TextView singleTv = (TextView) view.findViewById(R.id.tv_single);
         TextView singleHintTv = (TextView) view.findViewById(R.id.tv_single_hint);
@@ -149,25 +145,12 @@ public class ChargeDialog extends Dialog {
     public void buy(final int type, float price, String title) {
         String user_id = App.loginUser != null ? App.loginUser.id + "" : "";
         OrderParamsInfo orderParamsInfo = new OrderParamsInfo(Server.URL_PAY, goodId, type + "", price, title, user_id);
-
-        for(int i=0;i<payRadioGroup.getChildCount();i++){
-            RadioButton radioButton = (RadioButton)payRadioGroup.getChildAt(i);
-            if(radioButton.isChecked()){
-                if(radioButton.getId() == R.id.alipay_btn){
-                    payWayName = "ipaynow_alipay";
-                }
-                if(radioButton.getId() == R.id.wx_btn){
-                    payWayName = "ipaynow_wxpay";
-                }
-            }
-        }
-
-        orderParamsInfo.setPayway_name(payWayName);
+        orderParamsInfo.setPayway_name("wxpay");
 
         iPayAbs.pay(orderParamsInfo, new IPayCallback() {
             @Override
             public void onSuccess(OrderInfo orderInfo) {
-                Toast.makeText(context, "购买成功", Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, "购买成功", Toast.LENGTH_LONG).show();
 
                 if (type == 1) {
 
@@ -193,7 +176,7 @@ public class ChargeDialog extends Dialog {
 
             @Override
             public void onFailure(OrderInfo orderInfo) {
-                Toast.makeText(context, "购买失败", Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, "购买失败", Toast.LENGTH_LONG).show();
                 dismiss();
             }
         });
@@ -201,7 +184,9 @@ public class ChargeDialog extends Dialog {
 
     public void showChargeDialog(Dialog dia) {
         this.dialog = dia;
-        this.dialog.show();
+        if (isValidContext(context) && dialog != null) {
+            this.dialog.show();
+        }
     }
 
     public void closeChargeDialog() {

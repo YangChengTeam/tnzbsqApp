@@ -14,27 +14,42 @@
         android:layout_marginBottom="5dp"
         android:layout_marginTop="2dp">
 
-        <ImageView
-            android:id="@+id/iv_comment_user_img"
-            android:layout_width="30dp"
+        <FrameLayout
+            android:id="@+id/user_head_layout"
+            android:layout_width="33dp"
             android:layout_height="30dp"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="2dp"
-            android:padding="3dp"
-            android:src="@mipmap/user_default_img"/>
+            android:layout_marginTop="2dp">
+
+            <ImageView
+                android:id="@+id/iv_comment_user_img"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="3dp"
+                android:src="@mipmap/user_default_img"/>
+
+            <ImageView
+                android:id="@+id/iv_is_vip"
+                android:layout_width="12dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:src="@mipmap/vip"
+                android:visibility="gone"/>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/iv_comment_user_img"
+            android:layout_marginLeft="2dp"
+            android:layout_toRightOf="@+id/user_head_layout"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp">
+                android:layout_marginTop="2dp">
 
                 <TextView
                     android:id="@+id/tv_comment_user_name"

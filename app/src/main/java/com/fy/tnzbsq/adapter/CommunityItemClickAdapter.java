@@ -26,13 +26,15 @@ import com.kk.utils.ToastUtil;
 import org.kymjs.kjframe.utils.StringUtils;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 public class CommunityItemClickAdapter extends BaseQuickAdapter<CommunityInfo, BaseViewHolder> {
 
     private Context mContext;
 
-    public interface PraiseListener{
+    public interface PraiseListener {
         void praiseItem(int parentPosition);
     }
 
@@ -50,9 +52,14 @@ public class CommunityItemClickAdapter extends BaseQuickAdapter<CommunityInfo, B
     @Override
     protected void convert(final BaseViewHolder helper, final CommunityInfo item) {
         helper.setText(R.id.ev_note_title, item.content)
-                .setText(R.id.tv_note_user_name, item.user_name)
+
                 .setText(R.id.tv_comment_count, item.follow_count)
                 .setText(R.id.tv_praise_count, item.agree_count);
+        try {
+            helper.setText(R.id.tv_note_user_name, URLDecoder.decode(item.user_name, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
         if (helper.getAdapterPosition() == 0) {
             FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
@@ -66,7 +73,18 @@ public class CommunityItemClickAdapter extends BaseQuickAdapter<CommunityInfo, B
         }
 
         Glide.with(mContext).load(item.face).transform(new GlideCircleTransform(mContext)).into((ImageView) helper.getConvertView().findViewById(R.id.iv_note_user_img));
-        helper.addOnClickListener(R.id.tv_comment_count);
+
+        if (item.istop == 1) {
+            helper.setVisible(R.id.tv_top_note, true);
+        } else {
+            helper.setVisible(R.id.tv_top_note, false);
+        }
+
+        if (item.isvip == 1) {
+            helper.setVisible(R.id.iv_is_vip, true);
+        } else {
+            helper.setVisible(R.id.iv_is_vip, false);
+        }
 
         helper.getConvertView().findViewById(R.id.tv_praise_count).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,9 +96,9 @@ public class CommunityItemClickAdapter extends BaseQuickAdapter<CommunityInfo, B
         helper.getConvertView().findViewById(R.id.ev_note_title).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ClipboardManager cm =(ClipboardManager)mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipboardManager cm = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
                 cm.setText(item.content);
-                ToastUtil.toast(mContext,"已复制到粘贴板");
+                ToastUtil.toast(mContext, "已复制到粘贴板");
                 return false;
             }
         });
@@ -108,7 +126,7 @@ public class CommunityItemClickAdapter extends BaseQuickAdapter<CommunityInfo, B
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(mContext, CommunityImageShowActivity.class);
-                intent.putExtra("current_position",position);
+                intent.putExtra("current_position", position);
                 intent.putExtra("images", (Serializable) item.images);
                 mContext.startActivity(intent);
             }

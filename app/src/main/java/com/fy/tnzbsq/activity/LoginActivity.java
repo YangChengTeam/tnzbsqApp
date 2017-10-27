@@ -14,6 +14,7 @@ import com.fy.tnzbsq.bean.User;
 import com.fy.tnzbsq.common.Server;
 import com.fy.tnzbsq.util.PreferencesUtils;
 import com.fy.tnzbsq.util.StringUtils;
+import com.fy.tnzbsq.util.TimeUtils;
 import com.fy.tnzbsq.view.CustomProgress;
 import com.kk.securityhttp.domain.ResultInfo;
 import com.kk.securityhttp.engin.HttpCoreEngin;
@@ -24,6 +25,9 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import org.kymjs.kjframe.ui.BindView;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -122,47 +126,49 @@ public class LoginActivity extends BaseActivity {
                 user.gender = !StringUtils.isEmpty(data.get("gender")) ? data.get("gender").toString() : "";
                 user.login_type = "2";
             }
+            try {
+                HashMap<String, String> params = new HashMap<>();
+                params.put("imeil", App.ANDROID_ID);
+                params.put("open_id", user.user_id);
+                params.put("nickname", URLEncoder.encode(user.nickname, "UTF-8"));
+                params.put("gender", user.gender);
+                params.put("logo", user.logo + "?time=" + TimeUtils.date2String(new Date()));
+                params.put("login_type", user.login_type);
 
-            HashMap<String, String> params = new HashMap<>();
-            params.put("imeil", App.ANDROID_ID);
-            params.put("open_id", user.user_id);
-            params.put("nickname", user.nickname);
-            params.put("gender", user.gender);
-            params.put("logo", user.logo);
-            params.put("login_type", user.login_type);
-
-            HttpCoreEngin.get(context).rxpost(Server.URL_QX_LOGIN, new TypeReference<ResultInfo<User>>() {
-            }.getType(), params, true, true, false).subscribe(new Subscriber<ResultInfo<User>>() {
-                @Override
-                public void onCompleted() {
-                    if (dialog != null && dialog.isShowing()) {
-                        dialog.dismiss();
+                HttpCoreEngin.get(context).rxpost(Server.URL_QX_LOGIN, new TypeReference<ResultInfo<User>>() {
+                }.getType(), params, true, true, false).subscribe(new Subscriber<ResultInfo<User>>() {
+                    @Override
+                    public void onCompleted() {
+                        if (dialog != null && dialog.isShowing()) {
+                            dialog.dismiss();
+                        }
                     }
-                }
 
-                @Override
-                public void onError(Throwable e) {
-                    if (dialog != null && dialog.isShowing()) {
-                        dialog.dismiss();
-                    }
-                    Toast.makeText(LoginActivity.this, "登录失败，请稍后重试", Toast.LENGTH_LONG).show();
-                }
-
-                @Override
-                public void onNext(ResultInfo<User> userRet) {
-                    Log.e("login succes", "login success" + userRet.toString());
-
-                    if (userRet.code == 0) {
-                        Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_LONG).show();
-                        PreferencesUtils.putObject(LoginActivity.this, "login_user", userRet.data);
-                        App.loginUser = userRet.data;
-                        LoginActivity.this.finish();
-                    }else{
+                    @Override
+                    public void onError(Throwable e) {
+                        if (dialog != null && dialog.isShowing()) {
+                            dialog.dismiss();
+                        }
                         Toast.makeText(LoginActivity.this, "登录失败，请稍后重试", Toast.LENGTH_LONG).show();
                     }
-                }
-            });
 
+                    @Override
+                    public void onNext(ResultInfo<User> userRet) {
+                        Log.e("login succes", "login success" + userRet.toString());
+
+                        if (userRet.code == 0) {
+                            Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_LONG).show();
+                            PreferencesUtils.putObject(LoginActivity.this, "login_user", userRet.data);
+                            App.loginUser = userRet.data;
+                            LoginActivity.this.finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "登录失败，请稍后重试", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override

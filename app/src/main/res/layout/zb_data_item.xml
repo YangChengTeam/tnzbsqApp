@@ -81,6 +81,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:maxLines="2"
+                    android:ellipsize="end"
                     android:text="找到你的那个他，一起哈哈哈"
                     android:textColor="@color/send_title_color"
                     android:textSize="12sp"/>

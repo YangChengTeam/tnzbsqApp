@@ -11,21 +11,36 @@
         android:layout_marginBottom="3dp"
         android:layout_marginTop="5dp">
 
-        <ImageView
-            android:id="@+id/iv_note_user_img"
-            android:layout_width="40dp"
+        <FrameLayout
+            android:id="@+id/user_head_layout"
+            android:layout_width="44dp"
             android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="6dp"
-            android:padding="3dp"
-            android:src="@mipmap/user_default_img"/>
+            android:layout_alignParentTop="true">
+
+            <ImageView
+                android:id="@+id/iv_note_user_img"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="6dp"
+                android:padding="2dp"
+                android:src="@mipmap/user_default_img"/>
+
+            <ImageView
+                android:id="@+id/iv_is_vip"
+                android:layout_width="14dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:visibility="gone"
+                android:src="@mipmap/vip"/>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/iv_note_user_img"
+            android:layout_toRightOf="@+id/user_head_layout"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -38,6 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginTop="2dp"
                     android:textSize="16sp"
                     />
 
@@ -89,7 +105,7 @@
         android:layout_height="0.3dp"
         android:background="@color/bg_line_color"></View>
 
-    <TextView
+    <EditText
         android:id="@+id/tv_note_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -97,7 +113,11 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="18dp"
         android:layout_marginTop="10dp"
+        android:editable="false"
+        android:background="@null"
         android:textColor="@color/black1"
+        android:textCursorDrawable="@null"
+        android:textIsSelectable="true"
         android:textSize="16sp"/>
 
     <android.support.v7.widget.RecyclerView
@@ -107,7 +127,10 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:background="@color/white"/>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/bg_line_color"></View>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -127,6 +150,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/comment_icon"
                 android:drawablePadding="3dp"
+                android:gravity="center"
                 android:text="85"
                 android:textSize="12sp"/>
         </LinearLayout>
@@ -150,6 +174,7 @@
                 android:layout_gravity="center_vertical"
                 android:drawableLeft="@mipmap/no_zan_icon"
                 android:text="85"
+                android:gravity="center"
                 android:textSize="12sp"/>
         </LinearLayout>
     </LinearLayout>

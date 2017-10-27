@@ -37,4 +37,8 @@ public class CommunityInfo implements Serializable {
     public List<String> images;
 
     public String agreed;
+
+    public int istop;
+
+    public int isvip;
 }

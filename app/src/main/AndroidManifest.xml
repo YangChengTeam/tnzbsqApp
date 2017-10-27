@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.fy.tnzbsq"
-          android:versionCode="53"
-          android:versionName="3.0.2">
+          android:versionCode="55"
+          android:versionName="3.0.4">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -87,7 +87,7 @@
         <activity
             android:name=".activity.Main5Activity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/MainAppTheme">
         </activity>
         <activity
             android:name=".activity.CommunityAddActivity"
@@ -307,7 +307,7 @@
 
         <!--share -->
         <activity
-            android:name=".wxapi.WXEntryActivity"
+            android:name=".wxapi.WXPayEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -345,38 +345,38 @@
 
         <!-- 微支付SDK界面 -->
         <!-- 显示网页界面 -->
-        <!--<activity
+        <activity
             android:name="com.iapppay.sdk.main.WebActivity"
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.iapppay.ui.activity.PersonCenterActivity"
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        &lt;!&ndash; 收银台-普通 &ndash;&gt;
+        <!-- 收银台-普通 -->
         <activity
             android:name="com.iapppay.ui.activity.PayHubActivity"
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        &lt;!&ndash; 选择充值金额界面 &ndash;&gt;
+        <!-- 选择充值金额界面 -->
         <activity
             android:name="com.iapppay.ui.activity.SelectAmountActivity"
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
             android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.iapppay.ui.activity.ChargeActivity"
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
             android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-        &lt;!&ndash; 游戏卡和话费卡界面 &ndash;&gt;
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- 游戏卡和话费卡界面 -->
         <activity
             android:name="com.iapppay.ui.card.GamepayActivity"
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
             android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>-->
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- alipay sdk begin (新的支付宝) -->
         <activity
@@ -385,6 +385,13 @@
             android:exported="false"
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"

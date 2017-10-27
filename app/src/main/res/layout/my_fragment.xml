@@ -8,24 +8,7 @@
         android:id="@+id/menu_left_frag"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:orientation="vertical">
-
-        <RelativeLayout
-            android:id="@+id/main_top_layout"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:background="@color/colorAccent"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="我的"
-                android:textColor="@color/white"
-                android:textSize="18sp"/>
-        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,14 +26,15 @@
 
                 <FrameLayout
                     android:id="@+id/user_info_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginTop="20dp">
 
                     <ImageView
                         android:id="@+id/left_user_icon"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:background="@mipmap/user_default_img"/>
+                        android:src="@mipmap/user_default_img"/>
 
                     <ImageView
                         android:id="@+id/iv_is_vip"
@@ -65,23 +49,23 @@
                     android:id="@+id/user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/login_text_bg"
+                    android:layout_marginTop="2dp"
                     android:gravity="center"
-                    android:paddingBottom="5dp"
+                    android:paddingBottom="4dp"
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
-                    android:paddingTop="5dp"
+                    android:paddingTop="2dp"
                     android:text="@string/default_user_name_text"
                     android:textColor="@color/white"
-                    android:textSize="14sp"/>
+                    android:textSize="16sp"/>
             </LinearLayout>
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <TextView
@@ -93,7 +77,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.3dp"
+                android:layout_height="0.5dp"
                 android:background="@color/more_line_color"
                 android:visibility="gone"/>
 
@@ -106,7 +90,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.3dp"
+                android:layout_height="0.5dp"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginRight="@dimen/dp_10"
                 android:background="@color/more_line_color"
@@ -115,7 +99,7 @@
             <RelativeLayout
                 android:id="@+id/order_layout"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
+                android:layout_height="44dp"
                 android:background="?android:attr/selectableItemBackground">
 
                 <TextView
@@ -139,16 +123,15 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.3dp"
+                android:layout_height="0.5dp"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginRight="@dimen/dp_10"
-                android:background="@color/more_line_color"
-                android:visibility="gone"/>
+                android:background="@color/more_line_color"/>
 
             <RelativeLayout
                 android:id="@+id/send_layout"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
+                android:layout_height="44dp"
                 android:background="?android:attr/selectableItemBackground">
 
                 <TextView
@@ -172,7 +155,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.3dp"
+                android:layout_height="0.5dp"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginRight="@dimen/dp_10"
                 android:background="@color/more_line_color"/>
@@ -180,7 +163,7 @@
             <RelativeLayout
                 android:id="@+id/clear_layout"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
+                android:layout_height="44dp"
                 android:background="?android:attr/selectableItemBackground">
 
                 <TextView
@@ -204,7 +187,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.3dp"
+                android:layout_height="0.5dp"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginRight="@dimen/dp_10"
                 android:background="@color/more_line_color"/>
@@ -212,7 +195,7 @@
             <RelativeLayout
                 android:id="@+id/version_layout"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
+                android:layout_height="44dp"
                 android:background="?android:attr/selectableItemBackground">
 
                 <TextView
@@ -236,7 +219,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.3dp"
+                android:layout_height="0.5dp"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginRight="@dimen/dp_10"
                 android:background="@color/more_line_color"/>
@@ -244,7 +227,7 @@
             <RelativeLayout
                 android:id="@+id/share_layout"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
+                android:layout_height="44dp"
                 android:background="?android:attr/selectableItemBackground">
 
                 <TextView
@@ -268,7 +251,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.3dp"
+                android:layout_height="0.5dp"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginRight="@dimen/dp_10"
                 android:background="@color/more_line_color"/>
@@ -276,7 +259,7 @@
             <RelativeLayout
                 android:id="@+id/about_layout"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
+                android:layout_height="44dp"
                 android:background="?android:attr/selectableItemBackground">
 
                 <TextView
@@ -301,7 +284,7 @@
             <View
                 android:id="@+id/login_out_line"
                 android:layout_width="match_parent"
-                android:layout_height="0.3dp"
+                android:layout_height="0.5dp"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginRight="@dimen/dp_10"
                 android:background="@color/more_line_color"
@@ -310,7 +293,7 @@
             <RelativeLayout
                 android:id="@+id/logout_layout"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
+                android:layout_height="44dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:visibility="gone">
 
@@ -333,6 +316,5 @@
                     android:src="@mipmap/common_right_icon"/>
             </RelativeLayout>
         </LinearLayout>
-
     </LinearLayout>
 </ScrollView>

@@ -124,7 +124,6 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
             ButterKnife.bind(this, mRootView);
             init();
             loadData();
-            loadDataAd();
         }
         return mRootView;
     }
@@ -349,6 +348,7 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
                                     .setImageLoader(new BannerImageLoader())
                                     .setImages(imgUrls)
                                     .start();
+                            loadDataAd();
                         }
 
                         if (result.data.size() == 20) {

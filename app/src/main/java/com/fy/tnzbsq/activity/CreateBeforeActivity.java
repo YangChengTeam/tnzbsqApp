@@ -2,6 +2,7 @@ package com.fy.tnzbsq.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
@@ -65,6 +66,7 @@ import java.util.TimerTask;
 
 import butterknife.BindView;
 import me.iwf.photopicker.PhotoPicker;
+import pl.droidsonroids.gif.GifImageView;
 
 /**
  * Created by admin on 2017/8/29.
@@ -76,6 +78,12 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
 
     @BindView(R.id.loading_layout)
     LinearLayout mLoadingLayout;
+
+    @BindView(R.id.loading_iv)
+    GifImageView mGifLoadingView;
+
+    @BindView(R.id.iv_no_date)
+    ImageView mNoDataView;
 
     @BindView(R.id.toolbarContainer)
     Toolbar mToolbar;
@@ -138,6 +146,14 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
                         mLoadingLayout.setVisibility(View.GONE);
                         Logger.e("w-->" + resource.getWidth() + "---h-->" + resource.getHeight());
                         createInputView();
+                    }
+
+                    @Override
+                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                        super.onLoadFailed(e, errorDrawable);
+                        mLoadingLayout.setVisibility(View.VISIBLE);
+                        mGifLoadingView.setVisibility(View.GONE);
+                        mNoDataView.setVisibility(View.VISIBLE);
                     }
                 });
 
