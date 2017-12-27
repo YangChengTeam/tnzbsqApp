@@ -35,7 +35,7 @@
                 android:id="@+id/create_img_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="做图"
+                android:text="圣诞头像"
                 android:textColor="@color/white"
                 android:textSize="20sp"/>
         </LinearLayout>
@@ -61,7 +61,7 @@
                 android:id="@+id/create_word_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="纯文字"
+                android:text="圣诞祝福"
                 android:textColor="@color/white"
                 android:textSize="20sp"/>
         </LinearLayout>

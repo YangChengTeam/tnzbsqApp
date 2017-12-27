@@ -265,8 +265,8 @@ public class ResultActivity extends BaseActivity implements CustomWebViewDelegat
         UMImage thumb = new UMImage(context,thumb_img);
         UMWeb web = new UMWeb("http://zs.qqtn.com");
         web.setThumb(thumb);
-        web.setDescription("有人向你发起了装逼挑战，是否一战？");
-        web.setTitle("装逼神器");
+        web.setDescription("圣诞帽来啦，快来邀请好友一起玩吧");
+        web.setTitle("别@官方了，快来装逼神器定制你的圣诞节帽子吧！");
         new ShareAction((Activity) context).withMedia(web).setPlatform(platform).setCallback(umShareListener).share();
     }
 

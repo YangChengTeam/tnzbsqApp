@@ -1,18 +1,26 @@
 package com.fy.tnzbsq.activity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fy.tnzbsq.App;
 import com.fy.tnzbsq.R;
 import com.fy.tnzbsq.adapter.MyViewPagerAdapter;
+import com.fy.tnzbsq.bean.AlipyCodeRet;
 import com.fy.tnzbsq.bean.PriceRet;
 import com.fy.tnzbsq.common.Contants;
 import com.fy.tnzbsq.common.Server;
+import com.fy.tnzbsq.net.OKHttpRequest;
+import com.fy.tnzbsq.net.listener.OnResponseListener;
+import com.fy.tnzbsq.util.PreferencesUtils;
 import com.fy.tnzbsq.util.SizeUtils;
 import com.fy.tnzbsq.util.StringUtils;
 import com.fy.tnzbsq.view.CreatePopupWindow;
@@ -28,6 +36,7 @@ import org.kymjs.kjframe.http.HttpParams;
 
 import java.util.Map;
 
+import butterknife.BindView;
 import me.majiajie.pagerbottomtabstrip.NavigationController;
 import me.majiajie.pagerbottomtabstrip.PageNavigationView;
 import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
@@ -44,6 +53,13 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
 
     private long clickTime = 0;
 
+    OKHttpRequest okHttpRequest = null;
+
+    @BindView(R.id.tv_tips)
+    TextView tipsTextView;
+
+    public String alipyCode = "鹤创依融先星bZ育香";
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -55,6 +71,9 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
 
     @Override
     protected void initViews() {
+
+        okHttpRequest = new OKHttpRequest();
+
         PageNavigationView tab = (PageNavigationView) findViewById(R.id.tab);
 
         SpecialNoTitleTab noTitleItem = (SpecialNoTitleTab) NoTitleItem(R.mipmap.add_icon, R.mipmap.close_icon, "");
@@ -85,7 +104,23 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
             }
         });
 
+        boolean isShow = PreferencesUtils.getBoolean(context, "tips", true);
+        if (!isShow) {
+            tipsTextView.setVisibility(View.GONE);
+        } else {
+            tipsTextView.setVisibility(View.VISIBLE);
+        }
+
+        tipsTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tipsTextView.setVisibility(View.GONE);
+                PreferencesUtils.putBoolean(context, "tips", false);
+            }
+        });
+
         getPriceConfig();
+        getAlipyCode();
     }
 
     @Override
@@ -94,6 +129,10 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
 
     @Override
     public void addListener() {
+
+        tipsTextView.setVisibility(View.GONE);
+        PreferencesUtils.putBoolean(context, "tips", false);
+
         createWindow = new CreatePopupWindow(context, itemsOnClick);
         createWindow.showAtLocation(findViewById(R.id.main_layout), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, SizeUtils.getNavigationBarHeight(context));
     }
@@ -166,7 +205,37 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
         } else {
             System.exit(0);
         }
+    }
 
+    public void copyAlipy(String code) {
+        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        // 将文本内容放到系统剪贴板里。
+        cm.setPrimaryClip(ClipData.newPlainText(null, code));
+    }
+
+    public void getAlipyCode() {
+        okHttpRequest.aget("http://u.wk990.com/api/index/zfb_code?app_name=zbsq", null, new OnResponseListener() {
+            @Override
+            public void onSuccess(String response) {
+                if (!StringUtils.isEmpty(response)) {
+                    AlipyCodeRet alipyCodeRet = Contants.gson.fromJson(response, AlipyCodeRet.class);
+                    if (alipyCodeRet != null && alipyCodeRet.code == 1) {
+                        alipyCode = alipyCodeRet.data.zfb_code;
+                    }
+                    copyAlipy(alipyCode);
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                copyAlipy(alipyCode);
+            }
+
+            @Override
+            public void onBefore() {
+
+            }
+        });
     }
 
 
@@ -186,20 +255,21 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
                     String resultValue = new String(bt);
                     if (resultValue != null) {
                         try {
-                            PriceRet result = Contants.gson.fromJson(resultValue, new TypeToken<PriceRet>() {}.getType());
+                            PriceRet result = Contants.gson.fromJson(resultValue, new TypeToken<PriceRet>() {
+                            }.getType());
                             if (result != null && result.errCode.equals("0")) {
                                 App.siglePrice = result.data != null ? Float.parseFloat(result.data.single) : 2f;
                                 App.vipPrice = result.data != null ? Float.parseFloat(result.data.vip) : 18f;
 
-                                if(result.data != null && !StringUtils.isEmpty(result.data.singledesp)){
+                                if (result.data != null && !StringUtils.isEmpty(result.data.singledesp)) {
                                     App.sigleRemark = result.data.singledesp;
-                                }else{
+                                } else {
                                     App.sigleRemark = "付费解锁&(购买单个素材2元/个)";
                                 }
 
-                                if(result.data != null && !StringUtils.isEmpty(result.data.vipdesp)){
+                                if (result.data != null && !StringUtils.isEmpty(result.data.vipdesp)) {
                                     App.vipRemark = result.data.vipdesp;
-                                }else{
+                                } else {
                                     App.vipRemark = "永久VIP会员&所有素材免费,原价58元现价18.8元";
                                 }
 

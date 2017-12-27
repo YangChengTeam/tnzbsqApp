@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -24,6 +23,7 @@ import com.fy.tnzbsq.common.Server;
 import com.fy.tnzbsq.net.OKHttpRequest;
 import com.fy.tnzbsq.net.listener.OnResponseListener;
 import com.fy.tnzbsq.util.StringUtils;
+import com.fy.tnzbsq.view.CommentDialog;
 import com.fy.tnzbsq.view.CommunityHeadView;
 import com.fy.tnzbsq.view.CustomProgress;
 import com.hwangjr.rxbus.RxBus;
@@ -47,7 +47,7 @@ import static com.fy.tnzbsq.App.loginUser;
  * Created by admin on 2017/9/1.
  */
 
-public class CommunityDetailActivity extends BaseAppActivity implements CommunityHeadView.CommunityDetailListener {
+public class CommunityDetailActivity extends BaseAppActivity implements CommunityHeadView.CommunityDetailListener, CommentDialog.SendBackListener {
 
     @BindView(R.id.toolbarContainer)
     Toolbar mToolbar;
@@ -55,11 +55,8 @@ public class CommunityDetailActivity extends BaseAppActivity implements Communit
     @BindView(R.id.comment_list)
     RecyclerView mCommentRecyclerView;
 
-    @BindView(R.id.et_comment_content)
-    EditText mCommentContentEditText;
-
-    @BindView(R.id.tv_send_comment)
-    TextView mSendCommentTextView;
+    @BindView(R.id.tv_send_commit)
+    TextView mSendCommitTextView;
 
     private CommentItemAdapter mCommentItemAdapter;
 
@@ -74,6 +71,8 @@ public class CommunityDetailActivity extends BaseAppActivity implements Communit
     OKHttpRequest okHttpRequest = null;
 
     private CustomProgress dialog;
+
+    CommentDialog commentDialog;//评论弹出输入框
 
     @Override
     public int getLayoutId() {
@@ -141,14 +140,9 @@ public class CommunityDetailActivity extends BaseAppActivity implements Communit
         }, mCommentRecyclerView);
 
 
-        RxView.clicks(mSendCommentTextView).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
+        RxView.clicks(mSendCommitTextView).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
             @Override
             public void call(Void aVoid) {
-
-                if (StringUtils.isEmpty(mCommentContentEditText.getText())) {
-                    ToastUtil.toast(CommunityDetailActivity.this, "请输入回复内容");
-                    return;
-                }
 
                 if (loginUser == null) {
                     Intent intent = new Intent(CommunityDetailActivity.this, LoginActivity.class);
@@ -156,64 +150,9 @@ public class CommunityDetailActivity extends BaseAppActivity implements Communit
                     return;
                 }
 
-                if (communityInfo != null) {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("note_id", communityInfo.id);
-                    params.put("user_id", loginUser != null ? loginUser.id + "" : "");
-                    try {
-                        params.put("content", URLEncoder.encode(mCommentContentEditText.getText().toString(), "UTF-8"));
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-
-                    dialog.show();
-
-                    okHttpRequest.aget(Server.FOLLOW_URL, params, new OnResponseListener() {
-                        @Override
-                        public void onSuccess(String response) {
-                            if (dialog != null && dialog.isShowing()) {
-                                dialog.dismiss();
-                            }
-                            if (!StringUtils.isEmpty(response)) {
-                                mCommentContentEditText.setText("");
-
-                                CommentInfoRet result = Contants.gson.fromJson(response, CommentInfoRet.class);
-
-                                if (result != null && result.data != null) {
-                                    CommentInfo commentInfo = result.data;
-                                    if (loginUser != null) {
-                                        commentInfo.user_name = App.loginUser.nickname;
-                                        commentInfo.face = App.loginUser.logo;
-                                    }
-                                    if (communityInfo != null && !StringUtils.isEmpty(communityInfo.follow_count)) {
-                                        try {
-                                            int resCount = Integer.parseInt(communityInfo.follow_count) + 1;
-                                            headView.updateCommentCount(resCount);
-                                        } catch (NumberFormatException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                    mCommentItemAdapter.addData(0, commentInfo);
-                                    RxBus.get().post(Contants.COMMUNITY_REFRESH, "from add communityInfo");
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-                            ToastUtil.toast(CommunityDetailActivity.this, "回复失败,请重试");
-                            if (dialog != null && dialog.isShowing()) {
-                                dialog.dismiss();
-                            }
-                        }
-
-                        @Override
-                        public void onBefore() {
-
-                        }
-                    });
-
-                }
+                commentDialog = new CommentDialog(CommunityDetailActivity.this);
+                commentDialog.setSendBackListener(CommunityDetailActivity.this);
+                commentDialog.show(getFragmentManager(), "dialog");
             }
         });
     }
@@ -325,12 +264,85 @@ public class CommunityDetailActivity extends BaseAppActivity implements Communit
         if (type != null && type.equals("1")) {
             Drawable isZan = ContextCompat.getDrawable(CommunityDetailActivity.this, R.mipmap.is_zan_icon);
             isZan.setBounds(0, 0, isZan.getMinimumWidth(), isZan.getMinimumHeight());
-            headView.updatePraiseState(isZan,"1");
+            headView.updatePraiseState(isZan, "1");
         } else {
             Drawable noZan = ContextCompat.getDrawable(CommunityDetailActivity.this, R.mipmap.no_zan_icon);
             noZan.setBounds(0, 0, noZan.getMinimumWidth(), noZan.getMinimumHeight());
-            headView.updatePraiseState(noZan,"0");
+            headView.updatePraiseState(noZan, "0");
         }
     }
 
+    @Override
+    public void sendContent(String content) {
+
+        if (loginUser == null) {
+            if (commentDialog != null) {
+                commentDialog.hideProgressDialog();
+                commentDialog.dismiss();
+            }
+            Intent intent = new Intent(CommunityDetailActivity.this, LoginActivity.class);
+            startActivity(intent);
+            return;
+        }
+
+        if (communityInfo != null) {
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("note_id", communityInfo.id);
+            params.put("user_id", loginUser != null ? loginUser.id + "" : "");
+            try {
+                params.put("content", URLEncoder.encode(content, "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            okHttpRequest.aget(Server.FOLLOW_URL, params, new OnResponseListener() {
+                @Override
+                public void onSuccess(String response) {
+
+                    if (commentDialog != null) {
+                        commentDialog.hideProgressDialog();
+                        commentDialog.dismiss();
+                    }
+
+                    if (!StringUtils.isEmpty(response)) {
+
+                        CommentInfoRet result = Contants.gson.fromJson(response, CommentInfoRet.class);
+
+                        if (result != null && result.data != null) {
+                            CommentInfo commentInfo = result.data;
+                            if (loginUser != null) {
+                                commentInfo.user_name = App.loginUser.nickname;
+                                commentInfo.face = App.loginUser.logo;
+                            }
+                            if (communityInfo != null && !StringUtils.isEmpty(communityInfo.follow_count)) {
+                                try {
+                                    int resCount = Integer.parseInt(communityInfo.follow_count) + 1;
+                                    headView.updateCommentCount(resCount);
+                                } catch (NumberFormatException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            mCommentItemAdapter.addData(0, commentInfo);
+                            RxBus.get().post(Contants.COMMUNITY_REFRESH, "from add communityInfo");
+                        }
+                    }
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    ToastUtil.toast(CommunityDetailActivity.this, "回复失败,请重试");
+                    if (commentDialog != null) {
+                        commentDialog.hideProgressDialog();
+                        commentDialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onBefore() {
+
+                }
+            });
+
+        }
+    }
 }

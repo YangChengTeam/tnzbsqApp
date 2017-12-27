@@ -10,11 +10,14 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -32,15 +35,24 @@ import com.fy.tnzbsq.net.OKHttpRequest;
 import com.fy.tnzbsq.net.listener.OnResponseListener;
 import com.fy.tnzbsq.util.CommUtils;
 import com.fy.tnzbsq.util.NetUtil;
+import com.fy.tnzbsq.util.SizeUtils;
 import com.fy.tnzbsq.util.StringUtils;
 import com.fy.tnzbsq.view.BannerImageLoader;
+import com.fy.tnzbsq.view.CustomProgress;
 import com.fy.tnzbsq.view.NotifyUtil;
+import com.fy.tnzbsq.view.SharePopupWindow;
 import com.jakewharton.rxbinding.view.RxView;
 import com.kk.utils.ToastUtil;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.orhanobut.logger.Logger;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.utils.SocializeUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
 
@@ -62,8 +74,14 @@ import rx.functions.Action1;
 
 public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
+    @BindView(R.id.layout_home)
+    LinearLayout homeLayout;
+
     @BindView(R.id.search_img)
     ImageView mSearchImageView;
+
+    @BindView(R.id.share_img)
+    ImageView mShareImageView;
 
     @BindView(R.id.swipe)
     SwipeRefreshLayout swipeLayout;
@@ -103,6 +121,11 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
     private View mRootView;
 
     private AdDataInfo adDataInfo;
+
+    //分享弹出窗口
+    private SharePopupWindow shareWindow;
+
+    CustomProgress dialog;
 
     private void showProgress() {
         new Handler().postDelayed(new Runnable() {
@@ -173,6 +196,9 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
         zbDataAdapter.addHeaderView(getHeaderView());
         mDataListView.setAdapter(zbDataAdapter);
 
+        dialog = CustomProgress.create(getActivity(), "正在分享...", true, null);
+        dialog.setTitle("装B神器分享");
+
         mBanner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
@@ -231,6 +257,17 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
                 startActivity(intent);
             }
         });
+
+        RxView.clicks(mShareImageView).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                shareWindow = new SharePopupWindow(getActivity(), itemsOnClick);
+                shareWindow.showAtLocation(homeLayout, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, SizeUtils.getNavigationBarHeight(getActivity()));
+                backgroundAlpha(0.5f);
+                shareWindow.setOnDismissListener(new PoponDismissListener());
+            }
+        });
+
     }
 
     public void adDown() {
@@ -423,5 +460,105 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
         }
         loadData();
     }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+
+        /**
+         * @descrption 分享开始的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            SocializeUtils.safeShowDialog(dialog);
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            com.umeng.socialize.utils.Log.d("plat", "platform" + platform);
+            ToastUtil.toast(getActivity(), "分享成功啦");
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            ToastUtil.toast(getActivity(), "分享失败啦");
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            ToastUtil.toast(getActivity(), "分享取消了");
+        }
+    };
+
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
+        lp.alpha = bgAlpha;
+        getActivity().getWindow().setAttributes(lp);
+    }
+
+    //弹出窗口监听消失
+    public class PoponDismissListener implements PopupWindow.OnDismissListener {
+        @Override
+        public void onDismiss() {
+            backgroundAlpha(1f);
+        }
+    }
+
+    private void ShareWeb(int thumb_img, SHARE_MEDIA platform) {
+        UMImage thumb = new UMImage(getActivity(), thumb_img);
+        UMWeb web = new UMWeb("http://zs.qqtn.com");
+        web.setThumb(thumb);
+        web.setDescription("圣诞帽来啦，快来邀请好友一起玩吧");
+        web.setTitle("别@官方了，快来装逼神器定制你的圣诞节帽子吧！");
+        new ShareAction(getActivity()).withMedia(web).setPlatform(platform).setCallback(umShareListener).share();
+    }
+
+    //为弹出窗口实现监听类
+    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.cancel_layout:
+                    if (shareWindow != null && shareWindow.isShowing()) {
+                        shareWindow.dismiss();
+                    }
+                    break;
+                case R.id.qq_layout:
+                    ShareWeb(R.mipmap.logo_share, SHARE_MEDIA.QQ);
+                    if (shareWindow != null && shareWindow.isShowing()) {
+                        shareWindow.dismiss();
+                    }
+                    break;
+                case R.id.qzone_layout:
+                    ShareWeb(R.mipmap.logo_share, SHARE_MEDIA.QZONE);
+                    if (shareWindow != null && shareWindow.isShowing()) {
+                        shareWindow.dismiss();
+                    }
+                    break;
+                case R.id.wechat_layout:
+                    ShareWeb(R.mipmap.logo_share, SHARE_MEDIA.WEIXIN);
+                    if (shareWindow != null && shareWindow.isShowing()) {
+                        shareWindow.dismiss();
+                    }
+                    break;
+                case R.id.wxcircle_layout:
+                    ShareWeb(R.mipmap.logo_share, SHARE_MEDIA.WEIXIN_CIRCLE);
+                    if (shareWindow != null && shareWindow.isShowing()) {
+                        shareWindow.dismiss();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
 }

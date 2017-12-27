@@ -40,6 +40,7 @@ import com.fy.tnzbsq.common.Contants;
 import com.fy.tnzbsq.common.Server;
 import com.fy.tnzbsq.util.HeadImageUtils;
 import com.fy.tnzbsq.util.ImageUtil;
+import com.fy.tnzbsq.util.StringUtils;
 import com.fy.tnzbsq.view.CustomProgress;
 import com.fy.tnzbsq.view.HorizontialListView;
 import com.fy.tnzbsq.view.ShareFightDialog;
@@ -234,8 +235,7 @@ public class ImageDiyActivity extends BaseActivity implements GestureDetector.On
         createColorListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (mainBitmap != null && imageMakeEt.getText() != null
-                        && imageMakeEt.getText().toString().length() > 0) {
+                if (mainBitmap != null && imageMakeEt.getText() != null && imageMakeEt.getText().toString().length() > 0) {
                     colorAdapter.setSelectedPosition(position);
                     colorAdapter.notifyDataSetChanged();
                     colorNum = position;
@@ -274,8 +274,7 @@ public class ImageDiyActivity extends BaseActivity implements GestureDetector.On
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if (mainBitmap != null && imageMakeEt.getText() != null
-                        && imageMakeEt.getText().toString().length() > 0) {
+                if (mainBitmap != null) {
 
                     bubbleAdapter.setSelectedPosition(position);
                     bubbleAdapter.notifyDataSetChanged();
@@ -290,25 +289,34 @@ public class ImageDiyActivity extends BaseActivity implements GestureDetector.On
                     stickerView.clearBitmap();
 
                     if (typefaceNum == 0) {
-                        textBitmap = GLFont.getImage(600, 100, imageMakeEt.getText().toString(), 80,
-                                DensityUtils.getScreenW(context), typeFace, colorDataRGB[colorNum]);
+
+                        if(StringUtils.isEmpty(imageMakeEt.getText())){
+                            textBitmap = null;
+                        }else{
+                            textBitmap = GLFont.getImage(600, 100, imageMakeEt.getText().toString(), 80,
+                                    DensityUtils.getScreenW(context), typeFace, colorDataRGB[colorNum]);
+                        }
                         if (position > 0) {
                             // 合并气泡 与文字
                             stickerView.setWaterMarkImageBullbe(bubbleBitmap, textBitmap, mainBitmap, stickerView.getHeight(), imageMakeEt.getText().toString());
                         }
                     } else {
-                        String temp = "";
-                        Pattern CRLF = Pattern.compile("(\r\n|\r|\n|\n\r)");
-                        Matcher m = CRLF.matcher(imageMakeEt.getText().toString());
-                        if (m.find()) {
-                            temp = m.replaceAll("#!");
-                        } else {
-                            temp = imageMakeEt.getText().toString();
-                        }
+                        if (imageMakeEt.getText() != null
+                                && imageMakeEt.getText().toString().length() > 0) {
 
-                        WordCreateData(colorDataRGB[colorNum].substring(1, colorDataRGB[colorNum].length()), temp,
-                                "100", typefaceNum + "",
-                                (DensityUtils.getScreenW(context) - DensityUtils.dip2px(context, 82)) + "");
+                            String temp = "";
+                            Pattern CRLF = Pattern.compile("(\r\n|\r|\n|\n\r)");
+                            Matcher m = CRLF.matcher(imageMakeEt.getText().toString());
+                            if (m.find()) {
+                                temp = m.replaceAll("#!");
+                            } else {
+                                temp = imageMakeEt.getText().toString();
+                            }
+
+                            WordCreateData(colorDataRGB[colorNum].substring(1, colorDataRGB[colorNum].length()), temp,
+                                    "100", typefaceNum + "",
+                                    (DensityUtils.getScreenW(context) - DensityUtils.dip2px(context, 82)) + "");
+                        }
                     }
                 }
             }

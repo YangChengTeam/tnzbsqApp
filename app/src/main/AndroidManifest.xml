@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.fy.tnzbsq"
-          android:versionCode="55"
-          android:versionName="3.0.4">
+          android:versionCode="60"
+          android:versionName="3.1.1">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -312,7 +312,12 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -340,7 +345,7 @@
 
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="LIURENJUN">
+            android:value="QQTN">
         </meta-data>
 
         <!-- 微支付SDK界面 -->

@@ -11,12 +11,31 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="48dp"/>
 
-    <me.majiajie.pagerbottomtabstrip.PageNavigationView
-        android:id="@+id/tab"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:layout_gravity="bottom"
-        android:background="@android:color/transparent"
-        />
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+
+        <TextView
+            android:id="@+id/tv_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tab"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="-24dp"
+            android:background="@mipmap/tab_top_line"
+            android:gravity="center"
+            android:text="快来制作圣诞帽头像哦"
+            android:textColor="@color/white"
+            android:textSize="14sp"/>
+
+        <me.majiajie.pagerbottomtabstrip.PageNavigationView
+            android:id="@+id/tab"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/transparent"
+            />
+    </RelativeLayout>
 
 </FrameLayout>

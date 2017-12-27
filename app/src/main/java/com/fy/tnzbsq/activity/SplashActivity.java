@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.fy.tnzbsq.App;
 import com.fy.tnzbsq.R;
@@ -118,16 +117,16 @@ public class SplashActivity extends BaseActivity {
                             PreferenceHelper.write(context, Contants.UPDATE_TIME, Contants.CURRENT_DATA, SystemTool.getDataTime("yyyy-MM-dd"));
 
                         } catch (Exception e) {
-                            Toast.makeText(context, "数据加载失败", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(context, "数据加载失败", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(context, "数据加载失败", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "数据加载失败", Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
                     // Toast.makeText(context, "获取数据失败,请稍后重试!",
                     // Toast.LENGTH_SHORT).show();
-                    Toast.makeText(context, "数据加载失败", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "数据加载失败", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -211,14 +210,14 @@ public class SplashActivity extends BaseActivity {
                                 sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + file.getAbsolutePath())));
                             }
                         } catch (Exception e) {
-                            Toast.makeText(context, "数据加载失败,请下拉刷新重试", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(context, "数据加载失败,请下拉刷新重试", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         // 此时SDcard不存在或者不能进行读写操作的
-                        Toast.makeText(context, "数据加载失败,请下拉刷新重试", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "数据加载失败,请下拉刷新重试", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(context, "数据加载失败,请下拉刷新重试", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "数据加载失败,请下拉刷新重试", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();

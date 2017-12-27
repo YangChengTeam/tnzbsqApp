@@ -1,20 +1,5 @@
 package com.fy.tnzbsq.view.image;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.kymjs.kjframe.utils.DensityUtils;
-
-import com.fy.tnzbsq.R;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -27,13 +12,23 @@ import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.Point;
 import android.graphics.PointF;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.fy.tnzbsq.R;
+
+import org.kymjs.kjframe.utils.DensityUtils;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StickerView extends View {
 
@@ -179,9 +174,11 @@ public class StickerView extends View {
         this.canvasText = canvasText;
 
         Sticker sticker = new Sticker(bitmap, point.x, point.x, stickerHeight);
-        Sticker stickerText = new Sticker(textBitmap, point.x, point.x, stickerHeight);
         stickers.add(sticker);
-        stickers.add(stickerText);
+        if(textBitmap != null) {
+            Sticker stickerText = new Sticker(textBitmap, point.x, point.x, stickerHeight);
+            stickers.add(stickerText);
+        }
         focusStickerPosition = stickers.size() - 1;
         setFocusSticker(focusStickerPosition);
         postInvalidate();
@@ -204,7 +201,7 @@ public class StickerView extends View {
             return;
         }
 
-        if (canvasText != null && canvasText.length() > 0) {
+        //if (canvasText != null && canvasText.length() > 0) {
             Paint paint = new Paint();
             paint.setColor(getResources().getColor(R.color.line_color));
 
@@ -293,7 +290,7 @@ public class StickerView extends View {
                     }
                 }
             }
-        }
+        //}
 
     }
 
