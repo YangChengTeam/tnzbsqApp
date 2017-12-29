@@ -268,10 +268,10 @@ public class CommunitySubFragment extends CustomBaseFragment implements SwipeRef
     public int getCurrentPageByType(int type) {
         switch (type) {
             case 1:
-                currentPage = currentGamePage;
+                currentPage = currentFriendsPage;
                 break;
             case 2:
-                currentPage = currentFriendsPage;
+                currentPage = currentGamePage;
                 break;
             case 3:
                 currentPage = currentHotPage;

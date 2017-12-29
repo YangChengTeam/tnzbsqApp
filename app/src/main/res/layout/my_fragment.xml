@@ -248,7 +248,36 @@
                     android:clickable="false"
                     android:src="@mipmap/common_right_icon"/>
             </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="@color/more_line_color"/>
 
+            <RelativeLayout
+                android:id="@+id/weixin_layout"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    style="@style/tab_style"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="false"
+                    android:drawableLeft="@mipmap/weixin_add_icon"
+                    android:text="@string/weixin_text"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:clickable="false"
+                    android:src="@mipmap/common_right_icon"/>
+            </RelativeLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"

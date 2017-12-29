@@ -1,5 +1,6 @@
 package com.fy.tnzbsq.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -35,6 +36,7 @@ import com.fy.tnzbsq.net.OKHttpRequest;
 import com.fy.tnzbsq.net.listener.OnResponseListener;
 import com.fy.tnzbsq.util.CommUtils;
 import com.fy.tnzbsq.util.NetUtil;
+import com.fy.tnzbsq.util.PreferencesUtils;
 import com.fy.tnzbsq.util.SizeUtils;
 import com.fy.tnzbsq.util.StringUtils;
 import com.fy.tnzbsq.view.BannerImageLoader;
@@ -126,6 +128,8 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
     private SharePopupWindow shareWindow;
 
     CustomProgress dialog;
+
+    CardWindowFragment cardWindowFragment;
 
     private void showProgress() {
         new Handler().postDelayed(new Runnable() {
@@ -265,9 +269,34 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
                 shareWindow.showAtLocation(homeLayout, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, SizeUtils.getNavigationBarHeight(getActivity()));
                 backgroundAlpha(0.5f);
                 shareWindow.setOnDismissListener(new PoponDismissListener());
+
             }
         });
 
+        if (cardWindowFragment == null) {
+            cardWindowFragment = new CardWindowFragment();
+        }
+        if(cardWindowFragment.getDialog() != null) {
+            cardWindowFragment.getDialog().setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    PreferencesUtils.putBoolean(getActivity(), "show_card", false);
+                }
+            });
+        }
+
+        boolean isShowCard = PreferencesUtils.getBoolean(getActivity(), "show_card", true);
+        if (isShowCard) {
+            boolean isFlag;
+            if (cardWindowFragment != null && cardWindowFragment.getDialog() != null && cardWindowFragment.getDialog().isShowing()) {
+                isFlag = true;
+            } else {
+                isFlag = false;
+            }
+            if (!isFlag) {
+                cardWindowFragment.show(getActivity().getFragmentManager(), "card_dialog");
+            }
+        }
     }
 
     public void adDown() {

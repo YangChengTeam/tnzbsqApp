@@ -1,8 +1,10 @@
 package com.fy.tnzbsq.activity;
 
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -16,6 +18,7 @@ import com.fy.tnzbsq.R;
 import com.fy.tnzbsq.adapter.MyViewPagerAdapter;
 import com.fy.tnzbsq.bean.AlipyCodeRet;
 import com.fy.tnzbsq.bean.PriceRet;
+import com.fy.tnzbsq.bean.WeiXinInfoRet;
 import com.fy.tnzbsq.common.Contants;
 import com.fy.tnzbsq.common.Server;
 import com.fy.tnzbsq.net.OKHttpRequest;
@@ -23,10 +26,12 @@ import com.fy.tnzbsq.net.listener.OnResponseListener;
 import com.fy.tnzbsq.util.PreferencesUtils;
 import com.fy.tnzbsq.util.SizeUtils;
 import com.fy.tnzbsq.util.StringUtils;
+import com.fy.tnzbsq.util.WeiXinUtil;
 import com.fy.tnzbsq.view.CreatePopupWindow;
 import com.fy.tnzbsq.view.SpecialNoTitleTab;
 import com.fy.tnzbsq.view.SpecialTab;
 import com.fy.tnzbsq.view.SpecialTabRound;
+import com.fy.tnzbsq.view.WebPopupWindow;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
@@ -34,6 +39,7 @@ import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpParams;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -60,6 +66,18 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
 
     public String alipyCode = "鹤创依融先星bZ育香";
 
+    public String weixinUrl = "";
+
+    public int weixinState;
+
+    public static Main5Activity mainActivity;
+
+    private AlertDialog alertDialog;
+
+    public static Main5Activity getMainActivity() {
+        return mainActivity;
+    }
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -71,7 +89,7 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
 
     @Override
     protected void initViews() {
-
+        mainActivity = this;
         okHttpRequest = new OKHttpRequest();
 
         PageNavigationView tab = (PageNavigationView) findViewById(R.id.tab);
@@ -104,7 +122,7 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
             }
         });
 
-        boolean isShow = PreferencesUtils.getBoolean(context, "tips", true);
+        boolean isShow = PreferencesUtils.getBoolean(context, "tips", false);
         if (!isShow) {
             tipsTextView.setVisibility(View.GONE);
         } else {
@@ -121,6 +139,7 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
 
         getPriceConfig();
         getAlipyCode();
+        getWeixinInfo();
     }
 
     @Override
@@ -152,7 +171,7 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
                     startActivity(intent);
                     break;
                 case R.id.create_word_layout:
-                    Intent intentWord = new Intent(context, WordDiyActivity.class);
+                    Intent intentWord = new Intent(context, CreateCardActivity.class);
                     startActivity(intentWord);
                     break;
                 default:
@@ -238,6 +257,33 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
         });
     }
 
+    public void getWeixinInfo() {
+        final Map<String, String> params = new HashMap<String, String>();
+        params.put("app_name", "zbsq");
+        okHttpRequest.aget("http://nz.qqtn.com/zbsq/index.php?m=Home&c=zbsq&a=wx", params, new OnResponseListener() {
+            @Override
+            public void onSuccess(String response) {
+                if (!StringUtils.isEmpty(response)) {
+                    WeiXinInfoRet weiXinInfoRet = Contants.gson.fromJson(response, WeiXinInfoRet.class);
+                    if (weiXinInfoRet != null && weiXinInfoRet.errCode == 1) {
+                        weixinUrl = weiXinInfoRet.data.url;
+                        weixinState = weiXinInfoRet.data.status;
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                copyAlipy(alipyCode);
+            }
+
+            @Override
+            public void onBefore() {
+
+            }
+        });
+    }
+
 
     public void getPriceConfig() {
 
@@ -290,4 +336,42 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
         });
     }
 
+    public void fixOpenwx() {
+        if(StringUtils.isEmpty(weixinUrl)){
+            return;
+        }
+
+        if (weixinState == 1) {
+            WebPopupWindow webPopupWindow = new WebPopupWindow(this, weixinUrl);
+            webPopupWindow.show(getWindow().getDecorView().getRootView());
+            return;
+        }
+
+        AlertDialog.Builder build = new AlertDialog.Builder(context);
+        build.setMessage("关注【腾牛装逼神器】微信公众号，来炫酷一把吧!");
+        build.setPositiveButton("确定",
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        // 将文本内容放到系统剪贴板里。
+                        cm.setPrimaryClip(ClipData.newPlainText(null, "tnzbsq"));
+                        WeiXinUtil.gotoWeiXin(Main5Activity.this, "公众号已复制,正在前往微信...");
+                   }
+                });
+        build.setNegativeButton("取消",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (alertDialog != null && alertDialog.isShowing()) {
+                            alertDialog.dismiss();
+                        }
+                    }
+                });
+        alertDialog = build.create();
+        if (alertDialog != null) {
+            alertDialog.show();
+        }
+    }
 }

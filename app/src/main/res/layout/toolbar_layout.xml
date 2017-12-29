@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:background="?attr/colorAccent"
     android:fitsSystemWindows="true"
+    app:layout_scrollFlags="snap"
     android:minHeight="?attr/actionBarSize"
     app:titleTextColor="@android:color/white">
 

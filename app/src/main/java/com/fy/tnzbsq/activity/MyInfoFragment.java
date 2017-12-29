@@ -35,6 +35,7 @@ import com.fy.tnzbsq.common.ServiceInterface;
 import com.fy.tnzbsq.common.StatusCode;
 import com.fy.tnzbsq.service.UpdateService;
 import com.fy.tnzbsq.util.AlertUtil;
+import com.fy.tnzbsq.util.CheckUtil;
 import com.fy.tnzbsq.util.CommUtils;
 import com.fy.tnzbsq.util.HeadImageUtils;
 import com.fy.tnzbsq.util.PreferencesUtils;
@@ -44,6 +45,7 @@ import com.fy.tnzbsq.view.GlideRoundTransform;
 import com.fy.tnzbsq.view.PicPopupWindow;
 import com.fy.tnzbsq.view.SharePopupWindow;
 import com.jakewharton.rxbinding.view.RxView;
+import com.kk.utils.ToastUtil;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -109,6 +111,9 @@ public class MyInfoFragment extends CustomBaseFragment {
 
     @BindView(R.id.share_layout)
     RelativeLayout mShareLayout;
+
+    @BindView(R.id.weixin_layout)
+    RelativeLayout mWeixinLayout;
 
     @BindView(R.id.about_layout)
     RelativeLayout mAboutLayout;
@@ -200,6 +205,19 @@ public class MyInfoFragment extends CustomBaseFragment {
                 shareWindow.showAtLocation(mRootView, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, SizeUtils.getNavigationBarHeight(mContext));
                 backgroundAlpha(0.5f);
                 shareWindow.setOnDismissListener(new PoponDismissListener());
+            }
+        });
+
+
+        RxView.clicks(mWeixinLayout).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+
+                if (!CheckUtil.isWxInstall(getActivity())) {
+                    ToastUtil.toast(getActivity(), "请安装微信");
+                    return;
+                }
+                Main5Activity.getMainActivity().fixOpenwx();
             }
         });
         //关于我们

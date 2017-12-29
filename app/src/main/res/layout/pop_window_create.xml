@@ -55,13 +55,13 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_margin="5dp"
-                android:src="@mipmap/create_word_icon"/>
+                android:src="@mipmap/create_new_card_icon"/>
 
             <TextView
                 android:id="@+id/create_word_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="圣诞祝福"
+                android:text="元蛋故事"
                 android:textColor="@color/white"
                 android:textSize="20sp"/>
         </LinearLayout>

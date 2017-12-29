@@ -1,0 +1,8 @@
+<translate
+    android:fromYDelta="100%p"
+    android:toYDelta="0%p"
+    android:duration="500"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+</translate>
