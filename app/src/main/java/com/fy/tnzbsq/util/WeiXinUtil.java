@@ -36,6 +36,21 @@ public class WeiXinUtil {
         }
     }
 
+    public static void openWeiXin(Context context) {
+        try {
+            Intent intent = new Intent();
+            ComponentName cmp = new ComponentName("com.tencent.mm", "com.tencent.mm.ui" +
+                    ".LauncherUI");
+            intent.setAction(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setComponent(cmp);
+            ((Activity) context).startActivityForResult(intent, 1);
+        } catch (Exception e) {
+
+        }
+    }
+
     public static void gotoWeiXin(final Context context, String msg) {
         gotoWeiXin(context, msg, null);
     }

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -30,8 +32,9 @@ import com.kk.pay.IPayAbs;
 import com.kk.pay.IPayCallback;
 import com.kk.pay.OrderInfo;
 import com.kk.pay.OrderParamsInfo;
+import com.kk.utils.ToastUtil;
 
-public class ChargeDialog extends Dialog {
+public class ChargeDialog extends Dialog implements WeiXinFollowDialog.StartTimeListener {
 
     private Context context;
 
@@ -69,12 +72,20 @@ public class ChargeDialog extends Dialog {
         init();
     }
 
+    @Override
+    public void startTimer() {
+        if (timeListener != null) {
+            timeListener.timeStart();
+        }
+    }
+
     public void init() {
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.charge_dialog, null);
 
-        payRadioGroup = (RadioGroup)view.findViewById(R.id.pay_group);
+
+        payRadioGroup = (RadioGroup) view.findViewById(R.id.pay_group);
 
         TextView singleTv = (TextView) view.findViewById(R.id.tv_single);
         TextView singleHintTv = (TextView) view.findViewById(R.id.tv_single_hint);
@@ -125,7 +136,17 @@ public class ChargeDialog extends Dialog {
                     buy(2, App.vipPrice == 0 ? 18f : App.vipPrice, "装逼神器VIP");
                     break;
                 case R.id.layout_goto_market:
-                    goToMarket(context, context.getPackageName());
+                    //goToMarket(context, context.getPackageName());
+
+                    ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                    // 将文本内容放到系统剪贴板里。
+                    cm.setPrimaryClip(ClipData.newPlainText(null, "腾牛装逼神器"));
+                    ToastUtil.toast(context, "复制成功，可以关注公众号了");
+
+                    WeiXinFollowDialog weiXinFollowDialog = new WeiXinFollowDialog(context);
+                    weiXinFollowDialog.setStartTimeListener(ChargeDialog.this);
+                    weiXinFollowDialog.showChargeDialog(weiXinFollowDialog);
+                    closeChargeDialog();
                     break;
                 default:
                     break;
@@ -150,13 +171,13 @@ public class ChargeDialog extends Dialog {
         String user_id = App.loginUser != null ? App.loginUser.id + "" : "";
         OrderParamsInfo orderParamsInfo = new OrderParamsInfo(Server.URL_PAY, goodId, type + "", price, title, user_id);
 
-        for(int i=0;i<payRadioGroup.getChildCount();i++){
-            RadioButton radioButton = (RadioButton)payRadioGroup.getChildAt(i);
-            if(radioButton.isChecked()){
-                if(radioButton.getId() == R.id.alipay_btn){
+        for (int i = 0; i < payRadioGroup.getChildCount(); i++) {
+            RadioButton radioButton = (RadioButton) payRadioGroup.getChildAt(i);
+            if (radioButton.isChecked()) {
+                if (radioButton.getId() == R.id.alipay_btn) {
                     payWayName = "alipay";
                 }
-                if(radioButton.getId() == R.id.wx_btn){
+                if (radioButton.getId() == R.id.wx_btn) {
                     payWayName = "wxpay";
                 }
             }

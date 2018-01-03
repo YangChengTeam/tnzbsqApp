@@ -69,4 +69,7 @@
 
     <string name="login_text">登 录</string>
     <string name="order_info_text">订单信息</string>
+
+    <string name="weixin_code_text">关注[腾牛装逼神器]</string>
+    <string name="weixin_title_text">免费解锁素材,尽情装逼</string>
 </resources>

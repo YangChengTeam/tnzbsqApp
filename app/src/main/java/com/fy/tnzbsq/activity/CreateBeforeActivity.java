@@ -380,6 +380,8 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
         if (App.loginUser != null) {
             getUserIsBuy();
         }
+
+        computeTime();
     }
 
     public void getUserIsBuy() {
@@ -461,9 +463,7 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
         timer.schedule(task, 1000, 1000);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void computeTime(){
         if (timeNum > 20) {
             String sourceIdsKey = App.loginUser != null ? App.loginUser.id + "_ids" : App.ANDROID_ID + "_ids";
             StringBuffer sourceIds = new StringBuffer(PreferencesUtils.getString(context, sourceIdsKey, ""));
@@ -476,6 +476,12 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
 
             PreferencesUtils.putBoolean(context, "is_comment", true);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        computeTime();
 
         if (resultCode == RESULT_OK && requestCode == PhotoPicker.REQUEST_CODE) {
             if (data != null) {

@@ -42,4 +42,6 @@
     <color name="main_tab_text_color">#7e8272</color>
     <color name="dialog_color">#b1b1b1</color>
     <color name="comment_input_color">#515151</color>
+    <color name="weixin_color">#7ab939</color>
+    <color name="weixin_line_color">#c1c1c1c1</color>
 </resources>
