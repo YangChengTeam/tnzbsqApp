@@ -23,7 +23,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_margin="16dp"
-            android:text="元蛋小故事"
+            android:text="新年小故事"
             android:textColor="@color/black1"
             android:textSize="20sp"/>
 

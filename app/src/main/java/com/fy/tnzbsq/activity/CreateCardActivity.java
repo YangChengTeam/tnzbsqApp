@@ -59,7 +59,7 @@ public class CreateCardActivity extends BaseAppActivity {
     @Override
     protected void initVars() {
         okHttpRequest = new OKHttpRequest();
-        mToolbar.setTitle("元蛋小故事");
+        mToolbar.setTitle("新年小故事");
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.mipmap.back_icon);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {

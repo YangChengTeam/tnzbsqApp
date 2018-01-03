@@ -61,7 +61,7 @@
                 android:id="@+id/create_word_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="元蛋故事"
+                android:text="新年小故事"
                 android:textColor="@color/white"
                 android:textSize="20sp"/>
         </LinearLayout>

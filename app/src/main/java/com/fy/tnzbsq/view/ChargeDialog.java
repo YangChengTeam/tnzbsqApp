@@ -33,6 +33,9 @@ import com.kk.pay.IPayCallback;
 import com.kk.pay.OrderInfo;
 import com.kk.pay.OrderParamsInfo;
 import com.kk.utils.ToastUtil;
+import com.umeng.analytics.MobclickAgent;
+
+import org.kymjs.kjframe.utils.SystemTool;
 
 public class ChargeDialog extends Dialog implements WeiXinFollowDialog.StartTimeListener {
 
@@ -130,14 +133,17 @@ public class ChargeDialog extends Dialog implements WeiXinFollowDialog.StartTime
             int id = v.getId();
             switch (id) {
                 case R.id.layout_one_charge:
+                    // 自定义事件,统计次数
+                    MobclickAgent.onEvent(context, "buy_single_click", SystemTool.getAppVersionName(context));
                     buy(1, App.siglePrice == 0 ? 2f : App.siglePrice, "装逼神器素材");
                     break;
                 case R.id.layout_vip_charge:
+                    MobclickAgent.onEvent(context, "buy_vip_click", SystemTool.getAppVersionName(context));
                     buy(2, App.vipPrice == 0 ? 18f : App.vipPrice, "装逼神器VIP");
                     break;
                 case R.id.layout_goto_market:
                     //goToMarket(context, context.getPackageName());
-
+                    MobclickAgent.onEvent(context, "weixin_click", SystemTool.getAppVersionName(context));
                     ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                     // 将文本内容放到系统剪贴板里。
                     cm.setPrimaryClip(ClipData.newPlainText(null, "腾牛装逼神器"));

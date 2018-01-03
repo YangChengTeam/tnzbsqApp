@@ -18,6 +18,9 @@ import com.fy.tnzbsq.R;
 import com.fy.tnzbsq.util.CheckUtil;
 import com.fy.tnzbsq.util.WeiXinUtil;
 import com.kk.utils.ToastUtil;
+import com.umeng.analytics.MobclickAgent;
+
+import org.kymjs.kjframe.utils.SystemTool;
 
 public class WeiXinFollowDialog extends Dialog {
 
@@ -82,10 +85,13 @@ public class WeiXinFollowDialog extends Dialog {
     }
 
     public void openWeiXin() {
+
         if (!CheckUtil.isWxInstall(context)) {
             ToastUtil.toast(context, "请安装微信");
             return;
         }
+
+        MobclickAgent.onEvent(context, "open_weixin_click", SystemTool.getAppVersionName(context));
 
         WeiXinUtil.openWeiXin(context);
         startTimeListener.startTimer();

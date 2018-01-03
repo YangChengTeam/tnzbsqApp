@@ -53,6 +53,7 @@ import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 
 import org.kymjs.kjframe.utils.StringUtils;
+import org.kymjs.kjframe.utils.SystemTool;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -586,6 +587,9 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
                     continue;
                 }
             }
+
+            // 自定义事件,统计次数
+            MobclickAgent.onEvent(CreateBeforeActivity.this, "create_click", SystemTool.getAppVersionName(this));
 
             if (isValidate) {
 
