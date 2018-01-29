@@ -34,6 +34,7 @@ import com.fy.tnzbsq.view.SpecialTabRound;
 import com.fy.tnzbsq.view.WebPopupWindow;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import com.orhanobut.logger.Logger;
 
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
@@ -122,7 +123,7 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
             }
         });
 
-        boolean isShow = PreferencesUtils.getBoolean(context, "tips", false);
+        boolean isShow = PreferencesUtils.getBoolean(context, "tips", true);
         if (!isShow) {
             tipsTextView.setVisibility(View.GONE);
         } else {
@@ -264,17 +265,23 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
             @Override
             public void onSuccess(String response) {
                 if (!StringUtils.isEmpty(response)) {
-                    WeiXinInfoRet weiXinInfoRet = Contants.gson.fromJson(response, WeiXinInfoRet.class);
-                    if (weiXinInfoRet != null && weiXinInfoRet.errCode == 1) {
-                        weixinUrl = weiXinInfoRet.data.url;
-                        weixinState = weiXinInfoRet.data.status;
+                    try {
+                        WeiXinInfoRet weiXinInfoRet = Contants.gson.fromJson(response, WeiXinInfoRet.class);
+                        if (weiXinInfoRet != null && weiXinInfoRet.errCode == 1) {
+                            weixinUrl = weiXinInfoRet.data.url;
+                            weixinState = weiXinInfoRet.data.status;
+                            App.weixinUrl = weiXinInfoRet.data.url;
+                            App.weixinState = weiXinInfoRet.data.status;
+                        }
+                    } catch (Exception e) {
+                        Logger.e("getWeixinInfo error --->");
                     }
                 }
             }
 
             @Override
             public void onError(Exception e) {
-                copyAlipy(alipyCode);
+
             }
 
             @Override
@@ -337,7 +344,7 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
     }
 
     public void fixOpenwx() {
-        if(StringUtils.isEmpty(weixinUrl)){
+        if (StringUtils.isEmpty(weixinUrl)) {
             return;
         }
 
@@ -358,7 +365,7 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
                         // 将文本内容放到系统剪贴板里。
                         cm.setPrimaryClip(ClipData.newPlainText(null, "tnzbsq"));
                         WeiXinUtil.gotoWeiXin(Main5Activity.this, "公众号已复制,正在前往微信...");
-                   }
+                    }
                 });
         build.setNegativeButton("取消",
                 new DialogInterface.OnClickListener() {

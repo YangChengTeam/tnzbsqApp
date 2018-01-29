@@ -25,7 +25,7 @@
             android:layout_marginBottom="-24dp"
             android:background="@mipmap/tab_top_line"
             android:gravity="center"
-            android:text="快来制作圣诞帽头像哦"
+            android:text="快来测一测"
             android:textColor="@color/white"
             android:textSize="14sp"/>
 

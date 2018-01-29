@@ -454,7 +454,7 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
             @Override
             public void run() {
                 timeNum++;
-                if (timeNum > 20) {
+                if (timeNum > 12) {
                     timer.cancel();
                     timer.purge();
                     timer = null;
@@ -465,7 +465,7 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
     }
 
     public void computeTime(){
-        if (timeNum > 20) {
+        if (timeNum > 12) {
             String sourceIdsKey = App.loginUser != null ? App.loginUser.id + "_ids" : App.ANDROID_ID + "_ids";
             StringBuffer sourceIds = new StringBuffer(PreferencesUtils.getString(context, sourceIdsKey, ""));
             if (!StringUtils.isEmpty(sourceIds.toString())) {

@@ -24,7 +24,9 @@ import android.widget.Toast;
 
 import com.fy.tnzbsq.App;
 import com.fy.tnzbsq.R;
+import com.fy.tnzbsq.activity.CreateBeforeActivity;
 import com.fy.tnzbsq.common.Server;
+import com.fy.tnzbsq.util.CheckUtil;
 import com.fy.tnzbsq.util.PreferencesUtils;
 import com.fy.tnzbsq.util.StringUtils;
 import com.kk.pay.I1PayAbs;
@@ -142,17 +144,35 @@ public class ChargeDialog extends Dialog implements WeiXinFollowDialog.StartTime
                     buy(2, App.vipPrice == 0 ? 18f : App.vipPrice, "装逼神器VIP");
                     break;
                 case R.id.layout_goto_market:
-                    //goToMarket(context, context.getPackageName());
-                    MobclickAgent.onEvent(context, "weixin_click", SystemTool.getAppVersionName(context));
-                    ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                    // 将文本内容放到系统剪贴板里。
-                    cm.setPrimaryClip(ClipData.newPlainText(null, "腾牛装逼神器"));
-                    ToastUtil.toast(context, "复制成功，可以关注公众号了");
 
-                    WeiXinFollowDialog weiXinFollowDialog = new WeiXinFollowDialog(context);
-                    weiXinFollowDialog.setStartTimeListener(ChargeDialog.this);
-                    weiXinFollowDialog.showChargeDialog(weiXinFollowDialog);
-                    closeChargeDialog();
+                    if (!CheckUtil.isWxInstall(context)) {
+                        ToastUtil.toast(context, "请安装微信");
+                        return;
+                    }
+
+                    if(StringUtils.isEmpty(App.weixinUrl)){
+                        return;
+                    }
+
+                    if (App.weixinState == 1) {
+                        WebPopupWindow webPopupWindow = new WebPopupWindow((CreateBeforeActivity)context, App.weixinUrl);
+                        webPopupWindow.show(((CreateBeforeActivity)context).getWindow().getDecorView().getRootView());
+                        startTimer();
+                        closeChargeDialog();
+                        return;
+                    }else {
+                        MobclickAgent.onEvent(context, "weixin_click", SystemTool.getAppVersionName(context));
+                        ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                        // 将文本内容放到系统剪贴板里。
+                        cm.setPrimaryClip(ClipData.newPlainText(null, "腾牛装逼神器"));
+                        ToastUtil.toast(context, "复制成功，可以关注公众号了");
+
+                        WeiXinFollowDialog weiXinFollowDialog = new WeiXinFollowDialog(context);
+                        weiXinFollowDialog.setStartTimeListener(ChargeDialog.this);
+                        weiXinFollowDialog.showChargeDialog(weiXinFollowDialog);
+                        closeChargeDialog();
+                    }
+
                     break;
                 default:
                     break;

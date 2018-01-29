@@ -1,60 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="250dp"
-    android:layout_height="200dp"
-    android:background="@drawable/shape"
-    android:orientation="vertical" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:background="#00000000"
+              android:gravity="center"
+              android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_dialog_title"
+    <LinearLayout
+        android:id="@+id/layout_top"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
+        android:layout_height="48dp"
         android:background="@drawable/share_text"
-        android:padding="8dp"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:gravity="center">
 
-    <TextView
-        android:id="@+id/tv_dialog_message"
-        android:layout_width="220dp"
-        android:layout_height="105dp"
-        android:layout_below="@+id/tv_dialog_title"
-        android:layout_marginLeft="10dp"
-        android:gravity="center_vertical"
-        android:lineSpacingExtra="15dp"
-        android:padding="3dp"
-        android:textColor="#000000"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/tv_dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minHeight="40dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_dialog_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="6dp"
+            android:lineSpacingExtra="10dp"
+            android:minHeight="100dp"
+            android:padding="3dp"
+            android:textColor="#000000"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/weixin_line_color"/>
 
     <LinearLayout
         android:id="@+id/version_layout"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignParentBottom="true" >
+        android:layout_height="40dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/cancel_btn"
             android:layout_width="0dp"
-            android:layout_height="45dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:orientation="vertical" >
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#f2f2f2" />
-
-            <TextView
-                android:id="@+id/cancel_btn"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:gravity="center"
-                android:text="取消"
-                android:textColor="#000000"
-                android:textSize="16sp" />
-        </LinearLayout>
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="#000000"
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/confirm_btn"
@@ -65,7 +75,7 @@
             android:gravity="center"
             android:text="升级"
             android:textColor="#ffffff"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

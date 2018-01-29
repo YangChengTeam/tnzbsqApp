@@ -59,7 +59,7 @@ public class CreateCardActivity extends BaseAppActivity {
     @Override
     protected void initVars() {
         okHttpRequest = new OKHttpRequest();
-        mToolbar.setTitle("新年小故事");
+        mToolbar.setTitle("2018靠啥吃饭");
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.mipmap.back_icon);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -97,7 +97,7 @@ public class CreateCardActivity extends BaseAppActivity {
     public void createCard(String userName) {
         final Map<String, String> params = new HashMap<String, String>();
         params.put("name", userName);
-        okHttpRequest.aget(Server.CREATE_CARD_URL, params, new OnResponseListener() {
+        okHttpRequest.aget(Server.CREATE_LUCK_URL, params, new OnResponseListener() {
             @Override
             public void onSuccess(String response) {
                 try {
@@ -109,7 +109,7 @@ public class CreateCardActivity extends BaseAppActivity {
                         if (createCardInfo != null && createCardInfo.errCode.equals("0")) {
                             Bundle bundle = new Bundle();
                             bundle.putString("imagePath", createCardInfo.data);
-                            bundle.putString("createTitle", "你的小故事");
+                            bundle.putString("createTitle", "2018靠啥吃饭");
 
                             Intent intent = new Intent(CreateCardActivity.this, ResultActivity.class);
                             intent.putExtras(bundle);

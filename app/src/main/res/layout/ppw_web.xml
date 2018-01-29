@@ -14,8 +14,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="40dp"
-            android:background="#a0000000"
+            android:background="#ffa1a1a1"
             android:scaleType="fitXY"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/black1"
+            android:textSize="16sp"
+            android:text="正在关注中···"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -23,12 +31,12 @@
 
             <ImageView
                 android:id="@+id/iv_close"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-                android:src="@mipmap/close_window_icon"/>
+                android:layout_marginRight="28dp"
+                android:layout_marginTop="28dp"
+                android:src="@mipmap/weixin_dialog_close"/>
         </RelativeLayout>
 
     </FrameLayout>

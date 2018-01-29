@@ -9,7 +9,9 @@
     <RelativeLayout
         android:id="@+id/create_layout"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="220dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_alignParentBottom="true"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
@@ -28,16 +30,15 @@
                 android:id="@+id/create_img"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_margin="5dp"
                 android:src="@mipmap/create_image_icon"/>
 
             <TextView
                 android:id="@+id/create_img_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="圣诞头像"
+                android:text="头像制作"
                 android:textColor="@color/white"
-                android:textSize="20sp"/>
+                android:textSize="14sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -54,16 +55,15 @@
                 android:id="@+id/create_word"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_margin="5dp"
                 android:src="@mipmap/create_new_card_icon"/>
 
             <TextView
                 android:id="@+id/create_word_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="新年小故事"
+                android:text="靠啥吃饭"
                 android:textColor="@color/white"
-                android:textSize="20sp"/>
+                android:textSize="14sp"/>
         </LinearLayout>
 
         <LinearLayout

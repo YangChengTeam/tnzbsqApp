@@ -68,4 +68,6 @@ public class Server {
 	public final static String ORDER_INFO_URL = URL_SERVER_IP + "m=api&c=index&a=user_order_list";
 	//32、生成贺卡
 	public final static String CREATE_CARD_URL = URL_SERVER_IP + "m=Home&c=test&a=story";
+	//32、靠啥吃饭
+	public final static String CREATE_LUCK_URL = URL_SERVER_IP + "m=Home&c=zbsq&a=eatBy";
 }

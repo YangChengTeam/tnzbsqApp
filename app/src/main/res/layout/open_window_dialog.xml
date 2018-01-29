@@ -23,7 +23,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_margin="16dp"
-            android:text="新年小故事"
+            android:text="2018靠啥吃饭"
             android:textColor="@color/black1"
             android:textSize="20sp"/>
 
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
                 android:background="@drawable/new_card_border"
-                android:text="生成故事"
+                android:text="测一测"
                 android:textSize="16sp"/>
         </LinearLayout>
     </RelativeLayout>
