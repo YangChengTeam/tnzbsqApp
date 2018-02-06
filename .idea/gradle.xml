@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/banner" />
             <option value="$PROJECT_DIR$/pay" />
             <option value="$PROJECT_DIR$/rxbus" />
+            <option value="$PROJECT_DIR$/video-player" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -3,8 +3,8 @@ package com.fy.tnzbsq.view.builder;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.support.v4.media.app.NotificationCompat;
 import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v7.app.NotificationCompat;
 
 import com.fy.tnzbsq.view.NotifyUtil;
 

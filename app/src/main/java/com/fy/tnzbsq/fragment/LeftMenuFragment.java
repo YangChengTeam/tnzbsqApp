@@ -228,8 +228,8 @@ public class LeftMenuFragment extends Fragment implements OnClickListener, UserN
         UMImage thumb = new UMImage(context,thumb_img);
         UMWeb web = new UMWeb("http://zs.qqtn.com");
         web.setThumb(thumb);
-        web.setDescription("圣诞帽来啦，快来邀请好友一起玩吧");
-        web.setTitle("别@官方了，快来装逼神器定制你的圣诞节帽子吧！");
+        web.setDescription("2018开启新年装逼新玩法，腾小牛在这里等你来挑战！");
+        web.setTitle("装逼神器@你，并向你发起了装逼挑战！");
         new ShareAction((Activity) context).withMedia(web).setPlatform(platform).setCallback(umShareListener).share();
     }
 

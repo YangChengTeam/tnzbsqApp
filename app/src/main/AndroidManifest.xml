@@ -1,11 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.fy.tnzbsq"
-          android:versionCode="64"
-          android:versionName="3.1.5">
-
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="21"/>
+          package="com.fy.tnzbsq">
 
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT"/>
@@ -301,6 +295,13 @@
         <activity
             android:name=".activity.CommunityImageShowActivity"
             android:theme="@style/ImageShowStyle"/>
+
+        <activity
+            android:name=".activity.VideoMergeBeforeActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
         <activity
             android:name="me.iwf.photopicker.PhotoPickerActivity"
             android:theme="@style/customTheme"

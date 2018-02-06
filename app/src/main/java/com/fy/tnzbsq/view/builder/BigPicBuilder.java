@@ -3,7 +3,7 @@ package com.fy.tnzbsq.view.builder;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.DrawableRes;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 
 import com.fy.tnzbsq.view.NotifyUtil;
 

@@ -37,7 +37,6 @@ import com.zxy.tiny.Tiny;
 import com.zxy.tiny.callback.BitmapCallback;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import pl.droidsonroids.gif.GifDrawable;
@@ -95,7 +94,7 @@ public class ShareActsDialog extends Dialog {
                 // 最后通知图库更新
                 context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + fileName)));
             }
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

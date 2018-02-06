@@ -218,8 +218,14 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(getActivity(), CategoryActivity.class);
+
                 if (zbTypeAdapter.getData() != null) {
-                    intent.putExtra("type_id", zbTypeAdapter.getData().get(position).id);
+                    if (position == zbTypeAdapter.getData().size() - 1) {
+                        intent = new Intent(getActivity(), VideoMergeBeforeActivity.class);
+                        intent.putExtra("video_id","1000");
+                    } else {
+                        intent.putExtra("type_id", zbTypeAdapter.getData().get(position).id);
+                    }
                 }
                 startActivity(intent);
             }
@@ -276,7 +282,7 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
         if (cardWindowFragment == null) {
             cardWindowFragment = new CardWindowFragment();
         }
-        if(cardWindowFragment.getDialog() != null) {
+        if (cardWindowFragment.getDialog() != null) {
             cardWindowFragment.getDialog().setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
@@ -545,8 +551,8 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
         UMImage thumb = new UMImage(getActivity(), thumb_img);
         UMWeb web = new UMWeb("http://zs.qqtn.com");
         web.setThumb(thumb);
-        web.setDescription("圣诞帽来啦，快来邀请好友一起玩吧");
-        web.setTitle("别@官方了，快来装逼神器定制你的圣诞节帽子吧！");
+        web.setDescription("2018开启新年装逼新玩法，腾小牛在这里等你来挑战！");
+        web.setTitle("装逼神器@你，并向你发起了装逼挑战！");
         new ShareAction(getActivity()).withMedia(web).setPlatform(platform).setCallback(umShareListener).share();
     }
 

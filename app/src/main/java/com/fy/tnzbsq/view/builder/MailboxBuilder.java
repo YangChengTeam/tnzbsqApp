@@ -1,6 +1,7 @@
 package com.fy.tnzbsq.view.builder;
 
-import android.support.v7.app.NotificationCompat;
+
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
