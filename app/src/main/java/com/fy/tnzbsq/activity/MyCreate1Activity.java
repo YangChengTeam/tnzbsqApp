@@ -1,9 +1,5 @@
 package com.fy.tnzbsq.activity;
 
-import com.fy.tnzbsq.R;
-import com.fy.tnzbsq.fragment.CreateActsFragment;
-import com.fy.tnzbsq.view.PagerSlidingTabStrip;
-
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +14,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.fy.tnzbsq.R;
+import com.fy.tnzbsq.fragment.CreateActsFragment;
+import com.fy.tnzbsq.view.PagerSlidingTabStrip;
 
 public class MyCreate1Activity extends FragmentActivity {
 
@@ -98,7 +98,7 @@ public class MyCreate1Activity extends FragmentActivity {
 			super(fm);
 		}
 
-		private final String[] titles = { "装逼", "斗图"};
+		private final String[] titles = { "首页", "斗图"};
 
 		@Override
 		public CharSequence getPageTitle(int position) {

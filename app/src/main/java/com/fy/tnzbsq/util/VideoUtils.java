@@ -11,8 +11,7 @@ import com.blankj.utilcode.util.LogUtils;
 
 import java.io.File;
 
-import VideoHandle.EpEditor;
-import VideoHandle.OnEditorListener;
+
 
 /**
  * Created by admin on 2018/1/30.
@@ -169,7 +168,7 @@ public class VideoUtils {
         //合成视频
         String cmd = "-r " + fps + " -i " + mergeBasePath + "/result_image%d.jpg" + " -vcodec mpeg4 " + mergeBasePath + "/result.mp4";
         LogUtils.i("merge video cmds" + cmd);
-        EpEditor.execCmd(cmd, 0, new OnEditorListener() {
+        /*EpEditor.execCmd(cmd, 0, new OnEditorListener() {
             @Override
             public void onSuccess() {
                 LogUtils.i("merge video end time --->" + com.blankj.utilcode.util.TimeUtils.getNowString());
@@ -186,7 +185,7 @@ public class VideoUtils {
             public void onProgress(float progress) {
 
             }
-        });
+        });*/
     }
 
     public static Bitmap addImageWatermark(final Bitmap src,

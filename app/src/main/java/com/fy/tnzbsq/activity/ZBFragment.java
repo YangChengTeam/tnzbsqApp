@@ -220,12 +220,13 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
                 Intent intent = new Intent(getActivity(), CategoryActivity.class);
 
                 if (zbTypeAdapter.getData() != null) {
-                    if (position == zbTypeAdapter.getData().size() - 1) {
+                    /*if (position == zbTypeAdapter.getData().size() - 1) {
                         intent = new Intent(getActivity(), VideoMergeBeforeActivity.class);
                         intent.putExtra("video_id","1000");
                     } else {
                         intent.putExtra("type_id", zbTypeAdapter.getData().get(position).id);
-                    }
+                    }*/
+                    intent.putExtra("type_id", zbTypeAdapter.getData().get(position).id);
                 }
                 startActivity(intent);
             }

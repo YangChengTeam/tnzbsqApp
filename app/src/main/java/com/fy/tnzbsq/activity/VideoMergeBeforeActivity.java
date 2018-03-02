@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ZipUtils;
 import com.bumptech.glide.Glide;
@@ -28,8 +27,6 @@ import com.kk.pay.other.ToastUtil;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
-import com.xinqu.videoplayer.XinQuVideoPlayer;
-import com.xinqu.videoplayer.XinQuVideoPlayerStandard;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -52,8 +49,8 @@ public class VideoMergeBeforeActivity extends BaseAppActivity implements VideoUt
     @BindView(R.id.toolbarContainer)
     Toolbar mToolbar;
 
-    @BindView(R.id.video_player)
-    XinQuVideoPlayerStandard xinQuVideoPlayerStandard;
+    //@BindView(R.id.video_player)
+    //XinQuVideoPlayerStandard xinQuVideoPlayerStandard;
 
     //下载素材进度条
     @BindView(R.id.fliker_bar)
@@ -230,8 +227,8 @@ public class VideoMergeBeforeActivity extends BaseAppActivity implements VideoUt
     @Override
     protected void initData(Bundle savedInstanceState) {
         String coverUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517219975491&di=2eb4289e328cdc0c084ce7605ceb026f&imgtype=0&src=http%3A%2F%2F5.1015600.com%2F2014%2Fpic%2F000%2F354%2F42a8cd8f271b46a9e67981d5c1ad4b88.jpg";
-        Glide.with(this).load(coverUrl).override(SizeUtils.dp2px(340), SizeUtils.dp2px(400)).into(xinQuVideoPlayerStandard.thumbImageView);
-        xinQuVideoPlayerStandard.setUp(videoPlayPath, XinQuVideoPlayer.SCREEN_WINDOW_NORMAL, false, "");
+        //Glide.with(this).load(coverUrl).override(SizeUtils.dp2px(340), SizeUtils.dp2px(400)).into(xinQuVideoPlayerStandard.thumbImageView);
+        //xinQuVideoPlayerStandard.setUp(videoPlayPath, XinQuVideoPlayer.SCREEN_WINDOW_NORMAL, false, "");
     }
 
     /**
@@ -368,7 +365,7 @@ public class VideoMergeBeforeActivity extends BaseAppActivity implements VideoUt
             @Override
             public void run() {
                 String videoPath = downSavePath + "/happy_video/wait_images/result.mp4";
-                xinQuVideoPlayerStandard.setUp(videoPath, XinQuVideoPlayer.SCREEN_WINDOW_NORMAL, false, "");
+                //xinQuVideoPlayerStandard.setUp(videoPath, XinQuVideoPlayer.SCREEN_WINDOW_NORMAL, false, "");
             }
         });
 

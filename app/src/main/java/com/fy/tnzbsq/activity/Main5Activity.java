@@ -99,7 +99,7 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
         noTitleItem.setListener(this);
 
         NavigationController navigationController = tab.custom()
-                .addItem(newItem(R.mipmap.main_acts_normal, R.mipmap.main_acts_selected, "装逼"))
+                .addItem(newItem(R.mipmap.main_acts_normal, R.mipmap.main_acts_selected, "首页"))
                 .addItem(newItem(R.mipmap.main_fight_normal, R.mipmap.main_fight_selected, "斗图"))
                 .addItem(noTitleItem)
                 .addItem(newItem(R.mipmap.main_note_normal, R.mipmap.main_note_selected, "广场"))
