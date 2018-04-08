@@ -29,4 +29,5 @@ public interface CustomWebViewDelegate extends BaseCustomeWebViewDelegate {
     void loadImageList(int currentPage);
     void search(String keyword);
     void fightMenu();
+    void gifResult(String url);
 }

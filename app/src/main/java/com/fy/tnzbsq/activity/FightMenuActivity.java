@@ -191,5 +191,8 @@ public class FightMenuActivity extends KJActivity implements CustomWebViewDelega
 		// TODO Auto-generated method stub
 
 	}
+	@Override
+	public void gifResult(String url) {
 
+	}
 }

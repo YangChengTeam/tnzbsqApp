@@ -10,6 +10,7 @@ import android.text.InputFilter;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -39,6 +40,7 @@ import com.fy.tnzbsq.common.Server;
 import com.fy.tnzbsq.net.OKHttpRequest;
 import com.fy.tnzbsq.net.listener.OnResponseListener;
 import com.fy.tnzbsq.util.HeadImageUtils;
+import com.fy.tnzbsq.util.InputLenLimit;
 import com.fy.tnzbsq.util.PreferencesUtils;
 import com.fy.tnzbsq.util.ScreenUtils;
 import com.fy.tnzbsq.util.SizeUtils;
@@ -95,6 +97,9 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
     @BindView(R.id.iv_create_bg_iv)
     ImageView mCreateBgImageView;
 
+    @BindView(R.id.preview_layout)
+    FrameLayout mPreViewLayout;
+
     @BindView(R.id.layout_create_type)
     LinearLayout mCreateTypeLayout;
 
@@ -132,6 +137,11 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
         StatusBarUtil.setColor(CreateBeforeActivity.this, getResources().getColor(R.color.colorAccent), 0);
         Bundle bundle = getIntent().getExtras();
 
+        final int maxWidth = ScreenUtils.getScreenWidth(this);
+        final int maxHeight = ScreenUtils.getScreenHeight(this) / 2;
+
+        mPreViewLayout.setLayoutParams(new LinearLayout.LayoutParams(maxWidth, maxHeight));
+
         if (bundle != null) {
             mZbDataInfo = (ZBDataInfo) bundle.getSerializable("zb_data_info");
             if (mZbDataInfo != null) {
@@ -140,8 +150,22 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
                 Glide.with(this).load(mZbDataInfo.front_img).asBitmap().into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        mCreateBgImageView.getLayoutParams().width = getRealWidth(resource.getWidth());
-                        mCreateBgImageView.getLayoutParams().height = getRealWHeight(resource.getHeight());
+
+                        double rWidth = resource.getWidth();
+                        double rHeight = resource.getHeight();
+
+                        //实际的宽高
+                        double inputHeight = maxHeight - 100;
+                        double scale = rWidth / rHeight;
+                        double inputWidth = inputHeight * scale;
+
+                        if (inputWidth > maxWidth) {
+                            inputWidth = maxWidth - 100;
+                            inputHeight = inputWidth / scale;
+                        }
+
+                        mCreateBgImageView.getLayoutParams().width = (int) inputWidth;
+                        mCreateBgImageView.getLayoutParams().height = (int) inputHeight;
                         mCreateBgImageView.setImageBitmap(resource);
 
                         mLoadingLayout.setVisibility(View.GONE);
@@ -184,7 +208,7 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
         }
     }
 
-    public int getRealWHeight(int cHeight) {
+    public int getRealHeight(int cHeight) {
         if (cHeight > ScreenUtils.getScreenHeight(this)) {
             return ScreenUtils.getScreenHeight(this) - SizeUtils.dp2px(this, 20);
         } else {
@@ -194,9 +218,9 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
 
     @Override
     protected void initViews() {
-        FrameLayout.LayoutParams iParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        iParams.setMargins(SizeUtils.dp2px(this, 6), SizeUtils.dp2px(this, 6), SizeUtils.dp2px(this, 6), SizeUtils.dp2px(this, 6));
-        mImageLayout.setLayoutParams(iParams);
+//        FrameLayout.LayoutParams iParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+//        iParams.setMargins(SizeUtils.dp2px(this, 6), SizeUtils.dp2px(this, 6), SizeUtils.dp2px(this, 6), SizeUtils.dp2px(this, 6));
+//        mImageLayout.setLayoutParams(iParams);
 
         LinearLayout.LayoutParams cParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         cParams.setMargins(0, SizeUtils.dp2px(this, 12), 0, 0);
@@ -224,7 +248,13 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
                         wordTv.setBackgroundResource(R.drawable.input_bg);
                         wordTv.setPadding(paddingLeft, 0, 0, 0);
                         wordTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-                        wordTv.setFilters(new InputFilter[]{new InputFilter.LengthFilter(zField.text_len_limit)});
+
+                        //限制是能输入中文
+                        if (zField.restrain == 2) {
+                            InputLenLimit.lengthFilter(zField.text_len_limit, this, wordTv);
+                        } else {
+                            wordTv.setFilters(new InputFilter[]{new InputFilter.LengthFilter(zField.text_len_limit)});
+                        }
 
                         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, tHeight);
                         params.gravity = Gravity.CENTER;
@@ -464,7 +494,7 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
         timer.schedule(task, 1000, 1000);
     }
 
-    public void computeTime(){
+    public void computeTime() {
         if (timeNum > 12) {
             String sourceIdsKey = App.loginUser != null ? App.loginUser.id + "_ids" : App.ANDROID_ID + "_ids";
             StringBuffer sourceIds = new StringBuffer(PreferencesUtils.getString(context, sourceIdsKey, ""));
@@ -522,6 +552,7 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
             }
             isChooseImage = true;
             HeadImageUtils.imgResultPath = tempFile.getAbsolutePath();
+            Logger.i("tempfile path--->" + HeadImageUtils.imgResultPath);
             Glide.with(this).load(tempFile).transform(new GlideCircleTransform(context)).into(createSelectImageView);
         }
     }
@@ -687,6 +718,7 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
                 if (Result.checkResult(CreateBeforeActivity.this, res)) {
                     Bundle bundle = new Bundle();
                     bundle.putString("imagePath", res.data);
+
                     bundle.putString("createTitle", mZbDataInfo != null ? mZbDataInfo.title : "");
 
                     Intent intent = new Intent(CreateBeforeActivity.this, ResultActivity.class);

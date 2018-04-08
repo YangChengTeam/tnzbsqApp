@@ -1,27 +1,5 @@
 package com.fy.tnzbsq.activity;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.kymjs.kjframe.ui.BindView;
-
-import com.fy.tnzbsq.App;
-import com.fy.tnzbsq.R;
-import com.fy.tnzbsq.bean.GameInfo;
-import com.fy.tnzbsq.common.Contants;
-import com.fy.tnzbsq.common.CustomWebViewDelegate;
-import com.fy.tnzbsq.common.Server;
-import com.fy.tnzbsq.util.NetUtil;
-import com.fy.tnzbsq.view.CustomProgress;
-import com.fy.tnzbsq.view.CustomWebView;
-import com.umeng.analytics.MobclickAgent;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -36,6 +14,28 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.fy.tnzbsq.App;
+import com.fy.tnzbsq.R;
+import com.fy.tnzbsq.bean.GameInfo;
+import com.fy.tnzbsq.common.Contants;
+import com.fy.tnzbsq.common.CustomWebViewDelegate;
+import com.fy.tnzbsq.common.Server;
+import com.fy.tnzbsq.util.NetUtil;
+import com.fy.tnzbsq.view.CustomProgress;
+import com.fy.tnzbsq.view.CustomWebView;
+import com.umeng.analytics.MobclickAgent;
+
+import org.kymjs.kjframe.ui.BindView;
+
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SendActivity extends BaseActivity implements CustomWebViewDelegate {
 
@@ -462,5 +462,9 @@ public class SendActivity extends BaseActivity implements CustomWebViewDelegate 
 	public void fightMenu() {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public void gifResult(String url) {
+
 	}
 }

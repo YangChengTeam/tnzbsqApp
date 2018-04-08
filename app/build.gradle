@@ -16,11 +16,11 @@ android {
         applicationId "com.fy.tnzbsq"
         minSdkVersion 17
         targetSdkVersion 21
-        versionCode 67
-        versionName "3.3"
+        versionCode 68
+        versionName "3.3.1"
         multiDexEnabled true
         ndk {
-            abiFilters 'armeabi','x86','armeabi-v7a' //or armeabi-v7a、arm64-v8a、x86
+            abiFilters'armeabi','x86','armeabi-v7a' //or armeabi-v7a、arm64-v8a、x86
         }
     }
     buildTypes {
@@ -75,7 +75,7 @@ dependencies {
     compile files('libs/gesture_imageview.jar')
     compile project(':SlidingMenu')
     compile files('libs/universal-image-loader-1.9.5.jar')
-    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.17'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.12'
     compile 'com.isseiaoki:simplecropview:1.1.4'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile files('src/main/jniLibs/pushservice-5.1.0.48.jar')

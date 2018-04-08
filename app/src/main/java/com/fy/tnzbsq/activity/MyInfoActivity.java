@@ -1,7 +1,13 @@
 package com.fy.tnzbsq.activity;
 
-import org.kymjs.kjframe.ui.BindView;
-import org.kymjs.kjframe.utils.KJLoger;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fy.tnzbsq.R;
 import com.fy.tnzbsq.bean.GameInfo;
@@ -17,14 +23,8 @@ import com.fy.tnzbsq.util.CommUtils;
 import com.fy.tnzbsq.view.CustomWebView;
 import com.umeng.analytics.MobclickAgent;
 
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import org.kymjs.kjframe.ui.BindView;
+import org.kymjs.kjframe.utils.KJLoger;
 
 public class MyInfoActivity extends BaseActivity implements CustomWebViewDelegate {
 
@@ -350,4 +350,8 @@ public class MyInfoActivity extends BaseActivity implements CustomWebViewDelegat
 		
 	}
 
+	@Override
+	public void gifResult(String url) {
+
+	}
 }

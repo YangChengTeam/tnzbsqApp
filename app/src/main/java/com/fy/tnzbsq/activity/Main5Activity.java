@@ -139,7 +139,7 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
         });
 
         getPriceConfig();
-        getAlipyCode();
+        //getAlipyCode();
         getWeixinInfo();
     }
 

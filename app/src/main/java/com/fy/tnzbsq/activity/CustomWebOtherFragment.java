@@ -1,50 +1,5 @@
 package com.fy.tnzbsq.activity;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.kymjs.kjframe.KJHttp;
-import org.kymjs.kjframe.http.HttpCallBack;
-import org.kymjs.kjframe.http.HttpParams;
-import org.kymjs.kjframe.utils.KJLoger;
-import org.kymjs.kjframe.utils.PreferenceHelper;
-import org.kymjs.kjframe.utils.SystemTool;
-
-import com.fy.tnzbsq.App;
-import com.fy.tnzbsq.R;
-import com.fy.tnzbsq.activity.MainActivity.CurrentTabIndex;
-import com.fy.tnzbsq.bean.Acts;
-import com.fy.tnzbsq.bean.GameInfo;
-import com.fy.tnzbsq.bean.MyCreateRet;
-import com.fy.tnzbsq.bean.Result;
-import com.fy.tnzbsq.bean.UserRet;
-import com.fy.tnzbsq.bean.VersionUpdateServiceRet;
-import com.fy.tnzbsq.common.AppCustomViews;
-import com.fy.tnzbsq.common.AppCustomViews.onAlertDialogBtnClickListener;
-import com.fy.tnzbsq.common.Contants;
-import com.fy.tnzbsq.common.CustomWebViewDelegate;
-import com.fy.tnzbsq.common.Server;
-import com.fy.tnzbsq.common.ServiceInterface;
-import com.fy.tnzbsq.common.StatusCode;
-import com.fy.tnzbsq.service.UpdateService;
-import com.fy.tnzbsq.util.AlertUtil;
-import com.fy.tnzbsq.util.CommUtils;
-import com.fy.tnzbsq.util.CustomUtils;
-import com.fy.tnzbsq.util.NetUtil;
-import com.fy.tnzbsq.view.CustomProgress;
-import com.fy.tnzbsq.view.CustomWebView;
-import com.fy.tnzbsq.view.NavLineLayout;
-import com.google.gson.reflect.TypeToken;
-import com.umeng.socialize.utils.Log;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -69,6 +24,50 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.fy.tnzbsq.App;
+import com.fy.tnzbsq.R;
+import com.fy.tnzbsq.bean.Acts;
+import com.fy.tnzbsq.bean.GameInfo;
+import com.fy.tnzbsq.bean.MyCreateRet;
+import com.fy.tnzbsq.bean.Result;
+import com.fy.tnzbsq.bean.UserRet;
+import com.fy.tnzbsq.bean.VersionUpdateServiceRet;
+import com.fy.tnzbsq.common.AppCustomViews;
+import com.fy.tnzbsq.common.AppCustomViews.onAlertDialogBtnClickListener;
+import com.fy.tnzbsq.common.Contants;
+import com.fy.tnzbsq.common.CustomWebViewDelegate;
+import com.fy.tnzbsq.common.Server;
+import com.fy.tnzbsq.common.ServiceInterface;
+import com.fy.tnzbsq.common.StatusCode;
+import com.fy.tnzbsq.service.UpdateService;
+import com.fy.tnzbsq.util.AlertUtil;
+import com.fy.tnzbsq.util.CommUtils;
+import com.fy.tnzbsq.util.CustomUtils;
+import com.fy.tnzbsq.util.NetUtil;
+import com.fy.tnzbsq.view.CustomProgress;
+import com.fy.tnzbsq.view.CustomWebView;
+import com.fy.tnzbsq.view.NavLineLayout;
+import com.google.gson.reflect.TypeToken;
+import com.umeng.socialize.utils.Log;
+
+import org.kymjs.kjframe.KJHttp;
+import org.kymjs.kjframe.http.HttpCallBack;
+import org.kymjs.kjframe.http.HttpParams;
+import org.kymjs.kjframe.utils.KJLoger;
+import org.kymjs.kjframe.utils.PreferenceHelper;
+import org.kymjs.kjframe.utils.SystemTool;
+
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CustomWebOtherFragment extends CustomBaseFragment
         implements CustomWebViewDelegate, NavLineLayout.NavDelegate, OnRefreshListener {
@@ -1052,5 +1051,10 @@ public class CustomWebOtherFragment extends CustomBaseFragment
     @Override
     public void onRefresh() {
         new FightAllDataTask().execute();
+    }
+
+    @Override
+    public void gifResult(String url) {
+
     }
 }

@@ -1,18 +1,5 @@
 package com.fy.tnzbsq.activity;
 
-import java.io.File;
-import java.io.FileOutputStream;
-
-import org.kymjs.kjframe.KJActivity;
-import org.kymjs.kjframe.ui.BindView;
-
-import com.fy.tnzbsq.R;
-import com.fy.tnzbsq.bean.GameInfo;
-import com.fy.tnzbsq.common.Contants;
-import com.fy.tnzbsq.common.CustomWebViewDelegate;
-import com.fy.tnzbsq.common.ServiceInterface;
-import com.fy.tnzbsq.view.CustomWebView;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -24,6 +11,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.fy.tnzbsq.R;
+import com.fy.tnzbsq.bean.GameInfo;
+import com.fy.tnzbsq.common.Contants;
+import com.fy.tnzbsq.common.CustomWebViewDelegate;
+import com.fy.tnzbsq.common.ServiceInterface;
+import com.fy.tnzbsq.view.CustomWebView;
+
+import org.kymjs.kjframe.KJActivity;
+import org.kymjs.kjframe.ui.BindView;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class FightCommonListActivity extends KJActivity implements CustomWebViewDelegate, OnRefreshListener {
 
@@ -301,5 +301,8 @@ public class FightCommonListActivity extends KJActivity implements CustomWebView
 			}
 		}
 	}
+	@Override
+	public void gifResult(String url) {
 
+	}
 }

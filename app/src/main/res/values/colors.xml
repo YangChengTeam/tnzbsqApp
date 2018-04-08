@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="bg_color">#f2f2f2</color>
+    <color name="create_bg_color">#f1f1f1</color>
     <color name="touming">#00000000</color>
     <color name="black">#000000</color>
     <color name="black1">#333333</color>
@@ -26,6 +27,7 @@
     <color name="divider">#333333</color>
 
     <color name="common_color">#f2f2f2</color>
+    <color name="input_color">#e2e2e2</color>
     <color name="input_bg_color">#e8e8e8</color>
     <color name="colorPrimary_below">#f28989</color>
     <color name="register_text_color">#3385ff</color>

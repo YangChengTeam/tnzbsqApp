@@ -752,5 +752,17 @@ public class CustomWebView extends WebView {
                 });
             }
         }
+
+        @JavascriptInterface
+        public void gifResult(final String url) {
+            if (delegate != null) {
+                CustomWebView.this.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        delegate.gifResult(url);
+                    }
+                });
+            }
+        }
     }
 }

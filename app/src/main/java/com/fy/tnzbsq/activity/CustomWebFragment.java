@@ -995,4 +995,9 @@ public class CustomWebFragment extends CustomBaseFragment implements CustomWebVi
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void gifResult(String url) {
+
+	}
 }

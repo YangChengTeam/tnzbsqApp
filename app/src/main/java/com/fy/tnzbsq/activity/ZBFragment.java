@@ -206,11 +206,16 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
         mBanner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                Intent intent = new Intent(getActivity(), CategoryActivity.class);
-                if (mSlideInfoList != null && mSlideInfoList.get(position) != null) {
-                    intent.putExtra("banner_id", mSlideInfoList.get(position).id);
+                if(position == 0){
+                    Intent intent = new Intent(getActivity(), GifMakeListActivity.class);
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(getActivity(), CategoryActivity.class);
+                    if (mSlideInfoList != null && mSlideInfoList.get(position-1) != null) {
+                        intent.putExtra("banner_id", mSlideInfoList.get(position-1).id);
+                    }
+                    startActivity(intent);
                 }
-                startActivity(intent);
             }
         });
 
@@ -412,6 +417,9 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
                         if (result.banner != null && currentPage == 1) {
                             mSlideInfoList = result.banner;
                             List<String> imgUrls = new ArrayList<String>();
+                            String gifBanner = "file:///android_asset/gif_banner.jpg";
+                            imgUrls.add(gifBanner);
+
                             for (int i = 0; i < result.banner.size(); i++) {
                                 imgUrls.add(result.banner.get(i).c_img);
                             }

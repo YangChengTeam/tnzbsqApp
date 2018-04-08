@@ -274,5 +274,8 @@ public class SearchActivity extends KJActivity implements CustomWebViewDelegate{
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void gifResult(String url) {
 
+	}
 }

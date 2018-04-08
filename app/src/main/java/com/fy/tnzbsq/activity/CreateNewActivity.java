@@ -633,4 +633,9 @@ public class CreateNewActivity extends BaseActivity implements CustomWebViewDele
         HeadImageUtils.imgPath = null;
         HeadImageUtils.imgResultPath = null;
     }
+
+    @Override
+    public void gifResult(String url) {
+
+    }
 }

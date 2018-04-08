@@ -1,19 +1,12 @@
 package com.fy.tnzbsq.activity;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.kymjs.kjframe.KJHttp;
-import org.kymjs.kjframe.http.HttpCallBack;
-import org.kymjs.kjframe.http.HttpParams;
-import org.kymjs.kjframe.ui.BindView;
-import org.kymjs.kjframe.utils.KJLoger;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fy.tnzbsq.App;
 import com.fy.tnzbsq.R;
@@ -30,13 +23,20 @@ import com.fy.tnzbsq.view.PicSelectDialog;
 import com.fy.tnzbsq.view.PicSelectDialog.PicDialogItemOnClick;
 import com.google.gson.reflect.TypeToken;
 
-import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import org.kymjs.kjframe.KJHttp;
+import org.kymjs.kjframe.http.HttpCallBack;
+import org.kymjs.kjframe.http.HttpParams;
+import org.kymjs.kjframe.ui.BindView;
+import org.kymjs.kjframe.utils.KJLoger;
+
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserInfoActivity extends BaseActivity implements CustomWebViewDelegate {
 
@@ -468,5 +468,10 @@ public class UserInfoActivity extends BaseActivity implements CustomWebViewDeleg
 	public void fightMenu() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void gifResult(String url) {
+
 	}
 }

@@ -1,18 +1,18 @@
 package com.fy.tnzbsq.activity;
 
-import org.kymjs.kjframe.KJActivity;
-import org.kymjs.kjframe.ui.BindView;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.fy.tnzbsq.R;
 import com.fy.tnzbsq.bean.GameInfo;
 import com.fy.tnzbsq.common.CustomWebViewDelegate;
 import com.fy.tnzbsq.view.CustomWebView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import org.kymjs.kjframe.KJActivity;
+import org.kymjs.kjframe.ui.BindView;
 
 public class FightSearchActivity extends KJActivity implements CustomWebViewDelegate{ 
 
@@ -193,5 +193,8 @@ public class FightSearchActivity extends KJActivity implements CustomWebViewDele
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void gifResult(String url) {
 
+	}
 }

@@ -374,4 +374,8 @@ public class SearchResultActivity extends BaseActivity implements CustomWebViewD
 		
 	}
 
+	@Override
+	public void gifResult(String url) {
+
+	}
 }

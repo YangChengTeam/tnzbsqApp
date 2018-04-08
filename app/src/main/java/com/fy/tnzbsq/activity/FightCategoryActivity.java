@@ -201,4 +201,8 @@ public class FightCategoryActivity extends KJActivity implements CustomWebViewDe
 		
 	}
 
+	@Override
+	public void gifResult(String url) {
+
+	}
 }

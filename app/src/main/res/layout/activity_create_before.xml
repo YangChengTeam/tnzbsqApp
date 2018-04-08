@@ -1,66 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/bg_color"
-                android:gravity="center">
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center">
     <include
         android:id="@+id/toolbarContainer"
         layout="@layout/toolbar_layout"></include>
 
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbarContainer"
-        android:layout_gravity="top">
+        android:layout_gravity="top"
+        android:background="@color/white"
+        android:scrollbars="none">
 
-        <ScrollView
+        <LinearLayout
+            android:id="@+id/image_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/bg_color"
-            android:scrollbars="none">
+            android:layout_gravity="top"
+            android:gravity="top|center"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/image_layout"
+            <FrameLayout
+                android:id="@+id/preview_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="top"
-                android:gravity="top|center"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:background="@color/create_bg_color"
+                android:gravity="center">
 
                 <ImageView
                     android:id="@+id/iv_create_bg_iv"
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
-                    android:id="@+id/layout_create_type"
+                    android:id="@+id/loading_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent"
+                    android:gravity="center">
 
+                    <pl.droidsonroids.gif.GifImageView
+                        android:id="@+id/loading_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/main_loading_gif" />
+
+                    <ImageView
+                        android:id="@+id/iv_no_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/no_data_icon" />
                 </LinearLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_create_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
             </LinearLayout>
-        </ScrollView>
-
-        <LinearLayout
-            android:id="@+id/loading_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center">
-
-            <pl.droidsonroids.gif.GifImageView
-                android:id="@+id/loading_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/main_loading_gif"/>
-
-            <ImageView
-                android:id="@+id/iv_no_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/no_data_icon"/>
         </LinearLayout>
-    </FrameLayout>
+    </ScrollView>
+
+
 </RelativeLayout>

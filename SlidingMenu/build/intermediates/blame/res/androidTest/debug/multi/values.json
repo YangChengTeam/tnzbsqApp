@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "E:\\zdh\\as_workspace\\Tnzbsq2\\SlidingMenu\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+        "outputFile": "C:\\work\\android_studio_work\\Tnzbsq2\\SlidingMenu\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 1130
                 },
                 "from": {
-                    "file": "E:\\zdh\\as_workspace\\Tnzbsq2\\SlidingMenu\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "C:\\work\\android_studio_work\\Tnzbsq2\\SlidingMenu\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 4,

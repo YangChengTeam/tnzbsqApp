@@ -315,5 +315,8 @@ public class MyCreateActivity extends BaseActivity implements CustomWebViewDeleg
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void gifResult(String url) {
 
+	}
 }

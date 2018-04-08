@@ -775,4 +775,8 @@ public class ResultActivity extends BaseActivity implements CustomWebViewDelegat
         // TODO Auto-generated method stub
 
     }
+    @Override
+    public void gifResult(String url) {
+
+    }
 }

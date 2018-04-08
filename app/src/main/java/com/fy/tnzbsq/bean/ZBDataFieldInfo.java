@@ -8,7 +8,7 @@ public class ZBDataFieldInfo implements Serializable {
     public String name;
     public String temp_id;
     public String type;
-    public String restrain;
+    public int restrain;
     public String font_name;
     public String font_color;
     public String font_size;
