@@ -175,7 +175,7 @@ public class MyInfoActivity extends BaseActivity implements CustomWebViewDelegat
 		}
 
 		private void showUpdateDialog() {
-			customWidgets.showAlertDialog("检查更新", "当前版本号：V" + CommUtils.getVersionName(context) + "\n最新版本号：V"
+			customWidgets.showAlertDialog(0,"检查更新", "当前版本号：V" + CommUtils.getVersionName(context) + "\n最新版本号：V"
 					+ newVersionName + "\n版本信息：" + versionRemark + "\n是否下载并安装新版本？", clickListener);
 		}
 

@@ -8,4 +8,5 @@ public class VersionUpdateServiceBody extends Result implements Serializable {
 	public String download;
 	public String updateLog;
 	public String versionCode;
+	public int isForce;//0不强制，1强制
 }

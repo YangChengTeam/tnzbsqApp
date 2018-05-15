@@ -308,7 +308,7 @@ public class MyInfoFragment extends CustomBaseFragment {
     private String downUrl = "";
     private String newVersionName = "";
     private String versionRemark = "";
-
+    private int isForce = 0;
     private class VersionUpdateServiceTask extends AsyncTask<Void, Void, VersionUpdateServiceRet> {
         boolean isAutoUpdate = true;
 
@@ -340,6 +340,9 @@ public class MyInfoFragment extends CustomBaseFragment {
             @Override
             public void onCancle() {
                 customWidgets.hideAlertDialog();
+                if(isForce == 1) {
+                    ((Main5Activity)getActivity()).finish();
+                }
             }
         };
 
@@ -376,6 +379,7 @@ public class MyInfoFragment extends CustomBaseFragment {
                                 downUrl = result.data.download;
                                 newVersionName = result.data.version;
                                 versionRemark = result.data.updateLog;
+                                isForce = result.data.isForce;
 
                                 if (versionRemark != null) {
                                     versionRemark = versionRemark.replace(",", "\n");
@@ -399,7 +403,10 @@ public class MyInfoFragment extends CustomBaseFragment {
         }
 
         private void showUpdateDialog() {
-            customWidgets.showAlertDialog("检查更新", "腾牛君又发新版本啦!\n赶快来尝鲜 ? ", clickListener);
+            if (isResumed()) {
+                customWidgets.showAlertDialog(isForce, "检查更新", "当前版本号：V" + CommUtils.getVersionName(getActivity()) + "\n最新版本号：V"
+                        + newVersionName + "\n版本信息：\n" + versionRemark + "\n是否下载并安装新版本？", clickListener);
+            }
         }
 
         @Override

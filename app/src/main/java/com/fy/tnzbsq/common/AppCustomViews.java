@@ -56,7 +56,7 @@ public class AppCustomViews {
         }
     }
 
-    public void showAlertDialog(String title, String msg,
+    public void showAlertDialog(final int isForce, String title, String msg,
                                 final onAlertDialogBtnClickListener clickListener) {
         if (msg == null) {
             msg = "";
@@ -66,7 +66,7 @@ public class AppCustomViews {
         }
         if (alertDialog == null) {
             /*AlertDialog.Builder build = new AlertDialog.Builder(context);
-			build.setMessage(msg);
+            build.setMessage(msg);
 			build.setPositiveButton("确定",
 					new DialogInterface.OnClickListener() {
 
@@ -85,8 +85,12 @@ public class AppCustomViews {
 			alertDialog = build.create();*/
 
             alertDialog = new AlertDialog.Builder(context).create();
+            if (isForce == 1) {
+                alertDialog.setCanceledOnTouchOutside(false);
+            }
             alertDialog.setTitle(title);
             alertDialog.show();
+
             Window window = alertDialog.getWindow();
             window.setContentView(R.layout.alert_dialog_custom);
 
@@ -113,6 +117,9 @@ public class AppCustomViews {
                 }
             });
         } else {
+            if (isForce == 1) {
+                alertDialog.setCanceledOnTouchOutside(false);
+            }
             alertDialog.setTitle(title);
             alertDialog.show();
         }

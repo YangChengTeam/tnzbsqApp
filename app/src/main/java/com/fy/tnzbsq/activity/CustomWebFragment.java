@@ -775,7 +775,7 @@ public class CustomWebFragment extends CustomBaseFragment implements CustomWebVi
 
 		private void showUpdateDialog() {
 			if(isResumed()){
-				customWidgets.showAlertDialog("检查更新", "腾牛君又发新版本啦!\n赶快来尝鲜 ? ", clickListener);
+				customWidgets.showAlertDialog(0,"检查更新", "腾牛君又发新版本啦!\n赶快来尝鲜 ? ", clickListener);
 			}
 		}
 

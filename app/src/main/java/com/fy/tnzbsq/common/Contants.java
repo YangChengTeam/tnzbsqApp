@@ -72,6 +72,7 @@ public class Contants {
 	public static final String KEEP_DATA_FILENAME = "my_keep_data.js";
 	
 	public static final String VERSION_CHECK = "version_check";
+
 	public static final String VERSION_CHECK_DATA = "version_check_data";
 
 	public static final String VERSION_CODE = "version_code";

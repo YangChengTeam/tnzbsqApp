@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -49,6 +50,7 @@ import com.fy.tnzbsq.view.CustomProgress;
 import com.fy.tnzbsq.view.CustomWebView;
 import com.fy.tnzbsq.view.NavLineLayout;
 import com.google.gson.reflect.TypeToken;
+import com.orhanobut.logger.Logger;
 import com.umeng.socialize.utils.Log;
 
 import org.kymjs.kjframe.KJHttp;
@@ -72,7 +74,7 @@ import java.util.Map;
 public class CustomWebOtherFragment extends CustomBaseFragment
         implements CustomWebViewDelegate, NavLineLayout.NavDelegate, OnRefreshListener {
 
-    public static final int MVALUE = 128;
+    public final int MVALUE = 128;
 
     private static final int REQUESTCODE_PICK = 0;// 相册选图标记
     private static final int REQUESTCODE_TAKE = 1;// 相机拍照标记
@@ -191,15 +193,8 @@ public class CustomWebOtherFragment extends CustomBaseFragment
             // Log.i("-----debug--", url);
             customWidgets = new AppCustomViews(getActivity());
 
-            String hisCheckDate = PreferenceHelper.readString(getContext(), Contants.VERSION_CHECK,
-                    Contants.VERSION_CHECK_DATA, "");
-            String currentData = SystemTool.getDataTime("yyyy-MM-dd");
-
-            if (hisCheckDate != null && !currentData.equals(hisCheckDate)) {
-                PreferenceHelper.write(getContext(), Contants.VERSION_CHECK, Contants.VERSION_CHECK_DATA,
-                        SystemTool.getDataTime("yyyy-MM-dd"));
-                task = new VersionUpdateServiceTask(true).execute();
-            }
+            //每次都检测更新
+            task = new VersionUpdateServiceTask(true).execute();
 
             customWebView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -236,7 +231,7 @@ public class CustomWebOtherFragment extends CustomBaseFragment
     }
 
 	/*
-	 * public void cacheTopImage(){ List<String> topImageList = new
+     * public void cacheTopImage(){ List<String> topImageList = new
 	 * ArrayList<String>(); for(int i=0;i<actsList.size();i++){
 	 * if(actsList.get(i).isbest >0){ topImageList.add(actsList.get(i).bestimg);
 	 * } } service = new DownloadService(Contants.ALL_SMALL_IMAGE_PATH,
@@ -532,7 +527,7 @@ public class CustomWebOtherFragment extends CustomBaseFragment
         switch (requestCode) {
             case REQUESTCODE_PICK:// 直接从相册获取
                 try {
-				/*
+                /*
 				 * Bundle extras = data.getExtras(); if (extras != null) { //
 				 * 取得SDCard图片路径做显示 Bitmap photo = extras.getParcelable("data");
 				 * Drawable drawable = new BitmapDrawable(null, photo); urlpath
@@ -654,9 +649,16 @@ public class CustomWebOtherFragment extends CustomBaseFragment
     };
 
     private String downUrl = "";
+
     private String newVersionName = "";
+
     private String versionRemark = "";
 
+    private int isForce = 0;//是否强制更新
+
+    /**
+     * 版本检测更新
+     */
     private class VersionUpdateServiceTask extends AsyncTask<Void, Void, VersionUpdateServiceRet> {
         boolean isAutoUpdate = true;
 
@@ -669,8 +671,6 @@ public class CustomWebOtherFragment extends CustomBaseFragment
             @Override
             public void onOk() {
                 customWidgets.hideAlertDialog();
-                // startActivity(new Intent(getActivity(),
-                // UpdateActivity.class));
 
                 if (downUrl != null && downUrl.length() > 0) {
                     Intent intent = new Intent(getActivity(), UpdateService.class);
@@ -687,21 +687,29 @@ public class CustomWebOtherFragment extends CustomBaseFragment
             @Override
             public void onCancle() {
                 customWidgets.hideAlertDialog();
+                if (isForce == 1) {
+                    ((Main5Activity) getActivity()).finish();
+                }
             }
         };
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // if (!isAutoUpdate) {
-            // customWidgets.showProgressDialog("正在获取版本信息...");
-            // }
+        }
+
+        @Override
+        protected VersionUpdateServiceRet doInBackground(Void... params) {
+            try {
+                return ServiceInterface.VersionUpdateService(getActivity(), getMetaDataValue("UMENG_CHANNEL"));
+            } catch (Exception e) {
+            }
+            return null;
         }
 
         @Override
         protected void onPostExecute(VersionUpdateServiceRet result) {
             super.onPostExecute(result);
-            // customWidgets.hideProgressDialog();
             if (result != null) {
                 if (result.errCode.equals(StatusCode.STATUS_CODE_SUCCESS)) {
                     if (result.data.version == null) {
@@ -726,17 +734,26 @@ public class CustomWebOtherFragment extends CustomBaseFragment
                                 downUrl = result.data.download;
                                 newVersionName = result.data.version;
                                 versionRemark = result.data.updateLog;
+                                isForce = result.data.isForce;
 
                                 if (versionRemark != null) {
                                     versionRemark = versionRemark.replace(",", "\n");
                                 }
 
-                                showUpdateDialog();
+                                String hisCheckDate = PreferenceHelper.readString(getContext(), Contants.VERSION_CHECK,
+                                        Contants.VERSION_CHECK_DATA, "");
+                                String currentData = SystemTool.getDataTime("yyyy-MM-dd");
+
+                                if ((hisCheckDate != null && !currentData.equals(hisCheckDate)) || isForce == 1) {
+                                    PreferenceHelper.write(getContext(), Contants.VERSION_CHECK, Contants.VERSION_CHECK_DATA,
+                                            SystemTool.getDataTime("yyyy-MM-dd"));
+                                    showUpdateDialog();
+                                }
                             }
                         }
                     }
                 } else {
-                    // AlertUtil.show(getActivity(), result.body.remark);
+                    Logger.e("获取版本信息失败" + result.errCode);
                 }
             } else {
                 AlertUtil.show(getActivity(), getActivity().getResources().getString(R.string.net_connect_error));
@@ -745,18 +762,9 @@ public class CustomWebOtherFragment extends CustomBaseFragment
 
         private void showUpdateDialog() {
             if (isResumed()) {
-                customWidgets.showAlertDialog("检查更新", "当前版本号：V" + CommUtils.getVersionName(getActivity()) + "\n最新版本号：V"
+                customWidgets.showAlertDialog(isForce, "检查更新", "当前版本号：V" + CommUtils.getVersionName(getActivity()) + "\n最新版本号：V"
                         + newVersionName + "\n版本信息：\n" + versionRemark + "\n是否下载并安装新版本？", clickListener);
             }
-        }
-
-        @Override
-        protected VersionUpdateServiceRet doInBackground(Void... params) {
-            try {
-                return ServiceInterface.VersionUpdateService(getActivity(), getMetaDataValue("UMENG_CHANNEL"));
-            } catch (Exception e) {
-            }
-            return null;
         }
     }
 
