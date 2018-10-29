@@ -49,6 +49,9 @@ import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.orhanobut.logger.Logger;
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -207,8 +210,16 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
             @Override
             public void OnBannerClick(int position) {
                 if(position == 0){
-                    Intent intent = new Intent(getActivity(), GifMakeListActivity.class);
-                    startActivity(intent);
+                    //Intent intent = new Intent(getActivity(), GifMakeListActivity.class);
+                    //startActivity(intent);
+                    String appId = "wxf9506f64f1e46cbe"; // 填应用AppId
+                    IWXAPI api = WXAPIFactory.createWXAPI(getActivity(), appId);
+
+                    WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
+                    req.userName = "gh_066fa13db09f"; // 填小程序原始id
+                    //req.path = "/pages/home/home";                  //拉起小程序页面的可带参路径，不填默认拉起小程序首页
+                    req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
+                    api.sendReq(req);
                 }else{
                     Intent intent = new Intent(getActivity(), CategoryActivity.class);
                     if (mSlideInfoList != null && mSlideInfoList.get(position-1) != null) {

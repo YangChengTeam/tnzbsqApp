@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.fy.tnzbsq.App;
 import com.fy.tnzbsq.R;
 import com.fy.tnzbsq.adapter.MyViewPagerAdapter;
-import com.fy.tnzbsq.bean.AlipyCodeRet;
 import com.fy.tnzbsq.bean.PriceRet;
 import com.fy.tnzbsq.bean.WeiXinInfoRet;
 import com.fy.tnzbsq.common.Contants;
@@ -139,7 +138,6 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
         });
 
         getPriceConfig();
-        //getAlipyCode();
         getWeixinInfo();
     }
 
@@ -225,37 +223,6 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
         } else {
             System.exit(0);
         }
-    }
-
-    public void copyAlipy(String code) {
-        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        // 将文本内容放到系统剪贴板里。
-        cm.setPrimaryClip(ClipData.newPlainText(null, code));
-    }
-
-    public void getAlipyCode() {
-        okHttpRequest.aget("http://u.wk990.com/api/index/zfb_code?app_name=zbsq", null, new OnResponseListener() {
-            @Override
-            public void onSuccess(String response) {
-                if (!StringUtils.isEmpty(response)) {
-                    AlipyCodeRet alipyCodeRet = Contants.gson.fromJson(response, AlipyCodeRet.class);
-                    if (alipyCodeRet != null && alipyCodeRet.code == 1) {
-                        alipyCode = alipyCodeRet.data.zfb_code;
-                    }
-                    copyAlipy(alipyCode);
-                }
-            }
-
-            @Override
-            public void onError(Exception e) {
-                copyAlipy(alipyCode);
-            }
-
-            @Override
-            public void onBefore() {
-
-            }
-        });
     }
 
     public void getWeixinInfo() {
