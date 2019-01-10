@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout n1:orientation="vertical" n1:layout_width="fill_parent" n1:layout_height="fill_parent"
+    xmlns:n1="http://schemas.android.com/apk/res/android">
+    <LinearLayout n1:orientation="vertical" n1:background="@mipmap/b_pro_detail_bg" n1:layout_width="fill_parent" n1:layout_height="wrap_content">
+        <View n1:id="@+id/tc_view" n1:background="@color/transparent" n1:layout_width="fill_parent" n1:layout_height="10.0dip" n2:layout_constraintLeft_toLeftOf="parent" n2:layout_constraintRight_toRightOf="parent" n2:layout_constraintTop_toTopOf="parent" xmlns:n2="http://schemas.android.com/apk/res-auto" />
+        <TextView n1:textSize="20.0sp" n1:textStyle="bold" n1:textColor="@color/white" n1:gravity="center" n1:padding="10.0dip" n1:layout_width="fill_parent" n1:layout_height="fill_parent" n1:text="@string/app_name" />
+    </LinearLayout>
+    <RelativeLayout n1:layout_width="fill_parent" n1:layout_height="wrap_content">
+        <android.support.design.widget.TabLayout n1:id="@+id/tl_tab" n1:background="@color/white" n1:layout_width="fill_parent" n1:layout_height="35.0dip" n1:layout_centerVertical="true" />
+        <LinearLayout n1:gravity="center" n1:orientation="horizontal" n1:id="@+id/tab_loading_layout" n1:visibility="gone" n1:layout_width="fill_parent" n1:layout_height="wrap_content" n1:layout_centerVertical="true">
+            <ProgressBar n1:layout_width="20.0dip" n1:layout_height="20.0dip" />
+            <TextView n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginLeft="10.0dip" n1:text="正在获取分类..." n1:layout_centerInParent="true" />
+        </LinearLayout>
+        <TextView n1:textSize="13.0sp" n1:textColor="@color/red" n1:id="@+id/load_fail" n1:padding="10.0dip" n1:visibility="gone" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:text="分类加载失败，点击重试!" n1:layout_centerInParent="true" />
+    </RelativeLayout>
+    <ImageView n1:layout_width="fill_parent" n1:layout_height="0.5dip" n1:src="@color/divider_color" />
+    <android.support.v4.view.ViewPager n1:id="@+id/vp_content" n1:layout_width="fill_parent" n1:layout_height="fill_parent" />
+</LinearLayout>

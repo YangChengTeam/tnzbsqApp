@@ -1,9 +1,11 @@
 package com.fy.tnzbsq.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -15,7 +17,10 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v4.view.GestureDetectorCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -66,6 +71,14 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
+
+@RuntimePermissions
 public class ImageDiyActivity extends BaseActivity implements GestureDetector.OnGestureListener,
         GestureDetector.OnDoubleTapListener {
 
@@ -172,8 +185,43 @@ public class ImageDiyActivity extends BaseActivity implements GestureDetector.On
     private String path = "";
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //Main5ActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+        ImageDiyActivityPermissionsDispatcher.onRequestPermissionsResult(this,requestCode,grantResults);
+    }
+
+    @NeedsPermission(Manifest.permission.CAMERA)
+    void showRecord() {
+        //ToastUtils.showLong("允许使用相机");
+
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            HeadImageUtils.cutPhoto = null;
+            HeadImageUtils.getFromCamara(ImageDiyActivity.this);
+        } else {
+            Toast.makeText(context, "未检测到SD卡，请稍后重试", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @OnPermissionDenied(Manifest.permission.CAMERA)
+    void onRecordDenied() {
+        Toast.makeText(this, R.string.permission_camera_denied, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnShowRationale(Manifest.permission.CAMERA)
+    void showRationaleForRecord(PermissionRequest request) {
+        showRationaleDialog(R.string.permission_camera_rationale, request);
+    }
+
+    @OnNeverAskAgain(Manifest.permission.CAMERA)
+    void onStorageNeverAskAgain() {
+        Toast.makeText(this, R.string.permission_camera_never_ask_again, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void initData() {
         super.initData();
+
         HeadImageUtils.cutPhoto = null;
 
         mDetector = new GestureDetectorCompat(this, this);
@@ -400,13 +448,7 @@ public class ImageDiyActivity extends BaseActivity implements GestureDetector.On
                 }
                 break;
             case R.id.photo_layout:
-
-                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                    HeadImageUtils.cutPhoto = null;
-                    HeadImageUtils.getFromCamara(ImageDiyActivity.this);
-                } else {
-                    Toast.makeText(context, "未检测到SD卡，请稍后重试", Toast.LENGTH_SHORT).show();
-                }
+                ImageDiyActivityPermissionsDispatcher.showRecordWithCheck(this);
 
                 break;
             case R.id.gallery_layout:
@@ -901,6 +943,25 @@ public class ImageDiyActivity extends BaseActivity implements GestureDetector.On
                 return true;
             }
         }
+    }
+
+    private void showRationaleDialog(@StringRes int messageResId, final PermissionRequest request) {
+        new AlertDialog.Builder(this)
+                .setPositiveButton(R.string.button_allow, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(@NonNull DialogInterface dialog, int which) {
+                        request.proceed();
+                    }
+                })
+                .setNegativeButton(R.string.button_deny, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(@NonNull DialogInterface dialog, int which) {
+                        request.cancel();
+                    }
+                })
+                .setCancelable(false)
+                .setMessage(messageResId)
+                .show();
     }
 
     @Override

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout n1:orientation="vertical" n1:background="@color/main_bg" n1:layout_width="fill_parent" n1:layout_height="fill_parent"
+  xmlns:n1="http://schemas.android.com/apk/res/android">
+    <include layout="@layout/loanbox_include_top_view" />
+    <LinearLayout n1:gravity="center" n1:orientation="horizontal" n1:id="@+id/sort_layout" n1:background="@color/white" n1:layout_width="fill_parent" n1:layout_height="wrap_content">
+        <TextView n1:textSize="14.0sp" n1:textColor="@color/type_name_color" n1:gravity="center" n1:id="@+id/sort1_btn" n1:background="@color/white" n1:padding="10.0dip" n1:layout_width="0.0dip" n1:layout_height="wrap_content" n1:text="高通过" n1:layout_weight="1.0" style="@style/TextAppearance.AppCompat.Small" />
+        <TextView n1:textSize="14.0sp" n1:textColor="@color/type_name_color" n1:gravity="center" n1:id="@+id/sort2_btn" n1:background="@color/white" n1:padding="10.0dip" n1:layout_width="0.0dip" n1:layout_height="wrap_content" n1:text="放款快" n1:layout_weight="1.0" style="@style/TextAppearance.AppCompat.Small" />
+        <TextView n1:textSize="14.0sp" n1:textColor="@color/type_name_color" n1:gravity="center" n1:id="@+id/sort3_btn" n1:background="@color/white" n1:padding="10.0dip" n1:layout_width="0.0dip" n1:layout_height="wrap_content" n1:text="低利息" n1:layout_weight="1.0" style="@style/TextAppearance.AppCompat.Small" />
+        <ImageView n1:layout_width="0.5dip" n1:layout_height="fill_parent" n1:layout_marginTop="10.0dip" n1:layout_marginBottom="10.0dip" n1:src="@color/divider_color" />
+        <com.yc.loanbox.view.widget.DrawableCenterTextView n1:textSize="14.0sp" n1:textColor="@color/type_name_color" n1:gravity="center" n1:id="@+id/sort4_btn" n1:background="@color/white" n1:layout_width="0.0dip" n1:layout_height="wrap_content" n1:text="筛选" n1:drawableRight="@mipmap/ic_shaixuan" n1:drawablePadding="5.0dip" n1:layout_weight="1.0" style="@style/TextAppearance.AppCompat.Small" />
+    </LinearLayout>
+    <ImageView n1:layout_width="fill_parent" n1:layout_height="0.5dip" n1:src="@color/divider_color" />
+    <TextView n1:textSize="13.0sp" n1:textColor="@color/grey_text_color" n1:gravity="center|left" n1:id="@+id/message" n1:background="@color/refresh_layout_bgcolor" n1:paddingLeft="15.0dip" n1:paddingTop="5.0dip" n1:paddingBottom="5.0dip" n1:layout_width="fill_parent" n1:layout_height="wrap_content" n1:text="据统计，同时申请5款产品，下款通过率高达92%" n1:drawableLeft="@mipmap/ic_gth" n1:drawablePadding="8.0dip" />
+
+    <android.support.v4.widget.SwipeRefreshLayout n1:id="@+id/refresh_layout" n1:layout_width="fill_parent" n1:layout_height="fill_parent" >
+         <android.support.v7.widget.RecyclerView
+             n1:id="@+id/recyclerView"
+             n1:layout_width="match_parent"
+             n1:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

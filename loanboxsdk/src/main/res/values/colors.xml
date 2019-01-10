@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_gray">#ffe2e2e2</color>
+    <color name="black">#ff000000</color>
+    <color name="blue_button_color">#ff0297fd</color>
+    <color name="blue_text_color">#ff4275fe</color>
+
+    <color name="chart_xian">#ff222a31</color>
+    <color name="cj_item_color1">#ff000000</color>
+    <color name="cj_item_color1_jin">#ff1b1b1b</color>
+    <color name="cj_item_color2">#ff212121</color>
+    <color name="cj_item_color2_jin">#ff282828</color>
+    <color name="colorAccent">#ffff7515</color>
+    <color name="colorPrimary">#ff3f51b5</color>
+    <color name="colorPrimaryDark">#ff303f9f</color>
+    <color name="comment_bg">#fff4f4f4</color>
+
+    <color name="divider_color">#ffeeeeee</color>
+    <color name="error_color_material">#fff4511e</color>
+
+    <color name="green">#ff00ff00</color>
+    <color name="green2">#ff2f7c2d</color>
+    <color name="grey">#ffacacaa</color>
+    <color name="grey_text_color">#ff979797</color>
+
+    <color name="huixian">#ff303539</color>
+    <color name="image_defluat">#ff222a31</color>
+    <color name="index_item_grey">#ffacacaa</color>
+    <color name="info_news_title_bg">#ff21272f</color>
+    <color name="info_xian">#ff525962</color>
+    <color name="item_color_kuang_grey">#ff5c6369</color>
+    <color name="item_decoration_title_background">#ff23282e</color>
+    <color name="item_decoration_title_fontcolor">#ff74869c</color>
+    <color name="item_des1_color">#ff9a9a9a</color>
+    <color name="item_des2_color">#ffb6b6b6</color>
+    <color name="login_edit_bg_color">#ff505268</color>
+    <color name="login_text_color">#ff616375</color>
+    <color name="main_bg">#fff5f5f5</color>
+
+    <color name="me_bg_color">#fff1f1f1</color>
+    <color name="me_xian_color">#fff6f6f6</color>
+
+    <color name="notification_material_background_media_default_color">#ff424242</color>
+
+    <color name="red">#ffff0f0f</color>
+    <color name="red2">#ffad3702</color>
+    <color name="refresh_layout_bgcolor">#fff2f2f2</color>
+    <color name="report_red_color">#fff95659</color>
+    <color name="rippelColor">#ffffffff</color>
+
+    <color name="search_edit_bg">#ff1a1f24</color>
+    <color name="search_kuang_color">#ffdedede</color>
+
+    <color name="shuxian">#ff101419</color>
+    <color name="skin_app_color">#ff101419</color>
+    <color name="skin_app_color_jin">#ff282828</color>
+    <color name="skin_defluat_color">#ff3d76b8</color>
+    <color name="skin_defluat_color_jin">#ffe1ccad</color>
+    <color name="skin_grey">#ffacacaa</color>
+    <color name="skin_grey_jin">#ff4f4f4f</color>
+    <color name="skin_index_item_grey">#ffacacaa</color>
+    <color name="skin_index_item_grey_jin">#ffe1ccad</color>
+    <color name="skin_item_text_color">#ff000000</color>
+    <color name="skin_item_text_color_jin">#ffff0000</color>
+    <color name="skin_left_menu_item_textColor">#ffffffff</color>
+    <color name="skin_left_menu_item_textColor_jin">#ffff0000</color>
+    <color name="skin_list_top_bg">#ff1d2228</color>
+    <color name="skin_list_top_bg_jin">#ff232323</color>
+    <color name="skin_login_btn_text_color">#ffffffff</color>
+    <color name="skin_login_btn_text_color_jin">#ff17181d</color>
+    <color name="skin_me_text_color">#ff000000</color>
+    <color name="skin_me_text_color_jin">#ffe1ccad</color>
+    <color name="skin_top_bg">#ff1d2228</color>
+    <color name="skin_top_bg_jin">#ff17181d</color>
+    <color name="skin_top_color">#ffffffff</color>
+    <color name="skin_top_color_jin">#ffe1ccad</color>
+    <color name="statistics_tiao_clolr">#ff212121</color>
+
+    <color name="tab_color">#ff444444</color>
+    <color name="tab_default_color">#ff727272</color>
+    <color name="table_selected">#ff333333</color>
+    <color name="table_unselected">#ff5d5d5d</color>
+
+    <color name="top_bg">#ff1d2228</color>
+    <color name="translucence">#ff506050</color>
+    <color name="transparent">#00000000</color>
+    <color name="type_name_color">#ff343434</color>
+    <color name="type_top_text_color">#ff31394a</color>
+    <color name="white">#ffffffff</color>
+    <color name="window_background">#fff5f5f5</color>
+</resources>

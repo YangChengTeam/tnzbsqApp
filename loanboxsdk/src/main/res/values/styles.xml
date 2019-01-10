@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MyDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    <style name="AppTheme" parent="@style/BaseAppTheme" >
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
+
+    <style name="BaseAppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@style/activityAnimation</item>
+        <item name="colorAccent">#ffff7515</item>
+        <item name="colorPrimary">#ffffff</item>
+        <item name="colorPrimaryDark">#ffffff</item>
+    </style>
+    <style name="activityAnimation" parent="@android:style/Animation">
+        <item name="android:activityOpenEnterAnimation">@anim/open_activity_right_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/open_activity_left_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/open_activity_left_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/open_activity_right_out</item>
+    </style>
+    <style name="WarpLinearLayoutDefault">
+        <item name="grivate">left</item>
+        <item name="horizontal_Space">20.0dip</item>
+        <item name="isFull">false</item>
+        <item name="vertical_Space">20.0dip</item>
+    </style>
+</resources>

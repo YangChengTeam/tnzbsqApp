@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:ns1="http://schemas.android.com/apk/res/android" ns1:layout_width="match_parent" ns1:layout_height="match_parent">
+    <ImageView  ns1:id="@+id/active_close_btn"  ns1:layout_width="wrap_content" ns1:layout_alignParentRight="true" ns1:layout_height="wrap_content" ns1:layout_margin="20dp" ns1:src="@mipmap/index_active_close_image" />
+    <ImageView  ns1:id="@+id/active_image" ns1:layout_width="match_parent"  ns1:layout_height="wrap_content"  ns1:layout_centerInParent="true" ns1:layout_centerHorizontal="true"  ns1:layout_below="@id/active_close_btn"/>
+</RelativeLayout>

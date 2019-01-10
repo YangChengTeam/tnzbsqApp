@@ -124,6 +124,7 @@ public class MainActivity extends SlidingFragmentActivity implements TabLineLayo
             }
             super.handleMessage(msg);
         }
+
     };
 
     @Override

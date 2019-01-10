@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout n1:orientation="vertical" n1:id="@+id/serch_layout" n1:background="@mipmap/b_pro_detail_bg" n1:layout_width="fill_parent" n1:layout_height="wrap_content"
+  xmlns:n1="http://schemas.android.com/apk/res/android">
+    <View n1:id="@+id/tc_view" n1:background="@color/transparent" n1:layout_width="fill_parent" n1:layout_height="0.0dip" />
+    <RelativeLayout n1:layout_width="fill_parent" n1:layout_height="wrap_content">
+        <ImageView n1:id="@+id/back_btn" n1:padding="10.0dip" n1:visibility="gone" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:src="@mipmap/back_white_image" n1:layout_centerVertical="true" />
+        <TextView n1:textSize="20.0sp" n1:textStyle="bold" n1:textColor="@color/white" n1:id="@+id/type_name" n1:padding="10.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_centerInParent="true"  />
+        <TextView n1:textSize="15.0sp" n1:textColor="@color/grey" n1:id="@+id/seach_edit" n1:background="@drawable/white_30dp_yuanjiao_sty" n1:paddingLeft="10.0dip" n1:paddingTop="5.0dip" n1:paddingBottom="5.0dip" n1:visibility="gone" n1:layout_width="fill_parent" n1:layout_height="wrap_content" n1:layout_marginLeft="15.0dip" n1:layout_marginTop="10.0dip" n1:layout_marginRight="15.0dip" n1:layout_marginBottom="10.0dip" n1:text="搜索贷款产品" n1:drawableLeft="@mipmap/ic_search" n1:drawablePadding="5.0dip" />
+    </RelativeLayout>
+</LinearLayout>

@@ -70,4 +70,8 @@ public class Server {
 	public final static String CREATE_CARD_URL = URL_SERVER_IP + "m=Home&c=test&a=story";
 	//32、靠啥吃饭
 	public final static String CREATE_LUCK_URL = URL_SERVER_IP + "m=Home&c=zbsq&a=eatBy";
+	//33、获取广告地址
+	public final static String POP_AD_URL = URL_SERVER_IP + "m=home&c=web&a=adverapi";
+	//33、统计广告点击
+	public final static String TOTAL_AD_URL = URL_SERVER_IP + "m=home&c=web&a=adverOnclickCount";
 }

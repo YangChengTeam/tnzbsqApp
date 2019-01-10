@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout n1:id="@+id/layout_viewager_content" n1:background="@color/white" n1:layout_width="fill_parent" n1:layout_height="fill_parent"
+  xmlns:n1="http://schemas.android.com/apk/res/android">
+    <com.yc.loanbox.view.widget.BaseViewPager n1:id="@+id/viewPager" n1:layout_width="fill_parent" n1:layout_height="fill_parent" n1:layout_above="@id/layout_viewpager_indicator" />
+    <LinearLayout n1:gravity="center" n1:orientation="horizontal" n1:id="@+id/layout_viewpager_indicator" n1:padding="10.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_alignParentBottom="true" n1:layout_centerHorizontal="true" />
+    <TextView n1:textSize="15.0sp" n1:textColor="@color/white" n1:id="@+id/page_text" n1:background="@drawable/background_circle" n1:visibility="gone" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_margin="10.0dip" n1:layout_alignParentRight="true" n1:layout_alignParentBottom="true" />
+</RelativeLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout n1:orientation="vertical" n1:layout_width="fill_parent" n1:layout_height="fill_parent"
+  xmlns:n1="http://schemas.android.com/apk/res/android">
+    <ImageView n1:layout_width="fill_parent" n1:layout_height="0.5dip" n1:src="@color/divider_color" />
+    <LinearLayout n1:orientation="vertical" n1:background="@color/white" n1:layout_width="fill_parent" n1:layout_height="wrap_content">
+        <TextView n1:textSize="15.0sp" n1:textColor="@color/black" n1:id="@+id/name1" n1:padding="10.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:text="借款金额" />
+        <com.yc.loanbox.view.widget.WarpLinearLayout n1:id="@+id/type_list1" n1:paddingLeft="10.0dip" n1:paddingRight="10.0dip" n1:paddingBottom="10.0dip" n1:layout_width="fill_parent" n1:layout_height="wrap_content" n2:grivate="left" n2:isFull="false" xmlns:n2="http://schemas.android.com/apk/res-auto" />
+        <TextView n1:textSize="15.0sp" n1:textColor="@color/black" n1:id="@+id/name2" n1:padding="10.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:text="借款期限" />
+        <com.yc.loanbox.view.widget.WarpLinearLayout n1:id="@+id/type_list2" n1:paddingLeft="10.0dip" n1:paddingRight="10.0dip" n1:paddingBottom="10.0dip" n1:layout_width="fill_parent" n1:layout_height="wrap_content" n3:grivate="left" n3:isFull="false" xmlns:n3="http://schemas.android.com/apk/res-auto" />
+        <TextView n1:textSize="15.0sp" n1:textColor="@color/black" n1:id="@+id/name3" n1:padding="10.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:text="特色标签" />
+        <com.yc.loanbox.view.widget.WarpLinearLayout n1:id="@+id/type_list3" n1:paddingLeft="10.0dip" n1:paddingRight="10.0dip" n1:paddingBottom="10.0dip" n1:layout_width="fill_parent" n1:layout_height="wrap_content" n4:grivate="left" n4:isFull="false" xmlns:n4="http://schemas.android.com/apk/res-auto" />
+    </LinearLayout>
+    <ImageView n1:layout_width="fill_parent" n1:layout_height="0.5dip" n1:src="@color/divider_color" />
+    <LinearLayout n1:orientation="horizontal" n1:layout_width="fill_parent" n1:layout_height="wrap_content">
+        <TextView n1:textColor="@color/grey_text_color" n1:gravity="center" n1:id="@+id/clear_btn" n1:background="@color/main_bg" n1:padding="15.0dip" n1:layout_width="0.0dip" n1:layout_height="wrap_content" n1:text="重置" n1:layout_weight="1.0" />
+        <TextView n1:textColor="@color/white" n1:gravity="center" n1:id="@+id/ok_btn" n1:background="@color/colorAccent" n1:padding="15.0dip" n1:layout_width="0.0dip" n1:layout_height="wrap_content" n1:text="确定" n1:layout_weight="1.0" />
+    </LinearLayout>
+    <ImageView n1:id="@+id/pop_layout" n1:layout_width="fill_parent" n1:layout_height="fill_parent" n1:src="@mipmap/bantouming" n1:scaleType="fitXY" />
+</LinearLayout>

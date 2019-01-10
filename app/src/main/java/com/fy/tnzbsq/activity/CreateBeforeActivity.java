@@ -1,16 +1,20 @@
 package com.fy.tnzbsq.activity;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -69,12 +73,19 @@ import java.util.TimerTask;
 
 import butterknife.BindView;
 import me.iwf.photopicker.PhotoPicker;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 import pl.droidsonroids.gif.GifImageView;
 
 /**
  * Created by admin on 2017/8/29.
  */
 
+@RuntimePermissions
 public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialog.TimeListener {
 
     private static final int REQUEST_CODE_CHOOSE = 23;
@@ -214,6 +225,59 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
         } else {
             return cHeight;
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        CreateBeforeActivityPermissionsDispatcher.onRequestPermissionsResult(this,requestCode,grantResults);
+    }
+
+    @NeedsPermission(Manifest.permission.CAMERA)
+    void showRecord() {
+        //ToastUtils.showLong("允许使用相机");
+        PhotoPicker.builder()
+                .setPhotoCount(1)
+                .setShowCamera(true)
+                .setShowGif(true)
+                .setPreviewEnabled(false)
+                .start(CreateBeforeActivity.this, PhotoPicker.REQUEST_CODE);
+    }
+
+    @OnPermissionDenied(Manifest.permission.CAMERA)
+    void onRecordDenied() {
+        Toast.makeText(this, R.string.permission_camera_denied, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnShowRationale(Manifest.permission.CAMERA)
+    void showRationaleForRecord(PermissionRequest request) {
+        showRationaleDialog(R.string.permission_camera_rationale, request);
+    }
+
+    @OnNeverAskAgain(Manifest.permission.CAMERA)
+    void onCameraNeverAskAgain() {
+        Toast.makeText(this, R.string.permission_camera_never_ask_again, Toast.LENGTH_SHORT).show();
+    }
+
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void showStorage() {
+        //ToastUtils.showLong("允许使用存储权限");
+        createImage();
+    }
+
+    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void onStorageDenied() {
+        Toast.makeText(this, R.string.permission_storage_denied, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void showRationaleForStorage(PermissionRequest request) {
+        showRationaleDialog(R.string.permission_storage_rationale, request);
+    }
+
+    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void onStorageNeverAskAgain() {
+        Toast.makeText(this, R.string.permission_storage_never_ask_again, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -359,12 +423,7 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
                         createSelectImageView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                PhotoPicker.builder()
-                                        .setPhotoCount(1)
-                                        .setShowCamera(true)
-                                        .setShowGif(true)
-                                        .setPreviewEnabled(false)
-                                        .start(CreateBeforeActivity.this, PhotoPicker.REQUEST_CODE);
+                                CreateBeforeActivityPermissionsDispatcher.showRecordWithCheck(CreateBeforeActivity.this);
                             }
                         });
                     }
@@ -393,7 +452,7 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
             createBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    createImage();
+                    CreateBeforeActivityPermissionsDispatcher.showStorageWithCheck(CreateBeforeActivity.this);
                 }
             });
         }
@@ -474,6 +533,24 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
         return Arrays.asList(arr).contains(targetValue);
     }
 
+    private void showRationaleDialog(@StringRes int messageResId, final PermissionRequest request) {
+        new AlertDialog.Builder(this)
+                .setPositiveButton(R.string.button_allow, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(@NonNull DialogInterface dialog, int which) {
+                        request.proceed();
+                    }
+                })
+                .setNegativeButton(R.string.button_deny, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(@NonNull DialogInterface dialog, int which) {
+                        request.cancel();
+                    }
+                })
+                .setCancelable(false)
+                .setMessage(messageResId)
+                .show();
+    }
 
     @Override
     public void timeStart() {

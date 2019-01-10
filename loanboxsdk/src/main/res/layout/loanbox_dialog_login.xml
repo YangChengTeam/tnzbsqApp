@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout n1:gravity="center" n1:orientation="vertical" n1:layout_width="fill_parent" n1:layout_height="wrap_content"
+  xmlns:n1="http://schemas.android.com/apk/res/android">
+    <ImageView n1:background="@mipmap/dialog_login_top_image" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:scaleType="centerCrop" />
+    <LinearLayout n1:gravity="center" n1:orientation="vertical" n1:background="@mipmap/dialog_login_center_image" n1:layout_width="wrap_content" n1:layout_height="wrap_content">
+        <TextView n1:textSize="14.0sp" n1:textColor="@color/grey_text_color" n1:paddingLeft="20.0dip" n1:paddingTop="10.0dip" n1:paddingRight="20.0dip" n1:layout_width="fill_parent" n1:layout_height="wrap_content" n1:text="请输入手机号" />
+        <EditText n1:id="@+id/ed_phone" n1:background="@color/transparent" n1:paddingLeft="20.0dip" n1:paddingTop="10.0dip" n1:paddingRight="20.0dip" n1:paddingBottom="10.0dip" n1:layout_width="fill_parent" n1:layout_height="wrap_content" n1:maxLength="11" n1:numeric="integer" />
+        <ImageView n1:layout_width="fill_parent" n1:layout_height="1.0dip" n1:layout_marginLeft="10.0dip" n1:layout_marginRight="10.0dip" n1:src="@color/divider_color" />
+        <TextView n1:textSize="14.0sp" n1:textColor="@color/grey_text_color" n1:paddingLeft="20.0dip" n1:paddingTop="20.0dip" n1:paddingRight="20.0dip" n1:layout_width="fill_parent" n1:layout_height="wrap_content" n1:text="请输入验证码" />
+        <RelativeLayout n1:layout_width="fill_parent" n1:layout_height="wrap_content" n1:layout_marginLeft="20.0dip" n1:layout_marginRight="20.0dip">
+            <EditText n1:id="@+id/ed_yzm" n1:background="@color/transparent" n1:paddingTop="10.0dip" n1:paddingBottom="10.0dip" n1:layout_width="fill_parent" n1:layout_height="wrap_content" n1:numeric="integer" n1:layout_centerVertical="true" />
+            <TextView n1:textSize="15.0sp" n1:textColor="@color/blue_text_color" n1:id="@+id/get_yzm" n1:padding="10.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:text="获取验证码" n1:layout_alignParentRight="true" n1:layout_centerVertical="true" />
+        </RelativeLayout>
+        <ImageView n1:layout_width="fill_parent" n1:layout_height="1.0dip" n1:layout_marginLeft="10.0dip" n1:layout_marginRight="10.0dip" n1:src="@color/divider_color" />
+        <Button n1:textSize="20.0sp" n1:textColor="@color/white" n1:id="@+id/login_btn" n1:background="@mipmap/dialog_login_btn_bg" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginTop="20.0dip" n1:text="登录" />
+    </LinearLayout>
+    <ImageView n1:background="@mipmap/dialog_login_bottom_image" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:scaleType="centerCrop" />
+</LinearLayout>

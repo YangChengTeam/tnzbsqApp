@@ -1,6 +1,11 @@
 package com.fy.tnzbsq.activity;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.TypeReference;
+import com.blankj.utilcode.util.ToastUtils;
 import com.fy.tnzbsq.App;
 import com.fy.tnzbsq.R;
 import com.fy.tnzbsq.bean.User;
@@ -16,6 +22,9 @@ import com.fy.tnzbsq.util.PreferencesUtils;
 import com.fy.tnzbsq.util.StringUtils;
 import com.fy.tnzbsq.util.TimeUtils;
 import com.fy.tnzbsq.view.CustomProgress;
+import com.hjq.permissions.OnPermission;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.kk.securityhttp.domain.ResultInfo;
 import com.kk.securityhttp.engin.HttpCoreEngin;
 import com.umeng.analytics.MobclickAgent;
@@ -29,11 +38,16 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import permissions.dispatcher.PermissionRequest;
 import rx.Subscriber;
 
+
 public class LoginActivity extends BaseActivity {
+
+    private static int PER_CODE = 123;
 
     @BindView(id = R.id.back_img, click = true)
     private ImageView backImg;
@@ -189,18 +203,48 @@ public class LoginActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.qq_auth_login_btn:
-                dialog.show();
-                platform = SHARE_MEDIA.QQ;
-                mShareAPI.doOauthVerify(LoginActivity.this, platform, umAuthListener);
+                requestPermission(1);
                 break;
             case R.id.weixin_auth_login_btn:
-                dialog.show();
-                platform = SHARE_MEDIA.WEIXIN;
-                mShareAPI.doOauthVerify(LoginActivity.this, platform, umAuthListener);
+                requestPermission(2);
                 break;
             default:
                 break;
         }
+    }
+
+    public void requestPermission(final int type) {
+        XXPermissions.with(this)
+                .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
+                .permission(Manifest.permission.CALL_PHONE, Manifest.permission.READ_PHONE_STATE) //支持请求6.0悬浮窗权限8.0请求安装权限
+                .permission(Permission.Group.STORAGE, Permission.Group.LOCATION) //不指定权限则自动获取清单中的危险权限
+                .request(new OnPermission() {
+
+                    @Override
+                    public void hasPermission(List<String> granted, boolean isAll) {
+                        if (isAll) {
+                            //ToastUtils.showLong("获取权限成功");
+                            if (dialog != null && !dialog.isShowing()) {
+                                dialog.show();
+                                platform = type == 1 ? SHARE_MEDIA.QQ : SHARE_MEDIA.WEIXIN;
+                                mShareAPI.doOauthVerify(LoginActivity.this, platform, umAuthListener);
+                            }
+                        } else {
+                            ToastUtils.showLong("部分权限未正常授予,请允许");
+                        }
+                    }
+
+                    @Override
+                    public void noPermission(List<String> denied, boolean quick) {
+                        if (quick) {
+                            ToastUtils.showLong("被永久拒绝授权，请手动授予权限");
+                            //如果是被永久拒绝就跳转到应用权限系统设置页面
+                            XXPermissions.gotoPermissionSettings(LoginActivity.this);
+                        } else {
+                            ToastUtils.showLong("获取权限失败");
+                        }
+                    }
+                });
     }
 
     @Override
@@ -221,4 +265,22 @@ public class LoginActivity extends BaseActivity {
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
+    private void showRationaleDialog(@StringRes int messageResId, final PermissionRequest request) {
+        new AlertDialog.Builder(this)
+                .setPositiveButton(R.string.button_allow, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(@NonNull DialogInterface dialog, int which) {
+                        request.proceed();
+                    }
+                })
+                .setNegativeButton(R.string.button_deny, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(@NonNull DialogInterface dialog, int which) {
+                        request.cancel();
+                    }
+                })
+                .setCancelable(false)
+                .setMessage(messageResId)
+                .show();
+    }
 }

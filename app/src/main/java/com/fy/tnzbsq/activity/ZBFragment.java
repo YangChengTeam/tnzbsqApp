@@ -1,6 +1,5 @@
 package com.fy.tnzbsq.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -16,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -23,11 +23,13 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.fy.tnzbsq.App;
 import com.fy.tnzbsq.R;
 import com.fy.tnzbsq.adapter.ZBDataAdapter;
 import com.fy.tnzbsq.adapter.ZBTypeAdapter;
 import com.fy.tnzbsq.bean.AdDataInfo;
 import com.fy.tnzbsq.bean.AdDataListRet;
+import com.fy.tnzbsq.bean.PopAdDataRet;
 import com.fy.tnzbsq.bean.SlideInfo;
 import com.fy.tnzbsq.bean.ZBDataListRet;
 import com.fy.tnzbsq.common.Contants;
@@ -70,6 +72,8 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import pl.droidsonroids.gif.GifImageView;
 import rx.functions.Action1;
 
 /**
@@ -77,7 +81,7 @@ import rx.functions.Action1;
  * Created by admin on 2017/8/24.
  */
 
-public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout.OnRefreshListener, CardWindowFragment.AdDismissListener {
 
     @BindView(R.id.layout_home)
     LinearLayout homeLayout;
@@ -93,6 +97,15 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
 
     @BindView(R.id.loading_layout)
     LinearLayout mLoadingLayout;
+
+    @BindView(R.id.layout_luck_draw)
+    FrameLayout mLuckDrawLayout;
+
+    @BindView(R.id.float_iv)
+    GifImageView floatGifImage;
+
+    @BindView(R.id.iv_float_close)
+    ImageView mCloseFloat;
 
     private Banner mBanner;
 
@@ -134,6 +147,8 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
 
     CardWindowFragment cardWindowFragment;
 
+    private boolean isShowCard;
+
     private void showProgress() {
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -161,6 +176,25 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
     @Override
     public void onResume() {
         super.onResume();
+        Logger.i("ZbFragment onResume --->");
+        isShowCard = PreferencesUtils.getBoolean(getActivity(), "show_card", true);
+        if (!isShowCard && App.showFloat && App.adState) {
+            mLuckDrawLayout.setVisibility(View.VISIBLE);
+        } else {
+            mLuckDrawLayout.setVisibility(View.GONE);
+        }
+    }
+
+    @OnClick(R.id.layout_luck_draw)
+    void adFloat() {
+        Intent intent = new Intent(getActivity(), AdActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.iv_float_close)
+    void closeFloat() {
+        mLuckDrawLayout.setVisibility(View.GONE);
+        App.showFloat = false;
     }
 
     @Override
@@ -209,7 +243,7 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
         mBanner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                if(position == 0){
+                if (position == 0) {
                     //Intent intent = new Intent(getActivity(), GifMakeListActivity.class);
                     //startActivity(intent);
                     String appId = "wxf9506f64f1e46cbe"; // 填应用AppId
@@ -220,10 +254,10 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
                     //req.path = "/pages/home/home";                  //拉起小程序页面的可带参路径，不填默认拉起小程序首页
                     req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
                     api.sendReq(req);
-                }else{
+                } else {
                     Intent intent = new Intent(getActivity(), CategoryActivity.class);
-                    if (mSlideInfoList != null && mSlideInfoList.get(position-1) != null) {
-                        intent.putExtra("banner_id", mSlideInfoList.get(position-1).id);
+                    if (mSlideInfoList != null && mSlideInfoList.get(position - 1) != null) {
+                        intent.putExtra("banner_id", mSlideInfoList.get(position - 1).id);
                     }
                     startActivity(intent);
                 }
@@ -296,30 +330,20 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
             }
         });
 
+
         if (cardWindowFragment == null) {
             cardWindowFragment = new CardWindowFragment();
         }
-        if (cardWindowFragment.getDialog() != null) {
-            cardWindowFragment.getDialog().setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    PreferencesUtils.putBoolean(getActivity(), "show_card", false);
-                }
-            });
-        }
 
-        boolean isShowCard = PreferencesUtils.getBoolean(getActivity(), "show_card", true);
-        if (isShowCard) {
-            boolean isFlag;
-            if (cardWindowFragment != null && cardWindowFragment.getDialog() != null && cardWindowFragment.getDialog().isShowing()) {
-                isFlag = true;
-            } else {
-                isFlag = false;
-            }
-            if (!isFlag) {
-                cardWindowFragment.show(getActivity().getFragmentManager(), "card_dialog");
-            }
-        }
+        cardWindowFragment.setAdDismissListener(this);
+        isShowCard = PreferencesUtils.getBoolean(getActivity(), "show_card", true);
+
+        loadPopAd();
+    }
+
+    @Override
+    public void adDismiss() {
+        mLuckDrawLayout.setVisibility(View.VISIBLE);
     }
 
     public void adDown() {
@@ -464,6 +488,59 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
             }
         });
     }
+
+    public void loadPopAd() {
+
+        okHttpRequest.aget(Server.POP_AD_URL, null, new OnResponseListener() {
+            @Override
+            public void onSuccess(String response) {
+
+                zbsqAdLayout.setVisibility(View.VISIBLE);
+                if (!StringUtils.isEmpty(response)) {
+                    PopAdDataRet result = Contants.gson.fromJson(response, PopAdDataRet.class);
+                    if (result != null && result.errCode.equals("0")) {
+                        if (result.data != null) {
+                            App.adState = true;
+                            Glide.with(getActivity()).load(result.data.getThumb()).asGif().error(R.drawable.luck_draw).into(floatGifImage);
+                            App.aid = result.data.id;
+                            App.adUrl = result.data.getDown_url();
+                            if (isShowCard) {
+                                boolean isFlag;
+                                if (cardWindowFragment != null && cardWindowFragment.getDialog() != null && cardWindowFragment.getDialog().isShowing()) {
+                                    isFlag = true;
+                                } else {
+                                    isFlag = false;
+                                }
+                                if (!isFlag) {
+                                    cardWindowFragment.setPopImageUrl(result.data.getImage_url());
+                                    cardWindowFragment.show(getActivity().getFragmentManager(), "card_dialog");
+                                }
+                            }
+                        } else {
+                            App.adState = false;
+                        }
+                    }
+                }
+
+                if (!isShowCard && App.showFloat && App.adState) {
+                    mLuckDrawLayout.setVisibility(View.VISIBLE);
+                } else {
+                    mLuckDrawLayout.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                swipeLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onBefore() {
+                swipeLayout.setRefreshing(false);
+            }
+        });
+    }
+
 
     public void loadDataAd() {
         final Map<String, String> params = new HashMap<String, String>();

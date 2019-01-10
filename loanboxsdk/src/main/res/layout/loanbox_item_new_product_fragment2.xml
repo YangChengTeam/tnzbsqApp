@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout n1:orientation="vertical" n1:layout_width="fill_parent" n1:layout_height="wrap_content"
+  xmlns:n1="http://schemas.android.com/apk/res/android">
+    <View n1:id="@+id/top_view" n1:visibility="gone" n1:layout_width="fill_parent" n1:layout_height="10.0dip" />
+    <android.support.constraint.ConstraintLayout n1:background="@color/white" n1:layout_width="fill_parent" n1:layout_height="wrap_content">
+        <TextView n1:textSize="15.0sp" n1:textColor="@color/black" n1:id="@+id/time" n1:padding="10.0dip" n1:layout_width="wrap_content" n1:layout_height="40dp" n1:text="10:00场" n2:layout_constraintBottom_toBottomOf="parent" n2:layout_constraintLeft_toLeftOf="parent" n2:layout_constraintTop_toTopOf="parent" xmlns:n2="http://schemas.android.com/apk/res-auto" />
+        <TextView n1:textSize="15.0sp" n1:textColor="@color/tab_default_color" n1:id="@+id/product_num" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginLeft="10.0dip" n1:text="已上线5家" n3:layout_constraintBottom_toBottomOf="parent" n3:layout_constraintLeft_toRightOf="@id/time" n3:layout_constraintTop_toTopOf="parent" xmlns:n3="http://schemas.android.com/apk/res-auto" />
+        <RelativeLayout n1:layout_width="wrap_content" n1:layout_height="wrap_content" n4:layout_constraintBottom_toBottomOf="parent" n4:layout_constraintRight_toRightOf="parent" n4:layout_constraintTop_toTopOf="parent" xmlns:n4="http://schemas.android.com/apk/res-auto">
+            <TextView n1:textSize="13.0sp" n1:textColor="@color/blue_text_color" n1:id="@+id/open_btn" n1:padding="10.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:text="点击收起" n1:drawableRight="@mipmap/ic_blue_arrow_up" n1:drawablePadding="5.0dip" n1:layout_centerVertical="true" n1:layout_alignParentRight="true" />
+            <LinearLayout n1:gravity="center_vertical" n1:orientation="horizontal" n1:id="@+id/time_layout" n1:background="@color/white" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginRight="10.0dip" n1:layout_centerVertical="true" n1:layout_alignParentRight="true" >
+                <TextView n1:textSize="13.0sp" n1:textColor="@color/grey_text_color" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginRight="10.0dip" n1:text="距离上线" />
+                <com.yc.loanbox.view.widget.PhilText n1:textSize="15.0sp" n1:textColor="@color/white" n1:gravity="center" n1:id="@+id/hour" n1:background="@drawable/black_5dp_yuanjiao_sty" n1:paddingLeft="3.0dip" n1:paddingTop="1.0dip" n1:paddingRight="3.0dip" n1:paddingBottom="1.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:minWidth="20.0dip" n1:text="00" />
+                <TextView n1:textSize="15.0sp" n1:textStyle="bold" n1:textColor="@color/black" n1:paddingLeft="2.0dip" n1:paddingRight="2.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:text=":" />
+                <com.yc.loanbox.view.widget.PhilText n1:textSize="15.0sp" n1:textColor="@color/white" n1:gravity="center" n1:id="@+id/minute" n1:background="@drawable/black_5dp_yuanjiao_sty" n1:paddingLeft="3.0dip" n1:paddingTop="1.0dip" n1:paddingRight="3.0dip" n1:paddingBottom="1.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:minWidth="20.0dip" n1:text="00" />
+                <TextView n1:textSize="15.0sp" n1:textStyle="bold" n1:textColor="@color/black" n1:paddingLeft="2.0dip" n1:paddingRight="2.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:text=":" />
+                <com.yc.loanbox.view.widget.PhilText n1:textSize="15.0sp" n1:textColor="@color/white" n1:gravity="center" n1:id="@+id/second" n1:background="@drawable/black_5dp_yuanjiao_sty" n1:paddingLeft="3.0dip" n1:paddingTop="1.0dip" n1:paddingRight="3.0dip" n1:paddingBottom="1.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:minWidth="20.0dip" n1:text="00" />
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
+    <View
+        n1:layout_width="match_parent"
+        n1:layout_height="1px"
+        n1:background="@color/main_bg"></View>
+    <android.support.v7.widget.RecyclerView
+        n1:id="@+id/recyclerView"
+        n1:layout_width="match_parent"
+        n1:layout_height="wrap_content"
+        n1:layout_marginBottom="10dp"></android.support.v7.widget.RecyclerView>
+</LinearLayout>

@@ -1,12 +1,12 @@
 <resources>
 
-    <string name="app_name">腾牛生成神器</string>
+    <string name="app_name">装逼神器</string>
 	
     <string name="home_text">首页</string>
     <string name="new_text">最新</string>
     <string name="send_text">投稿</string>
     <string name="my_text">我的</string>
-    <string name="app_title_text">腾牛生成神器</string>
+    <string name="app_title_text">腾牛生成器</string>
     <string name="app_share_text">分享</string>
     <string name="net_connect_error">网络连接失败或者超时</string>
     <string name="keep_name">我的收藏</string>
@@ -72,4 +72,15 @@
 
     <string name="weixin_code_text">关注[腾牛装逼神器]</string>
     <string name="weixin_title_text">免费解锁素材,尽情装逼</string>
+
+    <string name="permission_storage_never_ask_again">不再询问</string>
+    <string name="permission_storage_rationale">必须要开启存储权限，才能正常使用，请开启</string>
+    <string name="permission_storage_denied">禁止了存储权限，开启权限才能正常使用</string>
+
+    <string name="permission_camera_never_ask_again">不再询问</string>
+    <string name="permission_camera_rationale">必须要开启相机权限，才能正常使用，请开启</string>
+    <string name="permission_camera_denied">禁止了相机权限，开启权限才能正常使用</string>
+
+    <string name="button_allow">开启</string>
+    <string name="button_deny">拒绝</string>
 </resources>

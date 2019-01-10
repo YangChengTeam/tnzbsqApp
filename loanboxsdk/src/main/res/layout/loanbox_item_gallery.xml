@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:n1="http://schemas.android.com/apk/res/android"
+    xmlns:n2="http://schemas.android.com/apk/res-auto"
+    n1:layout_width="fill_parent"
+    n1:layout_height="fill_parent"
+    n1:layout_margin="8.0dip"
+    n2:cardBackgroundColor="@color/white"
+    n2:cardCornerRadius="15.0dip"
+    n2:cardElevation="8.0dip">
+
+    <android.support.constraint.ConstraintLayout
+        n1:id="@+id/layout"
+        n1:layout_width="fill_parent"
+        n1:layout_height="fill_parent">
+
+        <ImageView
+            n1:id="@+id/image"
+            n1:layout_width="wrap_content"
+            n1:layout_height="wrap_content"
+            n1:layout_margin="15.0dip"
+            n1:src="@mipmap/share_image"
+            n2:layout_constraintBottom_toTopOf="@id/xian"
+            n2:layout_constraintLeft_toLeftOf="parent"
+            n2:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            n1:id="@+id/title"
+            n1:layout_width="wrap_content"
+            n1:layout_height="wrap_content"
+            n1:layout_marginLeft="15.0dip"
+            n1:layout_marginTop="10.0dip"
+            n1:text="但花花"
+            n1:textColor="@color/black"
+            n1:textSize="15.0sp"
+            n2:layout_constraintBottom_toTopOf="@id/intro"
+            n2:layout_constraintLeft_toRightOf="@id/image"
+            n2:layout_constraintTop_toTopOf="parent" />
+
+        <RatingBar
+            n1:id="@+id/ratingBar"
+            style="?android:ratingBarStyleSmall"
+            n1:layout_width="wrap_content"
+            n1:layout_height="wrap_content"
+            n1:layout_marginLeft="15.0dip"
+            n1:layout_marginTop="10.0dip"
+            n1:backgroundTint="@color/colorAccent"
+            n1:numStars="5"
+            n1:rating="2.5"
+            n1:stepSize="0.5"
+            n2:layout_constraintBottom_toTopOf="@id/intro"
+            n2:layout_constraintLeft_toRightOf="@id/title"
+            n2:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            n1:id="@+id/intro"
+            n1:layout_width="wrap_content"
+            n1:layout_height="wrap_content"
+            n1:layout_marginLeft="15.0dip"
+            n1:layout_marginBottom="10.0dip"
+            n1:textColor="#ff999999"
+            n1:textSize="12.0sp"
+            n2:layout_constraintBottom_toTopOf="@id/xian"
+            n2:layout_constraintLeft_toRightOf="@id/image"
+            n2:layout_constraintTop_toBottomOf="@id/title" />
+
+        <ImageView
+            n1:id="@+id/xian"
+            n1:layout_width="fill_parent"
+            n1:layout_height="0.5dip"
+            n1:layout_marginTop="15.0dip"
+            n1:src="@color/divider_color"
+            n2:layout_constraintLeft_toLeftOf="parent"
+            n2:layout_constraintRight_toRightOf="parent"
+            n2:layout_constraintTop_toBottomOf="@id/image" />
+
+        <android.support.constraint.ConstraintLayout
+            n1:layout_width="fill_parent"
+            n1:layout_height="wrap_content"
+            n2:layout_constraintBottom_toBottomOf="parent"
+            n2:layout_constraintLeft_toLeftOf="parent"
+            n2:layout_constraintRight_toRightOf="parent"
+            n2:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                n1:id="@+id/ed"
+                n1:layout_width="wrap_content"
+                n1:layout_height="wrap_content"
+                n1:text="额度(元)"
+                n1:textColor="@color/grey_text_color"
+                n1:textSize="16.0sp"
+                n2:layout_constraintLeft_toLeftOf="parent"
+                n2:layout_constraintRight_toRightOf="parent" />
+
+            <TextView
+                n1:id="@+id/price"
+                n1:layout_width="wrap_content"
+                n1:layout_height="wrap_content"
+                n1:text="10000"
+                n1:textColor="@color/red"
+                n1:textSize="30.0sp"
+                n1:textStyle="bold"
+                n2:layout_constraintLeft_toLeftOf="parent"
+                n2:layout_constraintRight_toRightOf="parent"
+                n2:layout_constraintTop_toBottomOf="@id/ed" />
+
+            <LinearLayout
+                n1:id="@+id/lv_layout"
+                n1:layout_width="wrap_content"
+                n1:layout_height="wrap_content"
+                n1:layout_marginTop="30.0dip"
+                n1:orientation="horizontal"
+                n2:layout_constraintLeft_toLeftOf="parent"
+                n2:layout_constraintRight_toRightOf="parent"
+                n2:layout_constraintTop_toBottomOf="@id/price">
+
+                <android.support.constraint.ConstraintLayout
+                    n1:layout_width="wrap_content"
+                    n1:layout_height="wrap_content">
+
+                    <TextView
+                        n1:id="@+id/rll_text"
+                        n1:layout_width="wrap_content"
+                        n1:layout_height="wrap_content"
+                        n1:text="日利率:"
+                        n1:textColor="@color/grey_text_color"
+                        n1:textSize="15.0sp"
+                        n2:layout_constraintBottom_toTopOf="@id/rll"
+                        n2:layout_constraintLeft_toLeftOf="parent"
+                        n2:layout_constraintRight_toRightOf="parent"
+                        n2:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        n1:id="@+id/rll"
+                        n1:layout_width="wrap_content"
+                        n1:layout_height="wrap_content"
+                        n1:layout_marginTop="10.0dip"
+                        n1:text="0.03%"
+                        n1:textColor="@color/black"
+                        n1:textSize="18.0sp"
+                        n2:layout_constraintBottom_toBottomOf="parent"
+                        n2:layout_constraintLeft_toLeftOf="parent"
+                        n2:layout_constraintRight_toRightOf="parent"
+                        n2:layout_constraintTop_toBottomOf="@id/rll_text" />
+                </android.support.constraint.ConstraintLayout>
+
+                <ImageView
+                    n1:layout_width="1.0dip"
+                    n1:layout_height="fill_parent"
+                    n1:layout_marginLeft="40.0dip"
+                    n1:layout_marginRight="40.0dip"
+                    n1:src="@color/divider_color" />
+
+                <android.support.constraint.ConstraintLayout
+                    n1:layout_width="wrap_content"
+                    n1:layout_height="wrap_content">
+
+                    <TextView
+                        n1:id="@+id/qx_text"
+                        n1:layout_width="wrap_content"
+                        n1:layout_height="wrap_content"
+                        n1:text="期限:"
+                        n1:textColor="@color/grey_text_color"
+                        n1:textSize="15.0sp"
+                        n2:layout_constraintBottom_toTopOf="@id/qx"
+                        n2:layout_constraintLeft_toLeftOf="parent"
+                        n2:layout_constraintRight_toRightOf="parent"
+                        n2:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        n1:id="@+id/qx"
+                        n1:layout_width="wrap_content"
+                        n1:layout_height="wrap_content"
+                        n1:layout_marginTop="10.0dip"
+                        n1:text="7-15天"
+                        n1:textColor="@color/black"
+                        n1:textSize="18.0sp"
+                        n2:layout_constraintBottom_toBottomOf="parent"
+                        n2:layout_constraintLeft_toLeftOf="parent"
+                        n2:layout_constraintRight_toRightOf="parent"
+                        n2:layout_constraintTop_toBottomOf="@id/qx_text" />
+                </android.support.constraint.ConstraintLayout>
+            </LinearLayout>
+
+            <TextView
+                n1:id="@+id/intro2"
+                n1:layout_width="wrap_content"
+                n1:layout_height="wrap_content"
+                n1:layout_marginTop="20.0dip"
+                n1:textColor="@color/grey"
+                n1:textSize="12.0sp"
+                n2:layout_constraintLeft_toLeftOf="parent"
+                n2:layout_constraintRight_toRightOf="parent"
+                n2:layout_constraintTop_toBottomOf="@id/lv_layout" />
+        </android.support.constraint.ConstraintLayout>
+
+        <TextView
+            n1:layout_width="fill_parent"
+            n1:layout_height="wrap_content"
+            n1:layout_marginLeft="30.0dip"
+            n1:layout_marginRight="30.0dip"
+            n1:layout_marginBottom="20.0dip"
+            n1:background="@drawable/accent_kuang_30dp_yuanjiao_sty"
+            n1:gravity="center"
+            n1:paddingTop="10.0dip"
+            n1:paddingBottom="10.0dip"
+            n1:text="立即领钱"
+            n1:textColor="@color/colorAccent"
+            n1:textSize="18.0sp"
+            n2:layout_constraintBottom_toTopOf="@id/ok_num"
+            n2:layout_constraintLeft_toLeftOf="parent"
+            n2:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            n1:id="@+id/ok_num"
+            n1:layout_width="wrap_content"
+            n1:layout_height="wrap_content"
+            n1:layout_marginBottom="20.0dip"
+            n2:layout_constraintBottom_toBottomOf="parent"
+            n2:layout_constraintLeft_toLeftOf="parent"
+            n2:layout_constraintRight_toRightOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

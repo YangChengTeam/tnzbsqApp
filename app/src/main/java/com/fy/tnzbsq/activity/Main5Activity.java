@@ -1,13 +1,16 @@
 package com.fy.tnzbsq.activity;
 
-import android.app.AlertDialog;
+import android.Manifest;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -47,11 +50,18 @@ import me.majiajie.pagerbottomtabstrip.NavigationController;
 import me.majiajie.pagerbottomtabstrip.PageNavigationView;
 import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
 import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 
 /**
  * Created by admin on 2017/9/11.
  */
 
+@RuntimePermissions
 public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.MainAddListener {
 
     // 图片选择弹出窗口
@@ -64,7 +74,7 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
     @BindView(R.id.tv_tips)
     TextView tipsTextView;
 
-    public String alipyCode = "鹤创依融先星bZ育香";
+    //public String alipyCode = "鹤创依融先星bZ育香";
 
     public String weixinUrl = "";
 
@@ -89,6 +99,8 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
 
     @Override
     protected void initViews() {
+        Main5ActivityPermissionsDispatcher.showRecordWithCheck(this);
+
         mainActivity = this;
         okHttpRequest = new OKHttpRequest();
 
@@ -139,6 +151,33 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
 
         getPriceConfig();
         getWeixinInfo();
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Main5ActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE})
+    void showRecord() {
+        //ToastUtils.showLong("允许使用存储权限");
+    }
+
+    @OnPermissionDenied({Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE})
+    void onRecordDenied() {
+        Toast.makeText(this, R.string.permission_storage_denied, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnShowRationale({Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE})
+    void showRationaleForRecord(PermissionRequest request) {
+        showRationaleDialog(R.string.permission_storage_rationale, request);
+    }
+
+    @OnNeverAskAgain({Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE})
+    void onStorageNeverAskAgain() {
+        Toast.makeText(this, R.string.permission_storage_never_ask_again, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -347,5 +386,24 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
         if (alertDialog != null) {
             alertDialog.show();
         }
+    }
+
+    private void showRationaleDialog(@StringRes int messageResId, final PermissionRequest request) {
+        new AlertDialog.Builder(this)
+                .setPositiveButton(R.string.button_allow, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(@NonNull DialogInterface dialog, int which) {
+                        request.proceed();
+                    }
+                })
+                .setNegativeButton(R.string.button_deny, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(@NonNull DialogInterface dialog, int which) {
+                        request.cancel();
+                    }
+                })
+                .setCancelable(false)
+                .setMessage(messageResId)
+                .show();
     }
 }

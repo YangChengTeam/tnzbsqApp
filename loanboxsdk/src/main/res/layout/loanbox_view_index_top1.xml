@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout n1:orientation="vertical" n1:background="@mipmap/b_pro_detail_bg" n1:layout_width="fill_parent" n1:layout_height="wrap_content"
+  xmlns:n1="http://schemas.android.com/apk/res/android">
+    <View n1:id="@+id/tc_view" n1:background="@color/transparent" n1:layout_width="fill_parent" n1:layout_height="0.0dip" />
+    <LinearLayout n1:gravity="center" n1:orientation="horizontal" n1:id="@+id/new_product_btn" n1:paddingTop="10.0dip" n1:paddingBottom="15.0dip" n1:layout_width="fill_parent" n1:layout_height="wrap_content">
+        <TextView n1:textSize="18.0sp" n1:textColor="@color/white" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:text="最新口子" n1:drawableLeft="@mipmap/hot_icon" n1:drawablePadding="5.0dip" />
+        <TextView n1:textSize="13.0sp" n1:textColor="@color/white" n1:background="@drawable/red_30dp_yuanjiao_sty" n1:paddingLeft="12.0dip" n1:paddingTop="1.0dip" n1:paddingRight="12.0dip" n1:paddingBottom="1.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginLeft="10.0dip" n1:text="2家" n1:id="@+id/new_mouth_count" />
+        <ImageView n1:layout_width="0.5dip" n1:layout_height="fill_parent" n1:layout_marginLeft="10.0dip" n1:layout_marginTop="5.0dip" n1:layout_marginRight="10.0dip" n1:layout_marginBottom="5.0dip" n1:src="@color/white" />
+        <LinearLayout n1:gravity="center_vertical" n1:orientation="horizontal" n1:id="@+id/top1_time_layout" n1:layout_width="wrap_content" n1:layout_height="wrap_content">
+            <com.yc.loanbox.view.widget.PhilText n1:textSize="18.0sp" n1:textColor="@color/white" n1:gravity="center" n1:id="@+id/hour" n1:background="@drawable/black_5dp_yuanjiao_sty" n1:paddingLeft="3.0dip" n1:paddingRight="3.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:minWidth="25.0dip" n1:text="00" />
+            <TextView n1:textSize="15.0sp" n1:textStyle="bold" n1:textColor="@color/white" n1:paddingLeft="2.0dip" n1:paddingRight="2.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:text=":" />
+            <com.yc.loanbox.view.widget.PhilText n1:textSize="18.0sp" n1:textColor="@color/white" n1:gravity="center" n1:id="@+id/minute" n1:background="@drawable/black_5dp_yuanjiao_sty" n1:paddingLeft="3.0dip" n1:paddingRight="3.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:minWidth="25.0dip" n1:text="00" />
+            <TextView n1:textSize="15.0sp" n1:textStyle="bold" n1:textColor="@color/white" n1:paddingLeft="2.0dip" n1:paddingRight="2.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:text=":" />
+            <com.yc.loanbox.view.widget.PhilText n1:textSize="18.0sp" n1:textColor="@color/white" n1:gravity="center" n1:id="@+id/second" n1:background="@drawable/black_5dp_yuanjiao_sty" n1:paddingLeft="3.0dip" n1:paddingRight="3.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:minWidth="25.0dip" n1:text="00" />
+            <RelativeLayout n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginLeft="10.0dip">
+                <ImageView n1:id="@+id/arrow_image1" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:src="@mipmap/arrow_anim_01" />
+                <ImageView n1:id="@+id/arrow_anim_image1" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:src="@mipmap/arrow_anim_03" />
+                <ImageView n1:id="@+id/arrow_anim_image2" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:src="@mipmap/arrow_anim_02" />
+                <ImageView n1:id="@+id/arrow_image2" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:src="@mipmap/arrow_anim_01" n1:layout_toRightOf="@id/arrow_image1" />
+                <ImageView n1:id="@+id/arrow_image3" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:src="@mipmap/arrow_anim_01" n1:layout_toRightOf="@id/arrow_image2" />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout n1:gravity="center_vertical" n1:orientation="horizontal" n1:id="@+id/top1_product_layout" n1:visibility="gone" n1:layout_width="wrap_content" n1:layout_height="wrap_content">
+            <LinearLayout n1:gravity="center_vertical" n1:orientation="horizontal" n1:id="@+id/more_product_layout" n1:layout_width="wrap_content" n1:layout_height="wrap_content" />
+            <ImageView n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginLeft="5.0dip" n1:src="@mipmap/arrow_anim_01" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

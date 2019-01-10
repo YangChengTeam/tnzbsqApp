@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout n1:orientation="vertical" n1:background="@color/refresh_layout_bgcolor" n1:layout_width="fill_parent" n1:layout_height="fill_parent"
+  xmlns:n1="http://schemas.android.com/apk/res/android">
+    <include layout="@layout/loanbox_include_top_view" />
+    <RelativeLayout n1:clipChildren="false" n1:layout_width="fill_parent" n1:layout_height="fill_parent">
+        <ImageView n1:layout_width="fill_parent" n1:layout_height="wrap_content" n1:src="@mipmap/cnkd_bg" n1:scaleType="centerCrop" />
+        <android.support.v4.view.ViewPager n1:id="@+id/vp" n1:visibility="gone" n1:clipChildren="false" n1:layout_width="fill_parent" n1:layout_height="fill_parent" n1:layout_marginLeft="30.0dip" n1:layout_marginTop="30.0dip" n1:layout_marginRight="30.0dip" n1:layout_marginBottom="20.0dip" n1:overScrollMode="never" />
+        <LinearLayout n1:gravity="center" n1:orientation="vertical" n1:id="@+id/loading_layout" n1:visibility="gone" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_centerInParent="true">
+            <ProgressBar n1:layout_width="wrap_content" n1:layout_height="wrap_content" />
+            <TextView n1:textSize="15.0sp" n1:textColor="@color/grey_text_color" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginTop="10.0dip" n1:text="正在加载中..." />
+        </LinearLayout>
+        <LinearLayout n1:gravity="center" n1:orientation="vertical" n1:id="@+id/loading_fail_layout" n1:visibility="gone" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_centerInParent="true">
+            <TextView n1:textSize="15.0sp" n1:textColor="@color/white" n1:padding="10.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:text="加载失败,点击重试>>>" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

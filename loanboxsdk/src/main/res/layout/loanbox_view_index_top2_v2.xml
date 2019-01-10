@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    n1:orientation="vertical" n1:background="@color/main_bg" n1:layout_width="fill_parent" n1:layout_height="wrap_content"
+  xmlns:n1="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        n1:id="@+id/message"
+        n1:layout_width="match_parent"
+        n1:layout_height="wrap_content"
+        n1:background="@color/white"
+        n1:paddingTop="10dp"
+        >
+        <android.support.constraint.ConstraintLayout n1:id="@+id/scroll_layout"  n1:background="@drawable/index_scroll_5dp_yuanjiao_sty" n1:layout_width="fill_parent" n1:layout_height="wrap_content" n1:layout_marginLeft="10.0dip" n1:layout_marginRight="10.0dip" n4:layout_constraintLeft_toLeftOf="parent" n4:layout_constraintRight_toRightOf="parent" xmlns:n4="http://schemas.android.com/apk/res-auto">
+            <ImageView n1:id="@+id/ic_kb" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_margin="10.0dip" n1:src="@mipmap/ic_gb" n4:layout_constraintBottom_toBottomOf="parent" n4:layout_constraintLeft_toLeftOf="parent" n4:layout_constraintTop_toTopOf="parent" />
+            <ViewFlipper n1:id="@+id/view_flipper" n1:layout_width="wrap_content" n1:layout_height="0.0dip" n1:layout_marginLeft="10.0dip" n1:inAnimation="@anim/slide_in_bottom" n1:outAnimation="@anim/slide_out_top" n1:flipInterval="3000" n1:layout_centerInParent="true" n1:autoStart="true" n4:layout_constraintBottom_toBottomOf="parent" n4:layout_constraintLeft_toRightOf="@id/ic_kb" n4:layout_constraintTop_toTopOf="parent" />
+            <ImageView n1:id="@+id/ic_arrow" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginRight="10.0dip" n1:src="@mipmap/ic_arrow_right" n4:layout_constraintBottom_toBottomOf="parent" n4:layout_constraintRight_toRightOf="parent" n4:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+
+
+    <LinearLayout n1:id="@+id/lad" n1:visibility="gone" n1:orientation="horizontal" n1:background="@color/white" n1:layout_width="fill_parent" n1:paddingBottom="10dp" n1:layout_height="wrap_content"   n5:layout_constraintLeft_toLeftOf="parent" n5:layout_constraintRight_toRightOf="parent" n5:layout_constraintTop_toBottomOf="@id/message" xmlns:n5="http://schemas.android.com/apk/res-auto">
+        <ImageView n1:id="@+id/sfz_btn" n1:layout_width="0.0dip" n1:layout_height="wrap_content" n1:src="@mipmap/index_sfz_image" n1:layout_weight="1.0" n1:layout_marginLeft="10.0dip" />
+        <ImageView n1:id="@+id/zmf_btn" n1:layout_width="0.0dip" n1:layout_height="wrap_content" n1:layout_marginLeft="10.0dip" n1:src="@mipmap/index_zmf_image" n1:layout_weight="1.0" n1:layout_marginRight="10.0dip" />
+    </LinearLayout>
+
+    <LinearLayout
+        n1:layout_width="match_parent"
+        n1:layout_height="100dp"
+        n1:background="@color/white"
+        n1:id="@+id/type"
+        n7:layout_constraintTop_toBottomOf="@id/lad"
+        xmlns:n7="http://schemas.android.com/apk/res-auto">
+
+        <RelativeLayout
+            n1:id="@+id/type1"
+            n1:layout_width="0dp"
+            n1:layout_height="match_parent"
+            n1:layout_weight="1">
+
+            <ImageView
+                n1:id="@+id/imageView1"
+                n1:layout_width="50dp"
+                n1:layout_height="50dp"
+                n1:src="@mipmap/type1"
+                n1:layout_centerHorizontal="true"
+                n1:layout_marginTop="15dip"/>
+
+            <TextView
+                n1:layout_width="wrap_content"
+                n1:layout_height="wrap_content"
+                n1:layout_centerHorizontal="true"
+                n1:text="身份贷款"
+                n1:textSize="13dp"
+                n1:textColor="@color/black"
+                n1:layout_below="@+id/imageView1"
+                n1:layout_marginTop="5dp"
+                 />
+        </RelativeLayout>
+
+        <RelativeLayout
+            n1:id="@+id/type2"
+            n1:layout_width="0dp"
+            n1:layout_height="match_parent"
+            n1:layout_weight="1">
+
+            <ImageView
+                n1:id="@+id/imageView2"
+                n1:layout_width="50dp"
+                n1:layout_height="50dp"
+                n1:src="@mipmap/type2"
+                n1:layout_centerHorizontal="true"
+                n1:layout_marginTop="15dip"/>
+
+            <TextView
+                n1:layout_width="wrap_content"
+                n1:layout_height="wrap_content"
+                n1:layout_centerHorizontal="true"
+                n1:text="芝麻分贷"
+                n1:textSize="13dp"
+                n1:textColor="@color/black"
+                n1:layout_below="@+id/imageView2"
+                n1:layout_marginTop="5dp"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            n1:id="@+id/type3"
+            n1:layout_width="0dp"
+            n1:layout_height="match_parent"
+            n1:layout_weight="1">
+
+            <ImageView
+                n1:id="@+id/imageView3"
+                n1:layout_width="50dp"
+                n1:layout_height="50dp"
+                n1:src="@mipmap/type3"
+                n1:layout_centerHorizontal="true"
+                n1:layout_marginTop="15dip"/>
+
+            <TextView
+                n1:layout_width="wrap_content"
+                n1:layout_height="wrap_content"
+                n1:layout_centerHorizontal="true"
+                n1:text="大额低息"
+                n1:textSize="13dp"
+                n1:textColor="@color/black"
+                n1:layout_below="@+id/imageView3"
+                n1:layout_marginTop="5dp"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            n1:id="@+id/type4"
+            n1:layout_width="0dp"
+            n1:layout_height="match_parent"
+            n1:layout_weight="1">
+
+            <ImageView
+                n1:id="@+id/imageView4"
+                n1:layout_width="50dp"
+                n1:layout_height="50dp"
+                n1:src="@mipmap/type4"
+                n1:layout_centerHorizontal="true"
+                n1:layout_marginTop="15dip"/>
+
+            <TextView
+                n1:layout_width="wrap_content"
+                n1:layout_height="wrap_content"
+                n1:layout_centerHorizontal="true"
+                n1:text="黑户专享"
+                n1:textSize="13dp"
+                n1:textColor="@color/black"
+                n1:layout_below="@+id/imageView4"
+                n1:layout_marginTop="5dp"
+                />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout n1:id="@+id/lyoulike" n1:orientation="vertical"
+        n1:background="@color/white" n1:layout_width="match_parent" n1:layout_height="wrap_content"
+        n1:layout_marginTop="10.0dip"
+        n1:layout_marginBottom="10dp"
+        n3:layout_constraintTop_toBottomOf="@id/type"
+        xmlns:n3="http://schemas.android.com/apk/res-auto">
+        <RelativeLayout
+            n1:layout_width="match_parent"
+            n1:layout_height="35dp">
+            <TextView n1:id="@+id/xx" n1:textSize="14.0sp"   n1:textColor="@color/cardview_dark_background" n1:paddingLeft="10.0dip"  n1:paddingTop="8dp" n1:layout_width="wrap_content" n1:layout_height="match_parent" n1:text="经统计，同时申请以下4家，下款率达" />
+            <TextView n1:id="@+id/xx2" n1:textSize="14.0sp"  n1:textColor="@color/blue_text_color" n1:layout_toRightOf="@+id/xx" n1:paddingTop="8dp" n1:layout_width="wrap_content" n1:layout_height="match_parent" n1:text="93%" />
+            <TextView n1:id="@+id/tv_switch" n1:textSize="14.0sp"  n1:textColor="@color/blue_text_color" n1:layout_alignParentRight="true" n1:paddingTop="8dp" n1:paddingRight="10dp" n1:layout_width="wrap_content" n1:layout_height="match_parent" n1:text="换一批" />
+
+            <View
+                n1:layout_width="match_parent"
+                n1:layout_height="1px"
+                n1:background="@color/main_bg"
+                n1:layout_alignParentBottom="true">
+
+            </View>
+        </RelativeLayout>
+        <LinearLayout
+            n1:layout_width="match_parent"
+            n1:layout_height="100dp"
+            n1:background="@color/white"
+            xmlns:n7="http://schemas.android.com/apk/res-auto">
+
+            <RelativeLayout
+                n1:id="@+id/type11"
+                n1:layout_width="0dp"
+                n1:layout_height="match_parent"
+                n1:layout_weight="1">
+
+                <ImageView
+                    n1:id="@+id/imageView11"
+                    n1:layout_width="50dp"
+                    n1:layout_height="50dp"
+                    n1:src="@mipmap/type1"
+                    n1:layout_centerHorizontal="true"
+                    n1:layout_marginTop="15dip"/>
+
+                <TextView
+                    n1:layout_width="wrap_content"
+                    n1:layout_height="wrap_content"
+                    n1:layout_centerHorizontal="true"
+                    n1:text="身份贷款"
+                    n1:textSize="13dp"
+                    n1:textColor="@color/black"
+                    n1:layout_below="@+id/imageView11"
+                    n1:layout_marginTop="5dp"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                n1:id="@+id/type22"
+                n1:layout_width="0dp"
+                n1:layout_height="match_parent"
+                n1:layout_weight="1">
+
+                <ImageView
+                    n1:id="@+id/imageView22"
+                    n1:layout_width="50dp"
+                    n1:layout_height="50dp"
+                    n1:src="@mipmap/type2"
+                    n1:layout_centerHorizontal="true"
+                    n1:layout_marginTop="15dip"/>
+
+                <TextView
+                    n1:layout_width="wrap_content"
+                    n1:layout_height="wrap_content"
+                    n1:layout_centerHorizontal="true"
+                    n1:text="芝麻分贷"
+                    n1:textSize="13dp"
+                    n1:textColor="@color/black"
+                    n1:layout_below="@+id/imageView22"
+                    n1:layout_marginTop="5dp"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                n1:id="@+id/type33"
+                n1:layout_width="0dp"
+                n1:layout_height="match_parent"
+                n1:layout_weight="1">
+
+                <ImageView
+                    n1:id="@+id/imageView33"
+                    n1:layout_width="50dp"
+                    n1:layout_height="50dp"
+                    n1:src="@mipmap/type3"
+                    n1:layout_centerHorizontal="true"
+                    n1:layout_marginTop="15dip"/>
+
+                <TextView
+                    n1:layout_width="wrap_content"
+                    n1:layout_height="wrap_content"
+                    n1:layout_centerHorizontal="true"
+                    n1:text="大额低息"
+                    n1:textSize="13dp"
+                    n1:textColor="@color/black"
+                    n1:layout_below="@+id/imageView33"
+                    n1:layout_marginTop="5dp"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                n1:id="@+id/type44"
+                n1:layout_width="0dp"
+                n1:layout_height="match_parent"
+                n1:layout_weight="1">
+
+                <ImageView
+                    n1:id="@+id/imageView44"
+                    n1:layout_width="50dp"
+                    n1:layout_height="50dp"
+                    n1:src="@mipmap/type4"
+                    n1:layout_centerHorizontal="true"
+                    n1:layout_marginTop="15dip"/>
+
+                <TextView
+                    n1:layout_width="wrap_content"
+                    n1:layout_height="wrap_content"
+                    n1:layout_centerHorizontal="true"
+                    n1:text="黑户专享"
+                    n1:textSize="13dp"
+                    n1:textColor="@color/black"
+                    n1:layout_below="@+id/imageView44"
+                    n1:layout_marginTop="5dp"
+                    />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.youth.banner.Banner
+        n4:layout_constraintTop_toBottomOf="@id/lyoulike"
+        n1:id="@+id/banner"
+        n1:layout_width="match_parent"
+        n1:layout_marginTop="10dp"
+        n1:layout_marginBottom="10dp"
+        n1:layout_height="100dp"
+        xmlns:n4="http://schemas.android.com/apk/res-auto"/>
+
+</android.support.constraint.ConstraintLayout>

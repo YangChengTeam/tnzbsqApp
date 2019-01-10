@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout n1:orientation="vertical" n1:background="@color/main_bg" n1:layout_width="fill_parent" n1:layout_height="fill_parent"
+    xmlns:n1="http://schemas.android.com/apk/res/android">
+    <android.support.design.widget.CoordinatorLayout n1:background="@color/main_bg" n1:layout_width="fill_parent" n1:layout_height="fill_parent">
+        <android.support.design.widget.AppBarLayout n1:layout_width="fill_parent" n1:layout_height="wrap_content">
+            <android.support.design.widget.CollapsingToolbarLayout n1:id="@+id/collapsing_toolbar" n1:layout_width="fill_parent" n1:layout_height="wrap_content" n2:contentScrim="@color/transparent" n2:expandedTitleMarginEnd="64.0dip" n2:layout_scrollFlags="exitUntilCollapsed|scroll" xmlns:n2="http://schemas.android.com/apk/res-auto">
+                <android.support.constraint.ConstraintLayout n1:orientation="vertical" n1:background="@mipmap/b_pro_detail_bg" n1:layout_width="fill_parent" n1:layout_height="wrap_content">
+                    <View n1:id="@+id/tc_view" n1:background="@color/transparent" n1:layout_width="fill_parent" n1:layout_height="10.0dip" n2:layout_constraintLeft_toLeftOf="parent" n2:layout_constraintRight_toRightOf="parent" n2:layout_constraintTop_toTopOf="parent" />
+                    <ImageView n1:id="@+id/back_btn" n1:padding="10.0dip" n1:layout_marginTop="10dp" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:src="@mipmap/back_white_image" n2:layout_constraintLeft_toLeftOf="parent" n2:layout_constraintTop_toBottomOf="@id/tc_view" />
+                    <TextView n1:id="@+id/total" n1:textSize="15.0sp" n1:textColor="@color/tab_color" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginTop="20.0dip" n1:text="今日共10000个名额" n2:layout_constraintLeft_toLeftOf="parent" n2:layout_constraintRight_toRightOf="parent" n2:layout_constraintTop_toBottomOf="@id/tc_view" />
+                    <LinearLayout n1:gravity="center" n1:orientation="horizontal" n1:id="@+id/tx_layout" n1:layout_width="fill_parent" n1:layout_height="wrap_content" n1:layout_marginTop="10.0dip" n1:layout_marginBottom="20.0dip" n2:layout_constraintBottom_toBottomOf="parent" n2:layout_constraintLeft_toLeftOf="parent" n2:layout_constraintRight_toRightOf="parent" n2:layout_constraintTop_toBottomOf="@id/back_btn">
+                        <TextView n1:textSize="15.0sp" n1:textColor="@color/tab_color" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginRight="10.0dip" n1:text="剩余" />
+                        <com.yc.loanbox.view.widget.PhilText n1:textSize="24.0sp" n1:textColor="@color/white" n1:gravity="center" n1:id="@+id/wan" n1:background="@mipmap/time_bg" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginRight="5.0dip" n1:text="0" />
+                        <com.yc.loanbox.view.widget.PhilText n1:textSize="24.0sp" n1:textColor="@color/white" n1:gravity="center" n1:id="@+id/qian" n1:background="@mipmap/time_bg" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginRight="5.0dip" n1:text="0" />
+                        <com.yc.loanbox.view.widget.PhilText n1:textSize="24.0sp" n1:textColor="@color/white" n1:gravity="center" n1:id="@+id/bai" n1:background="@mipmap/time_bg" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginRight="5.0dip" n1:text="0" />
+                        <com.yc.loanbox.view.widget.PhilText n1:textSize="24.0sp" n1:textColor="@color/white" n1:gravity="center" n1:id="@+id/shi" n1:background="@mipmap/time_bg" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginRight="5.0dip" n1:text="0" />
+                        <com.yc.loanbox.view.widget.PhilText n1:textSize="24.0sp" n1:textColor="@color/white" n1:gravity="center" n1:id="@+id/ge" n1:background="@mipmap/time_bg" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginRight="10.0dip" n1:text="0" />
+                        <TextView n1:textSize="15.0sp" n1:textColor="@color/tab_color" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginRight="10.0dip" n1:text="个" />
+                        <LinearLayout n1:gravity="center" n1:orientation="horizontal" n1:id="@+id/tx_btn" n1:background="@mipmap/tx_bg" n1:layout_width="wrap_content" n1:layout_height="wrap_content">
+                            <ImageView n1:id="@+id/ic_tx" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:src="@mipmap/ic_tx" />
+                            <TextView n1:textSize="15.0sp" n1:textColor="@color/white" n1:id="@+id/tx_text" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginLeft="5.0dip" n1:text="提醒我" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </android.support.constraint.ConstraintLayout>
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
+        <LinearLayout n1:orientation="vertical" n1:layout_width="fill_parent" n1:layout_height="fill_parent" n3:layout_behavior="@string/appbar_scrolling_view_behavior" xmlns:n3="http://schemas.android.com/apk/res-auto">
+            <android.support.design.widget.TabLayout n1:id="@+id/tab" n1:background="@color/white" n1:layout_width="fill_parent" n1:layout_height="wrap_content" />
+            <ImageView n1:layout_width="fill_parent" n1:layout_height="0.5dip" n1:src="@color/divider_color" />
+            <android.support.v4.view.ViewPager n1:id="@+id/vp_content" n1:layout_width="fill_parent" n1:layout_height="fill_parent" />
+        </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

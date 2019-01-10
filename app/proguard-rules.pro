@@ -57,3 +57,4 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+-dontwarn com.hjq.permissions.**

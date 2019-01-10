@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout n1:orientation="vertical" n1:layout_width="fill_parent" n1:layout_height="fill_parent"
+  xmlns:n1="http://schemas.android.com/apk/res/android">
+    <LinearLayout n1:orientation="vertical" n1:background="@mipmap/b_pro_detail_bg" n1:layout_width="fill_parent" n1:layout_height="wrap_content">
+        <View n1:id="@+id/tc_view" n1:background="@color/transparent" n1:layout_width="fill_parent" n1:layout_height="10.0dip" n2:layout_constraintLeft_toLeftOf="parent" n2:layout_constraintRight_toRightOf="parent" n2:layout_constraintTop_toTopOf="parent" xmlns:n2="http://schemas.android.com/apk/res-auto" />
+        <android.support.constraint.ConstraintLayout n1:layout_width="fill_parent" n1:layout_height="wrap_content">
+            <ImageView n1:id="@+id/back_btn" n1:padding="10.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:src="@mipmap/back_white_image" n3:layout_constraintBottom_toBottomOf="parent" n3:layout_constraintLeft_toLeftOf="parent" n3:layout_constraintTop_toTopOf="parent" xmlns:n3="http://schemas.android.com/apk/res-auto" />
+            <TextView n1:textSize="16.0sp" n1:textColor="@color/white" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginLeft="7.0dip" n1:text="文章详情" n4:layout_constraintBottom_toBottomOf="parent" n4:layout_constraintLeft_toLeftOf="parent" n4:layout_constraintRight_toRightOf="parent" n4:layout_constraintTop_toTopOf="parent" xmlns:n4="http://schemas.android.com/apk/res-auto" />
+            <ImageView n1:id="@+id/share_btn" n1:padding="10.0dip" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:src="@mipmap/ic_article_share" n5:layout_constraintBottom_toBottomOf="parent" n5:layout_constraintRight_toRightOf="parent" n5:layout_constraintTop_toTopOf="parent" xmlns:n5="http://schemas.android.com/apk/res-auto" />
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+    <FrameLayout n1:id="@id/webView1" n1:layout_width="fill_parent" n1:layout_height="fill_parent" />
+</LinearLayout>
