@@ -36,7 +36,7 @@ import com.fy.tnzbsq.view.SpecialTabRound;
 import com.fy.tnzbsq.view.WebPopupWindow;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import com.orhanobut.logger.Logger;
+import com.yc.loanboxsdk.LoanboxSDK;
 
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
@@ -84,6 +84,8 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
 
     private AlertDialog alertDialog;
 
+    private LoanboxSDK loanboxSDK;
+
     public static Main5Activity getMainActivity() {
         return mainActivity;
     }
@@ -100,9 +102,12 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
     @Override
     protected void initViews() {
         Main5ActivityPermissionsDispatcher.showRecordWithCheck(this);
-
         mainActivity = this;
         okHttpRequest = new OKHttpRequest();
+
+        loanboxSDK = LoanboxSDK.defaultLoanboxSDK();
+        loanboxSDK.setChannelId("81");
+        loanboxSDK.init(this);
 
         PageNavigationView tab = (PageNavigationView) findViewById(R.id.tab);
 
@@ -280,7 +285,7 @@ public class Main5Activity extends BaseAppActivity implements SpecialNoTitleTab.
                             App.weixinState = weiXinInfoRet.data.status;
                         }
                     } catch (Exception e) {
-                        Logger.e("getWeixinInfo error --->");
+                        //Logger.e("getWeixinInfo error --->");
                     }
                 }
             }

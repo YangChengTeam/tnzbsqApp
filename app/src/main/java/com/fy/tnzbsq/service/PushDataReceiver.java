@@ -1,21 +1,15 @@
 package com.fy.tnzbsq.service;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.baidu.android.pushservice.PushMessageReceiver;
 import com.fy.tnzbsq.App;
-import com.fy.tnzbsq.activity.MainActivity;
-import com.fy.tnzbsq.util.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**

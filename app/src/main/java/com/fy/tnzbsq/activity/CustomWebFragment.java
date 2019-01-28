@@ -906,7 +906,7 @@ public class CustomWebFragment extends CustomBaseFragment implements CustomWebVi
 					} else {
 						Toast.makeText(getActivity(), "修改用户名失败", Toast.LENGTH_SHORT).show();
 					}
-					((MainActivity) getActivity()).isShow = false;
+					//((Main5Activity) getActivity()).isShow = false;
 				}
 			});
 		}else{

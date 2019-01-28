@@ -21,7 +21,7 @@ import com.fy.tnzbsq.net.listener.OnResponseListener;
 import com.fy.tnzbsq.util.ImageUtil;
 import com.fy.tnzbsq.view.CustomProgress;
 import com.hwangjr.rxbus.RxBus;
-import com.kk.utils.ToastUtil;
+import com.kk.pay.other.ToastUtil;
 
 import org.kymjs.kjframe.utils.StringUtils;
 
@@ -195,7 +195,7 @@ public class CommunityAddActivity extends BaseAppActivity {
 
         mImageSelectedAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public boolean onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
                 mImageSelectedAdapter.getData().remove(position);
 
@@ -206,7 +206,6 @@ public class CommunityAddActivity extends BaseAppActivity {
                     }
                 }
                 mImageSelectedAdapter.notifyDataSetChanged();
-                return false;
             }
         });
     }

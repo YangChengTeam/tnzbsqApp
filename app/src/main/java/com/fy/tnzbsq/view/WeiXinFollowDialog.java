@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import com.fy.tnzbsq.R;
 import com.fy.tnzbsq.util.CheckUtil;
 import com.fy.tnzbsq.util.WeiXinUtil;
-import com.kk.utils.ToastUtil;
+import com.kk.pay.other.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.kymjs.kjframe.utils.SystemTool;

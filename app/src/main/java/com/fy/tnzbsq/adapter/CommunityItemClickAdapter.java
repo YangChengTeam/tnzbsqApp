@@ -21,7 +21,7 @@ import com.fy.tnzbsq.bean.CommunityInfo;
 import com.fy.tnzbsq.util.SizeUtils;
 import com.fy.tnzbsq.util.TimeUtils;
 import com.fy.tnzbsq.view.GlideCircleTransform;
-import com.kk.utils.ToastUtil;
+import com.kk.pay.other.ToastUtil;
 
 import org.kymjs.kjframe.utils.StringUtils;
 

@@ -3,31 +3,18 @@ package com.fy.tnzbsq.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
-import com.blankj.utilcode.util.ToastUtils;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.fy.tnzbsq.R;
-import com.fy.tnzbsq.adapter.GifDataAdapter;
 import com.fy.tnzbsq.bean.GameInfo;
-import com.fy.tnzbsq.bean.GifDataInfo;
 import com.fy.tnzbsq.common.CustomWebViewDelegate;
 import com.fy.tnzbsq.util.Utils;
 import com.fy.tnzbsq.view.CustomWebView;
 import com.jaeger.library.StatusBarUtil;
 import com.orhanobut.logger.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
-import pl.droidsonroids.gif.GifImageView;
 
 
 public class GifMakeActivity extends BaseAppActivity implements CustomWebViewDelegate {

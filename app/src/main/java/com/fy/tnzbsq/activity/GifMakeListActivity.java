@@ -22,7 +22,7 @@ import com.fy.tnzbsq.common.Server;
 import com.fy.tnzbsq.net.OKHttpRequest;
 import com.fy.tnzbsq.net.listener.OnResponseListener;
 import com.jaeger.library.StatusBarUtil;
-import com.kk.utils.ToastUtil;
+import com.kk.pay.other.ToastUtil;
 
 import org.kymjs.kjframe.utils.StringUtils;
 

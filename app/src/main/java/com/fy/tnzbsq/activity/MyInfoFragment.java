@@ -45,7 +45,7 @@ import com.fy.tnzbsq.view.GlideRoundTransform;
 import com.fy.tnzbsq.view.PicPopupWindow;
 import com.fy.tnzbsq.view.SharePopupWindow;
 import com.jakewharton.rxbinding.view.RxView;
-import com.kk.utils.ToastUtil;
+import com.kk.pay.other.ToastUtil;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;

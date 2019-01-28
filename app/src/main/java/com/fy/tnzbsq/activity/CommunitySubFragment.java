@@ -121,14 +121,13 @@ public class CommunitySubFragment extends CustomBaseFragment implements SwipeRef
 
         mCommunityItemAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public boolean onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (view.getId() == R.id.comment_layout) {
                     currentItemPosition = position;
                     Intent intent = new Intent(getActivity(), CommunityDetailActivity.class);
                     intent.putExtra("community_info", mCommunityItemAdapter.getData().get(position));
                     startActivity(intent);
                 }
-                return false;
             }
         });
 

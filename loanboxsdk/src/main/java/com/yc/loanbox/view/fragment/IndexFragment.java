@@ -124,6 +124,9 @@ public class IndexFragment extends BaseFragment {
     @BindView(R2.id.new_product_btn)
     LinearLayout newMouthBtn;
 
+    @BindView(R2.id.back_btn)
+    ImageView backBtn;
+
     private String user_id;
 
     private ProductAdapter productAdapter;
@@ -201,6 +204,10 @@ public class IndexFragment extends BaseFragment {
 
         RxView.clicks(sfzImageView).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(view-> {
             ((BaseActivity)getActivity()).startWebActivity(indexInfo.getAd_left_info());
+        });
+
+        RxView.clicks(backBtn).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(view-> {
+            getActivity().finish();
         });
 
         RxView.clicks(zmfImageView).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(view-> {

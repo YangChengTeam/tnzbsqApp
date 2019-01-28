@@ -28,7 +28,7 @@ import com.fy.tnzbsq.view.CommunityHeadView;
 import com.fy.tnzbsq.view.CustomProgress;
 import com.hwangjr.rxbus.RxBus;
 import com.jakewharton.rxbinding.view.RxView;
-import com.kk.utils.ToastUtil;
+import com.kk.pay.other.ToastUtil;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;

@@ -27,6 +27,7 @@ import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
 import com.kk.securityhttp.domain.ResultInfo;
 import com.kk.securityhttp.engin.HttpCoreEngin;
+import com.kk.securityhttp.net.contains.HttpConfig;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
@@ -149,8 +150,9 @@ public class LoginActivity extends BaseActivity {
                 params.put("logo", user.logo + "?time=" + TimeUtils.date2String(new Date()));
                 params.put("login_type", user.login_type);
 
+                HttpConfig.setPublickey(App.publicKey);
                 HttpCoreEngin.get(context).rxpost(Server.URL_QX_LOGIN, new TypeReference<ResultInfo<User>>() {
-                }.getType(), params, true, true, false).subscribe(new Subscriber<ResultInfo<User>>() {
+                }.getType(), params, true, false, false).subscribe(new Subscriber<ResultInfo<User>>() {
                     @Override
                     public void onCompleted() {
                         if (dialog != null && dialog.isShowing()) {
@@ -170,10 +172,10 @@ public class LoginActivity extends BaseActivity {
                     public void onNext(ResultInfo<User> userRet) {
                         Log.e("login succes", "login success" + userRet.toString());
 
-                        if (userRet.code == 0) {
+                        if (userRet.getCode() == 0) {
                             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_LONG).show();
-                            PreferencesUtils.putObject(LoginActivity.this, "login_user", userRet.data);
-                            App.loginUser = userRet.data;
+                            PreferencesUtils.putObject(LoginActivity.this, "login_user", userRet.getData());
+                            App.loginUser = userRet.getData();
                             LoginActivity.this.finish();
                         } else {
                             Toast.makeText(LoginActivity.this, "登录失败，请稍后重试", Toast.LENGTH_LONG).show();
@@ -216,8 +218,8 @@ public class LoginActivity extends BaseActivity {
     public void requestPermission(final int type) {
         XXPermissions.with(this)
                 .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
-                .permission(Manifest.permission.CALL_PHONE, Manifest.permission.READ_PHONE_STATE) //支持请求6.0悬浮窗权限8.0请求安装权限
-                .permission(Permission.Group.STORAGE, Permission.Group.LOCATION) //不指定权限则自动获取清单中的危险权限
+                .permission(Manifest.permission.READ_PHONE_STATE) //支持请求6.0悬浮窗权限8.0请求安装权限
+                .permission(Permission.Group.STORAGE) //不指定权限则自动获取清单中的危险权限
                 .request(new OnPermission() {
 
                     @Override

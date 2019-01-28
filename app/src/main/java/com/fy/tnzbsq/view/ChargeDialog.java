@@ -34,7 +34,7 @@ import com.kk.pay.IPayAbs;
 import com.kk.pay.IPayCallback;
 import com.kk.pay.OrderInfo;
 import com.kk.pay.OrderParamsInfo;
-import com.kk.utils.ToastUtil;
+import com.kk.pay.other.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.kymjs.kjframe.utils.SystemTool;

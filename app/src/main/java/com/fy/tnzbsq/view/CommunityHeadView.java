@@ -19,7 +19,7 @@ import com.fy.tnzbsq.bean.CommunityInfo;
 import com.fy.tnzbsq.util.StringUtils;
 import com.fy.tnzbsq.util.TimeUtils;
 import com.jakewharton.rxbinding.view.RxView;
-import com.kk.utils.ToastUtil;
+import com.kk.pay.other.ToastUtil;
 
 import java.net.URLDecoder;
 import java.util.List;

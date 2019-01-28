@@ -38,7 +38,7 @@ import com.fy.tnzbsq.view.CustomWebView;
 import com.fy.tnzbsq.view.ShareActsDialog;
 import com.fy.tnzbsq.view.ShareImageDialog;
 import com.fy.tnzbsq.view.SharePopupWindow;
-import com.kk.utils.ToastUtil;
+import com.kk.pay.other.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;

@@ -19,7 +19,6 @@ import com.fy.tnzbsq.App;
 import com.fy.tnzbsq.R;
 import com.fy.tnzbsq.bean.User;
 import com.fy.tnzbsq.common.Server;
-import com.kk.securityhttp.engin.HttpCoreEngin;
 
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;

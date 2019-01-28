@@ -277,6 +277,7 @@
 
     <com.youth.banner.Banner
         n4:layout_constraintTop_toBottomOf="@id/lyoulike"
+        n4:image_scale_type="fit_xy"
         n1:id="@+id/banner"
         n1:layout_width="match_parent"
         n1:layout_marginTop="10dp"

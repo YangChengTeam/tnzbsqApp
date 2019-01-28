@@ -1,14 +1,5 @@
 package com.fy.tnzbsq.activity;
 
-import java.util.ArrayList;
-
-import org.kymjs.kjframe.utils.PreferenceHelper;
-
-import com.fy.tnzbsq.R;
-import com.fy.tnzbsq.adapter.ViewPagerAdapter;
-import com.fy.tnzbsq.common.Contants;
-import com.umeng.analytics.MobclickAgent;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +10,15 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+
+import com.fy.tnzbsq.R;
+import com.fy.tnzbsq.adapter.ViewPagerAdapter;
+import com.fy.tnzbsq.common.Contants;
+import com.umeng.analytics.MobclickAgent;
+
+import org.kymjs.kjframe.utils.PreferenceHelper;
+
+import java.util.ArrayList;
 
 public class GuideActivity extends Activity implements OnClickListener, OnPageChangeListener {
 	// 定义ViewPager对象
@@ -77,7 +77,7 @@ public class GuideActivity extends Activity implements OnClickListener, OnPageCh
 						//Toast.makeText(GuideActivity.this, "测试", Toast.LENGTH_SHORT).show();
 						PreferenceHelper.write(GuideActivity.this, Contants.START_DATA, Contants.IS_FIRST, false);
 						
-						Intent intent = new Intent(GuideActivity.this, MainActivity.class);
+						Intent intent = new Intent(GuideActivity.this, Main5Activity.class);
 						startActivity(intent);
 						finish();
 					}

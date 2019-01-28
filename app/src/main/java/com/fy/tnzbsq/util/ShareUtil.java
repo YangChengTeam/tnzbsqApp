@@ -13,7 +13,7 @@ import android.provider.MediaStore;
 
 import com.fy.tnzbsq.R;
 import com.fy.tnzbsq.view.CustomDialog;
-import com.kk.utils.ToastUtil;
+import com.kk.pay.other.ToastUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

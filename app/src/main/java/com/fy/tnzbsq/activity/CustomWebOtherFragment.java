@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -952,7 +951,7 @@ public class CustomWebOtherFragment extends CustomBaseFragment
                     } else {
                         Toast.makeText(getActivity(), "修改用户名失败", Toast.LENGTH_SHORT).show();
                     }
-                    ((MainActivity) getActivity()).isShow = false;
+                    //((MainActivity) getActivity()).isShow = false;
                 }
             });
         } else {

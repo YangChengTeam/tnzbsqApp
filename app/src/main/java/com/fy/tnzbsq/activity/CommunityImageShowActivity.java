@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.fy.tnzbsq.R;
 import com.fy.tnzbsq.adapter.GalleryViewPager;
 import com.fy.tnzbsq.adapter.UrlPagerAdapter;
-import com.kk.utils.ToastUtil;
+import com.kk.pay.other.ToastUtil;
 
 import java.util.List;
 

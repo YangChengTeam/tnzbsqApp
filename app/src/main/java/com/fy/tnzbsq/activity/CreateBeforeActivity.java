@@ -54,7 +54,8 @@ import com.fy.tnzbsq.view.GlideCircleTransform;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.jaeger.library.StatusBarUtil;
-import com.kk.utils.ToastUtil;
+import com.kk.pay.other.ToastUtil;
+import com.kk.securityhttp.net.contains.HttpConfig;
 import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 
@@ -467,6 +468,7 @@ public class CreateBeforeActivity extends BaseAppActivity implements ChargeDialo
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+        HttpConfig.setPublickey(App.publicKey);
         if (App.loginUser != null) {
             getUserIsBuy();
         }

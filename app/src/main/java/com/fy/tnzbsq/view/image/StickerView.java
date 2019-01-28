@@ -607,7 +607,7 @@ public class StickerView extends View {
                 cv.drawBitmap(bitmap, 0, 0, null);
                 cv.drawBitmap(stickers.get(focusStickerPosition).getBitmap(), matrix1, null);
 
-                cv.save(Canvas.ALL_SAVE_FLAG);
+                cv.save();
                 cv.restore();
                 resultBitmaps.add(cvBitmap);
             }
@@ -639,7 +639,7 @@ public class StickerView extends View {
             cv.drawBitmap(bgBitmap, leftW, 0, null);
             cv.drawBitmap(stickers.get(focusStickerPosition).getBitmap(),
                     stickers.get(focusStickerPosition).getmMatrix(), null);
-            cv.save(Canvas.ALL_SAVE_FLAG);
+            cv.save();
             cv.restore();
         } catch (Exception e) {
             e.printStackTrace();
@@ -668,7 +668,7 @@ public class StickerView extends View {
             cv.drawBitmap(bgBitmap, leftW, 0, null);
             cv.drawBitmap(stickers.get(focusStickerPosition).getBitmap(),
                     stickers.get(focusStickerPosition).getmMatrix(), null);
-            cv.save(Canvas.ALL_SAVE_FLAG);
+            cv.save();
             cv.restore();
         } catch (Exception e) {
             e.printStackTrace();
@@ -704,7 +704,7 @@ public class StickerView extends View {
             /*cv.drawBitmap(stickers.get(focusStickerPosition).getBitmap(),
                     stickers.get(focusStickerPosition).getmMatrix(), null);*/
 
-            cv.save(Canvas.ALL_SAVE_FLAG);
+            cv.save();
             cv.restore();
         } catch (Exception e) {
             e.printStackTrace();

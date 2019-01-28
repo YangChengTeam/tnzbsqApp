@@ -17,7 +17,7 @@ import com.fy.tnzbsq.net.OKHttpRequest;
 import com.fy.tnzbsq.net.listener.OnResponseListener;
 import com.fy.tnzbsq.view.CustomProgress;
 import com.jakewharton.rxbinding.view.RxView;
-import com.kk.utils.ToastUtil;
+import com.kk.pay.other.ToastUtil;
 import com.orhanobut.logger.Logger;
 
 import org.kymjs.kjframe.utils.StringUtils;

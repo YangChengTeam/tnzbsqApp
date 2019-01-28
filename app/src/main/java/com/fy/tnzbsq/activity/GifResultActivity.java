@@ -25,7 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.FileUtils;
-import com.blankj.utilcode.util.StringUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -34,7 +33,6 @@ import com.fy.tnzbsq.common.Contants;
 import com.fy.tnzbsq.util.SizeUtils;
 import com.fy.tnzbsq.util.Utils;
 import com.fy.tnzbsq.view.CustomProgress;
-import com.fy.tnzbsq.view.ShareFightDialog;
 import com.fy.tnzbsq.view.ShareGifDialog;
 import com.fy.tnzbsq.view.SharePopupWindow;
 import com.jakewharton.rxbinding.view.RxView;
@@ -55,7 +53,6 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
-import pl.droidsonroids.gif.GifOptions;
 import rx.functions.Action1;
 
 public class GifResultActivity extends BaseAppActivity {

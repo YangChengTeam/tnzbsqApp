@@ -20,7 +20,7 @@ import com.fy.tnzbsq.util.SizeUtils;
 import com.fy.tnzbsq.view.CustomProgress;
 import com.fy.tnzbsq.view.SharePopupWindow;
 import com.jakewharton.rxbinding.view.RxView;
-import com.kk.utils.ToastUtil;
+import com.kk.pay.other.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;

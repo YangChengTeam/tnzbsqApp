@@ -24,7 +24,7 @@ import com.fy.tnzbsq.net.listener.OnResponseListener;
 import com.fy.tnzbsq.util.StringUtils;
 import com.jaeger.library.StatusBarUtil;
 import com.jakewharton.rxbinding.view.RxView;
-import com.kk.utils.ToastUtil;
+import com.kk.pay.other.ToastUtil;
 
 import java.util.HashMap;
 import java.util.Map;

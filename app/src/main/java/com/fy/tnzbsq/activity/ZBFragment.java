@@ -46,11 +46,10 @@ import com.fy.tnzbsq.view.CustomProgress;
 import com.fy.tnzbsq.view.NotifyUtil;
 import com.fy.tnzbsq.view.SharePopupWindow;
 import com.jakewharton.rxbinding.view.RxView;
-import com.kk.utils.ToastUtil;
+import com.kk.pay.other.ToastUtil;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
-import com.orhanobut.logger.Logger;
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -60,6 +59,7 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.utils.SocializeUtils;
+import com.yc.loanboxsdk.LoanboxSDK;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
 
@@ -176,7 +176,7 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
     @Override
     public void onResume() {
         super.onResume();
-        Logger.i("ZbFragment onResume --->");
+        //Logger.i("ZbFragment onResume --->");
         isShowCard = PreferencesUtils.getBoolean(getActivity(), "show_card", true);
         if (!isShowCard && App.showFloat && App.adState) {
             mLuckDrawLayout.setVisibility(View.VISIBLE);
@@ -187,8 +187,13 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
 
     @OnClick(R.id.layout_luck_draw)
     void adFloat() {
-        Intent intent = new Intent(getActivity(), AdActivity.class);
-        startActivity(intent);
+        if (StringUtils.isEmpty(App.adUrl) && LoanboxSDK.defaultLoanboxSDK() != null) {
+            LoanboxSDK.defaultLoanboxSDK().init(getActivity());
+            LoanboxSDK.defaultLoanboxSDK().open();
+        } else {
+            Intent intent = new Intent(getActivity(), AdActivity.class);
+            startActivity(intent);
+        }
     }
 
     @OnClick(R.id.iv_float_close)
@@ -212,10 +217,10 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
     private View getHeaderView() {
         zbTypeAdapter = new ZBTypeAdapter(null);
         View headView = getActivity().getLayoutInflater().inflate(R.layout.zb_fragment_head_view, (ViewGroup) mDataListView.getParent(), false);
-        mZbTypeView = ButterKnife.findById(headView, R.id.zb_type_list);
-        mBanner = ButterKnife.findById(headView, R.id.banner);
-        zbsqAdLayout = ButterKnife.findById(headView, R.id.zbsq_ad_layout);
-        mZbsqAdImageView = ButterKnife.findById(headView, R.id.iv_zbsq_ad);
+        mZbTypeView = headView.findViewById(R.id.zb_type_list);
+        mBanner = headView.findViewById(R.id.banner);
+        zbsqAdLayout = headView.findViewById(R.id.zbsq_ad_layout);
+        mZbsqAdImageView = headView.findViewById(R.id.iv_zbsq_ad);
         mZbTypeView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         mZbTypeView.setAdapter(zbTypeAdapter);
         return headView;
@@ -285,7 +290,7 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
         zbDataAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Logger.e("position --->" + position);
+                //Logger.e("position --->" + position);
                 Intent intent = new Intent(getActivity(), CreateBeforeActivity.class);
                 intent.putExtra("zb_data_info", zbDataAdapter.getData().get(position));
                 startActivity(intent);
@@ -428,7 +433,7 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
 
     public void loadData() {
         final Map<String, String> params = new HashMap<String, String>();
-        Logger.e("current page---" + currentPage);
+        //Logger.e("current page---" + currentPage);
         params.put("version", CommUtils.getVersionName(getActivity()));
         params.put("page", currentPage + "");
         okHttpRequest.aget(Server.URL_ALL_DATA, params, new OnResponseListener() {
@@ -438,7 +443,7 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
                 if (!StringUtils.isEmpty(response)) {
                     ZBDataListRet result = Contants.gson.fromJson(response, ZBDataListRet.class);
                     if (result != null) {
-                        Logger.e("data size--->" + result.data.size());
+                        //Logger.e("data size--->" + result.data.size());
                         mLoadingLayout.setVisibility(View.GONE);
                         zbTypeAdapter.setNewData(result.channel);
 
@@ -503,6 +508,7 @@ public class ZBFragment extends CustomBaseFragment implements SwipeRefreshLayout
                             App.adState = true;
                             Glide.with(getActivity()).load(result.data.getThumb()).asGif().error(R.drawable.luck_draw).into(floatGifImage);
                             App.aid = result.data.id;
+
                             App.adUrl = result.data.getDown_url();
                             if (isShowCard) {
                                 boolean isFlag;

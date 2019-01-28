@@ -17,6 +17,8 @@ import com.bumptech.glide.Glide;
 import com.fy.tnzbsq.App;
 import com.fy.tnzbsq.R;
 import com.fy.tnzbsq.util.PreferencesUtils;
+import com.fy.tnzbsq.util.StringUtils;
+import com.yc.loanboxsdk.LoanboxSDK;
 
 /**
  * Created by admin on 2017/12/28.
@@ -63,8 +65,13 @@ public class CardWindowFragment extends DialogFragment {
                 dismiss();
                 PreferencesUtils.putBoolean(getActivity(), "show_card", false);
                 App.showFloat = true;
-                Intent intent = new Intent(getActivity(), AdActivity.class);
-                startActivity(intent);
+
+                if (StringUtils.isEmpty(App.adUrl) && LoanboxSDK.defaultLoanboxSDK() != null) {
+                    LoanboxSDK.defaultLoanboxSDK().open();
+                } else {
+                    Intent intent = new Intent(getActivity(), AdActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 

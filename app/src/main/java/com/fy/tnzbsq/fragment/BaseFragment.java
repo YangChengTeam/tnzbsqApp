@@ -15,14 +15,12 @@ import android.widget.ImageView;
 import com.fy.tnzbsq.App;
 import com.fy.tnzbsq.R;
 import com.fy.tnzbsq.activity.LoginActivity;
-import com.fy.tnzbsq.activity.MainActivity;
 import com.fy.tnzbsq.activity.SearchActivity;
 import com.fy.tnzbsq.bean.User;
 import com.fy.tnzbsq.util.HeadImageUtils;
 import com.fy.tnzbsq.util.PreferencesUtils;
 import com.fy.tnzbsq.view.TabLineLayout;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import org.kymjs.kjframe.KJBitmap;
 import org.kymjs.kjframe.utils.DensityUtils;
@@ -33,7 +31,6 @@ public abstract class BaseFragment extends Fragment implements OnClickListener, 
     /**
      * SlidingMenu对象
      */
-    protected SlidingMenu sm;
     public View rootView;
     protected Activity MenuChangeHome;
     /**
@@ -55,7 +52,6 @@ public abstract class BaseFragment extends Fragment implements OnClickListener, 
     public void onActivityCreated(Bundle savedInstanceState) {
 
         super.onActivityCreated(savedInstanceState);
-        sm = ((MainActivity) getActivity()).getSlidingMenu();
         initData(savedInstanceState);
     }
 
@@ -101,7 +97,6 @@ public abstract class BaseFragment extends Fragment implements OnClickListener, 
             case R.id.main_title_more_icon: // 点击左边的按钮，左菜单收放
             case R.id.main_user_icon: // 点击左边的按钮，左菜单收放
                 if (App.loginUser != null) {
-                    sm.toggle();
                 } else {
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);

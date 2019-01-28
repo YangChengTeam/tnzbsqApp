@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.umeng.analytics.MobclickAgent;
+import com.yc.loanboxsdk.LoanboxSDK;
 
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
@@ -49,6 +50,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initData() {
+
         super.initData();
 
         //File file = new File(Contants.ALL_DATA_DIR_PATH, Contants.ALL_DATA_FILENAME);
