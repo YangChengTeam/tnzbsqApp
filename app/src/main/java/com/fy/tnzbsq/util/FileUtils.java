@@ -248,7 +248,7 @@ public class FileUtils {
 	/**
 	 * 获取目录文件个数
 	 * 
-	 * @param f
+	 * @param
 	 * @return
 	 */
 	public long getFileList(File dir) {
@@ -495,7 +495,7 @@ public class FileUtils {
 	
 	/**
 	 * 清空一个文件夹
-	 * @param files
+	 * @param
 	 */
 	public static void clearFileWithPath(String filePath) {
 		List<File> files = FileUtils.listPathFiles(filePath);
@@ -536,7 +536,7 @@ public class FileUtils {
 	/**
 	 * 列出root目录下所有子目录
 	 * 
-	 * @param path
+	 * @param
 	 * @return 绝对路径
 	 */
 	public static List<String> listPath(String root) {
@@ -582,7 +582,7 @@ public class FileUtils {
 	/**
 	 * 创建目录
 	 * 
-	 * @param path
+	 * @param
 	 */
 	public static PathStatus createPath(String newPath) {
 		File path = new File(newPath);

@@ -52,6 +52,7 @@ import com.fy.tnzbsq.view.ShareFightDialog;
 import com.fy.tnzbsq.view.image.GLFont;
 import com.fy.tnzbsq.view.image.StickerView;
 import com.google.gson.reflect.TypeToken;
+import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMShareAPI;
 
@@ -188,7 +189,7 @@ public class ImageDiyActivity extends BaseActivity implements GestureDetector.On
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         //Main5ActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
-        ImageDiyActivityPermissionsDispatcher.onRequestPermissionsResult(this,requestCode,grantResults);
+        ImageDiyActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
     @NeedsPermission(Manifest.permission.CAMERA)
@@ -210,7 +211,11 @@ public class ImageDiyActivity extends BaseActivity implements GestureDetector.On
 
     @OnShowRationale(Manifest.permission.CAMERA)
     void showRationaleForRecord(PermissionRequest request) {
-        showRationaleDialog(R.string.permission_camera_rationale, request);
+        try {
+            showRationaleDialog(R.string.permission_camera_rationale, request);
+        } catch (Exception e) {
+            Logger.i(e.getMessage());
+        }
     }
 
     @OnNeverAskAgain(Manifest.permission.CAMERA)
@@ -338,9 +343,9 @@ public class ImageDiyActivity extends BaseActivity implements GestureDetector.On
 
                     if (typefaceNum == 0) {
 
-                        if(StringUtils.isEmpty(imageMakeEt.getText())){
+                        if (StringUtils.isEmpty(imageMakeEt.getText())) {
                             textBitmap = null;
-                        }else{
+                        } else {
                             textBitmap = GLFont.getImage(600, 100, imageMakeEt.getText().toString(), 80,
                                     DensityUtils.getScreenW(context), typeFace, colorDataRGB[colorNum]);
                         }
@@ -618,11 +623,11 @@ public class ImageDiyActivity extends BaseActivity implements GestureDetector.On
 
                 // 选择图像之后，修改用户的图像
                 if (HeadImageUtils.cutPhoto != null) {
-				/*
-				 * if (HeadImageUtils.imgPath != null &&
-				 * HeadImageUtils.imgPath.length() > 0) { updateUserInfo("", "",
-				 * HeadImageUtils.imgPath); }
-				 */
+                    /*
+                     * if (HeadImageUtils.imgPath != null &&
+                     * HeadImageUtils.imgPath.length() > 0) { updateUserInfo("", "",
+                     * HeadImageUtils.imgPath); }
+                     */
 
                     // updateUserInfo("", "", HeadImageUtils.imgPath);
 

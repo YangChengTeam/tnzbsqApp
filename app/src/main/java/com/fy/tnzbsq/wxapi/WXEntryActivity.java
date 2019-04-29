@@ -1,5 +1,7 @@
 package com.fy.tnzbsq.wxapi;
 
+import com.alibaba.fastjson.JSON;
+import com.orhanobut.logger.Logger;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -21,6 +23,7 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
 
     @Override
     public void onResp(BaseResp resp) {
+        Logger.i("WXEntryActivity" + JSON.toJSONString(resp));
         if (resp.getType() == ConstantsAPI.COMMAND_LAUNCH_WX_MINIPROGRAM) {
             WXLaunchMiniProgram.Resp launchMiniProResp = (WXLaunchMiniProgram.Resp) resp;
             String extraData =launchMiniProResp.extMsg; //对应小程序组件 <button open-type="launchApp"> 中的 app-parameter 属性

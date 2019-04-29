@@ -501,7 +501,9 @@
             android:name="api_key"
             android:value="kNrcQdmhovXlSwSzANMIGs3r"/>
 
-
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
     </application>
 
 </manifest>
